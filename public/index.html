@@ -81,8 +81,9 @@ h2{
 /* Product Dashboard */
 .header-section {
     margin-bottom: 25px;
-    display:flex;
-    justify-content:flex-end; /* Move card to right */
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
 }
 .status-card {
     background-color: #ff0050; /* vibrant pink */
@@ -92,7 +93,7 @@ h2{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 400px;
+    width: 100%;
     box-shadow: 0 4px 15px rgba(255, 0, 80, 0.2);
 }
 .status-icon-circle {
@@ -155,11 +156,6 @@ h2{
     box-shadow: 0 4px 10px rgba(0, 209, 193, 0.3);
 }
 
-/* Center last card if odd */
-.product-grid > .product-card:last-child:nth-child(odd) {
-    justify-self: center;
-}
-
 /* Bottom Navigation */
 .bottom-nav{
     position:fixed;
@@ -211,6 +207,7 @@ h2{
 
 @media (max-width: 480px) {
     .product-grid { grid-template-columns: 1fr; }
+    .header-section { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -249,7 +246,8 @@ if(localStorage.getItem("loggedIn") !== "true"){
 <div id="product" class="section">
     <h2>💳 Products</h2>
     <div class="header-section">
-        <div class="status-card">
+        <!-- Stretched to fit two columns -->
+        <div class="status-card" style="grid-column: span 2;">
             <div class="status-icon-circle"></div>
             <div class="status-info">
                 <div class="status-label">Account Balance</div>
@@ -259,30 +257,19 @@ if(localStorage.getItem("loggedIn") !== "true"){
     </div>
 
     <div class="product-grid">
-        <!-- 10 Product Cards -->
+        <!-- 10 Product Cards in 2 columns -->
         <div class="product-card">
             <img src="product1.jpg" class="product-img" alt="iPhone 8">
             <div class="product-name">iPhone 8</div>
             <div class="product-price">KSH 1300.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 146.00<br>
-                Duration: 16 days<br>
-                Total Earnings: KSH 2336<br>
-                Profit: KSH 1036
-            </div>
+            <div class="product-details">Daily Earnings: KSH 146.00<br>Duration: 16 days<br>Total: KSH 2336<br>Profit: KSH 1036</div>
             <button class="buy-btn">Buy</button>
         </div>
-
         <div class="product-card">
             <img src="product2.jpg" class="product-img" alt="iPad Mini">
             <div class="product-name">iPad Mini</div>
             <div class="product-price">KSH 2800.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 373.00<br>
-                Duration: 15 days<br>
-                Total Earnings: KSH 5595<br>
-                Profit: KSH 2795
-            </div>
+            <div class="product-details">Daily Earnings: KSH 373.00<br>Duration: 15 days<br>Total: KSH 5595<br>Profit: KSH 2795</div>
             <button class="buy-btn">Buy</button>
         </div>
 
@@ -290,23 +277,14 @@ if(localStorage.getItem("loggedIn") !== "true"){
             <img src="product3.jpg" class="product-img" alt="iPhone X">
             <div class="product-name">iPhone X</div>
             <div class="product-price">KSH 3900.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 212.00<br>
-                Duration: 35 days<br>
-                Profit: KSH 3520
-            </div>
+            <div class="product-details">Daily Earnings: KSH 212.00<br>Duration: 35 days<br>Profit: KSH 3520</div>
             <button class="buy-btn">Buy</button>
         </div>
-
         <div class="product-card">
             <img src="product4.jpg" class="product-img" alt="iPhone 11">
             <div class="product-name">iPhone 11</div>
             <div class="product-price">KSH 9750.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 278.00<br>
-                Duration: 70 days<br>
-                Profit: KSH 9710
-            </div>
+            <div class="product-details">Daily Earnings: KSH 278.00<br>Duration: 70 days<br>Profit: KSH 9710</div>
             <button class="buy-btn">Buy</button>
         </div>
 
@@ -314,19 +292,14 @@ if(localStorage.getItem("loggedIn") !== "true"){
             <img src="product5.jpg" class="product-img" alt="iPhone 12">
             <div class="product-name">iPhone 12</div>
             <div class="product-price">KSH 15000.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 450.00<br>Duration: 60 days
-            </div>
+            <div class="product-details">Daily Earnings: KSH 450.00<br>Duration: 60 days</div>
             <button class="buy-btn">Buy</button>
         </div>
-
         <div class="product-card">
             <img src="product6.jpg" class="product-img" alt="iPhone 13">
             <div class="product-name">iPhone 13</div>
             <div class="product-price">KSH 22000.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 600.00<br>Duration: 60 days
-            </div>
+            <div class="product-details">Daily Earnings: KSH 600.00<br>Duration: 60 days</div>
             <button class="buy-btn">Buy</button>
         </div>
 
@@ -334,19 +307,14 @@ if(localStorage.getItem("loggedIn") !== "true"){
             <img src="product7.jpg" class="product-img" alt="iPhone 14">
             <div class="product-name">iPhone 14</div>
             <div class="product-price">KSH 35000.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 900.00<br>Duration: 90 days
-            </div>
+            <div class="product-details">Daily Earnings: KSH 900.00<br>Duration: 90 days</div>
             <button class="buy-btn">Buy</button>
         </div>
-
         <div class="product-card">
             <img src="product8.jpg" class="product-img" alt="iPhone 15 Pro">
             <div class="product-name">iPhone 15 Pro</div>
             <div class="product-price">KSH 50000.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 1500.00<br>Duration: 90 days
-            </div>
+            <div class="product-details">Daily Earnings: KSH 1500.00<br>Duration: 90 days</div>
             <button class="buy-btn">Buy</button>
         </div>
 
@@ -354,19 +322,14 @@ if(localStorage.getItem("loggedIn") !== "true"){
             <img src="product9.jpg" class="product-img" alt="MacBook Air">
             <div class="product-name">MacBook Air</div>
             <div class="product-price">KSH 75000.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 2000.00<br>Duration: 120 days
-            </div>
+            <div class="product-details">Daily Earnings: KSH 2000.00<br>Duration: 120 days</div>
             <button class="buy-btn">Buy</button>
         </div>
-
         <div class="product-card">
             <img src="product10.jpg" class="product-img" alt="MacBook Pro">
             <div class="product-name">MacBook Pro</div>
             <div class="product-price">KSH 120000.00</div>
-            <div class="product-details">
-                Daily Earnings: KSH 3500.00<br>Duration: 180 days
-            </div>
+            <div class="product-details">Daily Earnings: KSH 3500.00<br>Duration: 180 days</div>
             <button class="buy-btn">Buy</button>
         </div>
     </div>
