@@ -3,11 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maya Dashboard</title>
+<title>Dashboard</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 :root{
-    --main-blue:#0d6efd;
+    --gradient-start:#6a00f4;
+    --gradient-end:#2a8cff;
 }
 
 body{
@@ -20,7 +22,7 @@ body{
 .section{
     display:none;
     padding:20px;
-    padding-bottom:90px;
+    padding-bottom:160px; /* space for bottom nav */
 }
 
 .section.active-section{
@@ -31,12 +33,13 @@ h2{
     margin-top:0;
 }
 
-/* Dashboard Cards */
+/* Earnings Dashboard Grid */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap:20px;
-    margin-bottom:20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding-top: 20px;
+    width: 100%;
 }
 
 .card {
@@ -49,13 +52,13 @@ h2{
     justify-content:center;
 }
 
-.card-value{
+.card-value {
     font-size:2.5rem;
     font-weight:500;
     margin-bottom:5px;
 }
 
-.card-label{
+.card-label {
     font-size:1.1rem;
     opacity:0.9;
     font-weight:400;
@@ -66,77 +69,89 @@ h2{
 .purple { background-color:#be90e4; }
 .blue   { background-color:#64a1bd; }
 
-/* Product Section */
+@media (max-width: 600px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .card {
+        border-radius:30px;
+    }
+}
+
+/* --- Product Dashboard --- */
+.status-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.status-card {
+    flex: 1;
+    padding: 15px;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 80px;
+}
+.status-icon-circle {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+.status-info { text-align: right; }
+.status-label { font-size: 0.7rem; text-transform: uppercase; font-weight: bold; }
+.status-value { font-size: 1.5rem; font-weight: bold; }
+
+.bg-pink { background-color: #ff0050; }
+.bg-purple { background-color: #c084e3; }
+.bg-teal { background-color: #00d1c1; }
+
 .product-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* LEFT column for account balance, RIGHT for products */
-    gap:20px;
-}
-
-.status-card {
-    background-color:#ff0050;
-    padding:20px 25px;
-    border-radius:25px;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    min-height:500px; /* stretch height */
-    box-shadow:0 4px 15px rgba(255,0,80,0.2);
-    flex-direction: column;
-}
-
-.status-icon-circle{
-    width:50px;
-    height:50px;
-    background:rgba(255,255,255,0.25);
-    border-radius:50%;
-    margin-bottom:20px;
-}
-
-.status-info{text-align:left; width:100%;}
-.status-label{font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;}
-.status-value{font-size:2rem;font-weight:bold;margin-top:5px;}
-
-/* Products column */
-.products-column {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap:20px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
 }
 
 .product-card {
-    background:white;
-    border-radius:30px;
-    padding:25px 15px;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,0.04);
-    transition: transform 0.2s;
+    background: white;
+    border-radius: 25px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
-.product-card:hover{ transform: translateY(-5px); }
-
-.product-img{
-    width:100%;
-    max-width:150px;
-    height:auto;
-    margin-bottom:15px;
-    border-radius:10px;
+.product-img {
+    width: 100%;
+    max-width: 140px;
+    height: auto;
+    margin-bottom: 15px;
 }
 
-.product-name{ font-size:1rem; font-weight:600; color:#444; margin-bottom:5px;}
-.product-price{ color:#00d1c1; font-size:1.3rem; font-weight:bold; margin-bottom:12px;}
-.product-details{ font-size:0.75rem; color:#777; line-height:1.7; margin-bottom:20px; }
-.buy-btn{
-    background-color:#00d1c1;
-    color:white;
-    border:none;
-    padding:10px 35px;
-    border-radius:25px;
-    font-size:0.9rem;
-    cursor:pointer;
-    font-weight:bold;
-    box-shadow:0 4px 10px rgba(0,209,193,0.3);
+.product-name { font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; color: #555; }
+.product-price { color: #00d1c1; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
+
+.product-details {
+    font-size: 0.7rem;
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.buy-btn {
+    background-color: #00d1c1;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    .status-container { flex-direction: column; }
 }
 
 /* Bottom Navigation */
@@ -146,11 +161,14 @@ h2{
     left:0;
     right:0;
     height:70px;
-    background:var(--main-blue);
+    background:linear-gradient(90deg,var(--gradient-start),var(--gradient-end));
     display:flex;
     justify-content:space-around;
     align-items:center;
-    box-shadow:0 -3px 12px rgba(0,0,0,0.15);
+    box-shadow:0 -3px 12px rgba(0,0,0,0.2);
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+    z-index:1000;
 }
 
 .bottom-nav a{
@@ -159,35 +177,46 @@ h2{
     text-align:center;
     font-size:12px;
     flex:1;
-    transition:0.3s ease;
+    transition:0.3s;
 }
 
 .bottom-nav a i{
-    font-size:22px;
+    font-size:24px;
     display:block;
     margin-bottom:4px;
-    transition:0.3s ease;
-}
-
-.bottom-nav a.active{
-    transform:translateY(-10px);
+    transition:0.3s transform, 0.3s font-size;
 }
 
 .bottom-nav a.active i{
-    font-size:26px;
+    font-size:32px;
+    transform:translateY(-12px);
 }
 
-@media (max-width:800px){
-    .product-grid{ grid-template-columns: 1fr; }
-    .products-column { grid-template-columns:1fr; }
+/* Logout button */
+.logout-btn{
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(90deg,#6a00f4,#2a8cff);
+    color:white;
+    cursor:pointer;
+    margin-top:20px;
 }
 </style>
 </head>
 <body>
 
+<script>
+// Redirect to login if not logged in
+if(localStorage.getItem("loggedIn") !== "true"){
+    window.location.href = "auth.html";
+}
+</script>
+
 <!-- Sections -->
+
 <div id="home" class="section active-section">
-    <h2>🏠 Dashboard</h2>
+    <h2>🏠 Home</h2>
     <div class="dashboard-grid">
         <div class="card orange">
             <div class="card-value">0</div>
@@ -210,124 +239,86 @@ h2{
 
 <div id="product" class="section">
     <h2>💳 Products</h2>
-    <div class="product-grid">
-        <!-- LEFT Column: Account Balance -->
-        <div class="status-card">
-            <div class="status-icon-circle"><i class="fas fa-wallet" style="font-size:24px;"></i></div>
+    <div class="status-container">
+        <div class="status-card bg-pink">
+            <div class="status-icon-circle"></div>
             <div class="status-info">
                 <div class="status-label">Account Balance</div>
                 <div class="status-value">0</div>
             </div>
         </div>
+        <div class="status-card bg-purple">
+            <div class="status-icon-circle"></div>
+            <div class="status-info">
+                <div class="status-label">In Progress</div>
+                <div class="status-value">0</div>
+            </div>
+        </div>
+        <div class="status-card bg-teal">
+            <div class="status-icon-circle"></div>
+            <div class="status-info">
+                <div class="status-label">Completed</div>
+                <div class="status-value">0</div>
+            </div>
+        </div>
+    </div>
 
-        <!-- RIGHT Column: Products -->
-        <div class="products-column">
-            <!-- Pair 1 -->
-            <div class="product-card">
-                <img src="product1.jpg" class="product-img" alt="iPhone 8">
-                <div class="product-name">iPhone 8</div>
-                <div class="product-price">KSH 1300.00</div>
-                <div class="product-details">Daily Earnings: KSH 146.00<br>Duration: 16 days<br>Total: KSH 2336<br>Profit: KSH 1036</div>
-                <button class="buy-btn">Buy</button>
+    <div class="product-grid">
+        <div class="product-card">
+            <img src="iphone8.jpg" alt="iPhone 8" class="product-img">
+            <div class="product-name">iPhone 8</div>
+            <div class="product-price">KSH 1300.00</div>
+            <div class="product-details">
+                Daily Earnings: KSH 146.00<br>
+                Duration: 16 days<br>
+                Total Earnings: KSH 2336<br>
+                Profit: KSH 1036
             </div>
-            <div class="product-card">
-                <img src="product2.jpg" class="product-img" alt="iPad Mini">
-                <div class="product-name">iPad Mini</div>
-                <div class="product-price">KSH 2800.00</div>
-                <div class="product-details">Daily Earnings: KSH 373.00<br>Duration: 15 days<br>Total: KSH 5595<br>Profit: KSH 2795</div>
-                <button class="buy-btn">Buy</button>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="ipadmini.jpg" alt="iPad Mini" class="product-img">
+            <div class="product-name">iPad Mini</div>
+            <div class="product-price">KSH 2800.00</div>
+            <div class="product-details">
+                Daily Earnings: KSH 373.00<br>
+                Duration: 15 days<br>
+                Total Earnings: KSH 5595<br>
+                Profit: KSH 2795
             </div>
-
-            <!-- Pair 2 -->
-            <div class="product-card">
-                <img src="product3.jpg" class="product-img" alt="iPhone X">
-                <div class="product-name">iPhone X</div>
-                <div class="product-price">KSH 3900.00</div>
-                <div class="product-details">Daily Earnings: KSH 212.00<br>Duration: 35 days<br>Profit: KSH 3520</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="product4.jpg" class="product-img" alt="iPhone 11">
-                <div class="product-name">iPhone 11</div>
-                <div class="product-price">KSH 9750.00</div>
-                <div class="product-details">Daily Earnings: KSH 278.00<br>Duration: 70 days<br>Profit: KSH 9710</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-
-            <!-- Pair 3 -->
-            <div class="product-card">
-                <img src="product5.jpg" class="product-img" alt="iPhone 12">
-                <div class="product-name">iPhone 12</div>
-                <div class="product-price">KSH 15000.00</div>
-                <div class="product-details">Daily Earnings: KSH 450.00<br>Duration: 60 days</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="product6.jpg" class="product-img" alt="iPhone 13">
-                <div class="product-name">iPhone 13</div>
-                <div class="product-price">KSH 22000.00</div>
-                <div class="product-details">Daily Earnings: KSH 600.00<br>Duration: 60 days</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-
-            <!-- Pair 4 -->
-            <div class="product-card">
-                <img src="product7.jpg" class="product-img" alt="iPhone 14">
-                <div class="product-name">iPhone 14</div>
-                <div class="product-price">KSH 35000.00</div>
-                <div class="product-details">Daily Earnings: KSH 900.00<br>Duration: 90 days</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="product8.jpg" class="product-img" alt="iPhone 15 Pro">
-                <div class="product-name">iPhone 15 Pro</div>
-                <div class="product-price">KSH 50000.00</div>
-                <div class="product-details">Daily Earnings: KSH 1500.00<br>Duration: 90 days</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-
-            <!-- Pair 5 -->
-            <div class="product-card">
-                <img src="product9.jpg" class="product-img" alt="MacBook Air">
-                <div class="product-name">MacBook Air</div>
-                <div class="product-price">KSH 75000.00</div>
-                <div class="product-details">Daily Earnings: KSH 2000.00<br>Duration: 120 days</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="product10.jpg" class="product-img" alt="MacBook Pro">
-                <div class="product-name">MacBook Pro</div>
-                <div class="product-price">KSH 120000.00</div>
-                <div class="product-details">Daily Earnings: KSH 3500.00<br>Duration: 180 days</div>
-                <button class="buy-btn">Buy</button>
-            </div>
+            <button class="buy-btn">Buy</button>
         </div>
     </div>
 </div>
 
 <div id="wallet" class="section">
     <h2>💰 Deposit / Withdraw</h2>
-    <p>Manage your transactions here.</p>
+    <p>Manage your transactions.</p>
 </div>
 
 <div id="profile" class="section">
     <h2>👤 Profile</h2>
-    <p>Manage your account details here.</p>
+    <p>Manage your account details.</p>
+    <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
 <!-- Bottom Navigation -->
 <div class="bottom-nav">
     <a href="#" class="nav-item active" data-target="home">
-        <i class="fas fa-house"></i>Home
+        <i class="fas fa-house"></i>
+        Home
     </a>
     <a href="#" class="nav-item" data-target="product">
-        <i class="fas fa-credit-card"></i>Product
+        <i class="fas fa-credit-card"></i>
+        Products
     </a>
     <a href="#" class="nav-item" data-target="wallet">
-        <i class="fas fa-wallet"></i>Wallet
+        <i class="fas fa-wallet"></i>
+        Wallet
     </a>
     <a href="#" class="nav-item" data-target="profile">
-        <i class="fas fa-user"></i>Profile
+        <i class="fas fa-user"></i>
+        Profile
     </a>
 </div>
 
@@ -338,13 +329,21 @@ const sections = document.querySelectorAll(".section");
 navItems.forEach(item=>{
     item.addEventListener("click", function(e){
         e.preventDefault();
+
         navItems.forEach(nav=>nav.classList.remove("active"));
         this.classList.add("active");
+
         sections.forEach(sec=>sec.classList.remove("active-section"));
+
         const target = this.getAttribute("data-target");
         document.getElementById(target).classList.add("active-section");
     });
 });
+
+function logout(){
+    localStorage.removeItem("loggedIn");
+    window.location.href = "auth.html";
+}
 </script>
 
 </body>
