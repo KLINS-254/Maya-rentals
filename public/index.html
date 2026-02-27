@@ -22,7 +22,7 @@ body{
 .section{
     display:none;
     padding:20px;
-    padding-bottom:140px; /* space for bottom nav */
+    padding-bottom:160px; /* space for bottom nav */
 }
 
 .section.active-section{
@@ -76,6 +76,82 @@ h2{
     .card {
         border-radius:30px;
     }
+}
+
+/* --- Product Dashboard --- */
+.status-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.status-card {
+    flex: 1;
+    padding: 15px;
+    border-radius: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 80px;
+}
+.status-icon-circle {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+.status-info { text-align: right; }
+.status-label { font-size: 0.7rem; text-transform: uppercase; font-weight: bold; }
+.status-value { font-size: 1.5rem; font-weight: bold; }
+
+.bg-pink { background-color: #ff0050; }
+.bg-purple { background-color: #c084e3; }
+.bg-teal { background-color: #00d1c1; }
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 25px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+.product-img {
+    width: 100%;
+    max-width: 140px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.product-name { font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; color: #555; }
+.product-price { color: #00d1c1; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
+
+.product-details {
+    font-size: 0.7rem;
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.buy-btn {
+    background-color: #00d1c1;
+    color: white;
+    border: none;
+    padding: 8px 25px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+@media (max-width: 480px) {
+    .status-container { flex-direction: column; }
 }
 
 /* Bottom Navigation */
@@ -138,10 +214,9 @@ if(localStorage.getItem("loggedIn") !== "true"){
 </script>
 
 <!-- Sections -->
+
 <div id="home" class="section active-section">
     <h2>🏠 Home</h2>
-    
-    <!-- Earnings Dashboard -->
     <div class="dashboard-grid">
         <div class="card orange">
             <div class="card-value">0</div>
@@ -164,7 +239,56 @@ if(localStorage.getItem("loggedIn") !== "true"){
 
 <div id="product" class="section">
     <h2>💳 Products</h2>
-    <p>View your available products here.</p>
+    <div class="status-container">
+        <div class="status-card bg-pink">
+            <div class="status-icon-circle"></div>
+            <div class="status-info">
+                <div class="status-label">Account Balance</div>
+                <div class="status-value">0</div>
+            </div>
+        </div>
+        <div class="status-card bg-purple">
+            <div class="status-icon-circle"></div>
+            <div class="status-info">
+                <div class="status-label">In Progress</div>
+                <div class="status-value">0</div>
+            </div>
+        </div>
+        <div class="status-card bg-teal">
+            <div class="status-icon-circle"></div>
+            <div class="status-info">
+                <div class="status-label">Completed</div>
+                <div class="status-value">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card">
+            <img src="iphone8.jpg" alt="iPhone 8" class="product-img">
+            <div class="product-name">iPhone 8</div>
+            <div class="product-price">KSH 1300.00</div>
+            <div class="product-details">
+                Daily Earnings: KSH 146.00<br>
+                Duration: 16 days<br>
+                Total Earnings: KSH 2336<br>
+                Profit: KSH 1036
+            </div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="ipadmini.jpg" alt="iPad Mini" class="product-img">
+            <div class="product-name">iPad Mini</div>
+            <div class="product-price">KSH 2800.00</div>
+            <div class="product-details">
+                Daily Earnings: KSH 373.00<br>
+                Duration: 15 days<br>
+                Total Earnings: KSH 5595<br>
+                Profit: KSH 2795
+            </div>
+            <button class="buy-btn">Buy</button>
+        </div>
+    </div>
 </div>
 
 <div id="wallet" class="section">
