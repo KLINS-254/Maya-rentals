@@ -3,102 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Authentication System</title>
+<title>Login / Sign Up</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: "Poppins", sans-serif;
-}
-body{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#eaeaf0;
-}
-.card{
-    width:350px;
-    padding:30px 25px;
-    border-radius:20px;
-    background:#eaeaf0;
-    box-shadow:
-        10px 10px 20px #c9c9ce,
-        -10px -10px 20px #ffffff;
-}
-.toggle{
-    display:flex;
-    background:#e3e3ea;
-    border-radius:50px;
-    padding:5px;
-    margin-bottom:25px;
-}
-.toggle button{
-    flex:1;
-    border:none;
-    padding:10px 0;
-    border-radius:50px;
-    background:transparent;
-    font-weight:600;
-    cursor:pointer;
-}
-.toggle .active{
-    background:linear-gradient(90deg,#6a00f4,#2a8cff);
-    color:white;
-}
-h2{
-    text-align:center;
-    margin-bottom:20px;
-}
-.input-box{
-    position:relative;
-    margin-bottom:18px;
-}
-.input-box input{
-    width:100%;
-    padding:15px 45px;
-    border:none;
-    border-radius:30px;
-    background:#eaeaf0;
-    box-shadow:
-        inset 5px 5px 10px #c9c9ce,
-        inset -5px -5px 10px #ffffff;
-    outline:none;
-}
-.input-box i{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    color:#777;
-}
-.left{ left:18px; }
-.right{ right:18px; cursor:pointer; }
-.btn{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:30px;
-    background:linear-gradient(90deg,#6a00f4,#2a8cff);
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-}
-.message{
-    margin-top:10px;
-    text-align:center;
-    font-size:14px;
-}
-.success{ color:green; }
-.error{ color:red; }
+body{ margin:0; font-family:Arial,sans-serif; background:#eaeaf0; display:flex; justify-content:center; align-items:center; height:100vh;}
+.card{ padding:30px 25px; border-radius:20px; background:#eaeaf0; box-shadow:10px 10px 20px #c9c9ce, -10px -10px 20px #ffffff; width:350px;}
+.toggle{ display:flex; background:#e3e3ea; border-radius:50px; padding:5px; margin-bottom:25px;}
+.toggle button{ flex:1; border:none; padding:10px 0; border-radius:50px; background:transparent; font-weight:600; cursor:pointer; transition:0.4s;}
+.toggle .active{ background:linear-gradient(90deg,#6a00f4,#2a8cff); color:white; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+h2{text-align:center;margin-bottom:20px;}
+.input-box{position:relative;margin-bottom:18px;}
+.input-box input{width:100%;padding:15px 45px;border:none;border-radius:30px;background:#eaeaf0;box-shadow:inset 5px 5px 10px #c9c9ce,inset -5px -5px 10px #ffffff;outline:none;font-size:14px;}
+.input-box i{position:absolute;top:50%;transform:translateY(-50%);color:#777;}
+.left{left:18px;}
+.right{right:18px; cursor:pointer;}
+.btn{width:100%;padding:15px;border:none;border-radius:30px;background:linear-gradient(90deg,#6a00f4,#2a8cff);color:white;font-weight:600;cursor:pointer;margin-top:5px;}
+.message{margin-top:10px;text-align:center;font-size:14px;}
+.success{color:green;}
+.error{color:red;}
 </style>
 </head>
 <body>
 
 <div class="card">
-
     <div class="toggle">
         <button class="active" id="loginTab">Login</button>
         <button id="signupTab">Sign Up</button>
@@ -119,7 +46,6 @@ h2{
 
     <button class="btn" onclick="handleAuth()" id="mainBtn">Login</button>
     <div class="message" id="message"></div>
-
 </div>
 
 <script>
@@ -164,12 +90,11 @@ function handleAuth(){
     }
 
     if(mode === "signup"){
-        // Save user in localStorage
         const user = { email, password };
         localStorage.setItem("user", JSON.stringify(user));
-        showMessage("Account created successfully!", "success");
+        showMessage("Account created! You can login now.", "success");
     }
-    
+
     if(mode === "login"){
         const storedUser = JSON.parse(localStorage.getItem("user"));
 
@@ -179,7 +104,8 @@ function handleAuth(){
         }
 
         if(email === storedUser.email && password === storedUser.password){
-            showMessage("Login successful! Welcome back.", "success");
+            localStorage.setItem("loggedIn", "true"); // mark session
+            window.location.href = "index.html"; // redirect to dashboard
         } else {
             showMessage("Invalid email or password.", "error");
         }
