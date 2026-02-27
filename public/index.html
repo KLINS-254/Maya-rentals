@@ -22,7 +22,7 @@ body{
 .section{
     display:none;
     padding:20px;
-    padding-bottom:100px; /* leave space for nav */
+    padding-bottom:140px; /* space for bottom nav */
 }
 
 .section.active-section{
@@ -31,6 +31,51 @@ body{
 
 h2{
     margin-top:0;
+}
+
+/* Earnings Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding-top: 20px;
+    width: 100%;
+}
+
+.card {
+    padding:25px 30px;
+    border-radius:40px;
+    color:white;
+    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.card-value {
+    font-size:2.5rem;
+    font-weight:500;
+    margin-bottom:5px;
+}
+
+.card-label {
+    font-size:1.1rem;
+    opacity:0.9;
+    font-weight:400;
+}
+
+.orange { background-color:#ff9f43; }
+.green  { background-color:#20e060; }
+.purple { background-color:#be90e4; }
+.blue   { background-color:#64a1bd; }
+
+@media (max-width: 600px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    .card {
+        border-radius:30px;
+    }
 }
 
 /* Bottom Navigation */
@@ -59,17 +104,16 @@ h2{
     transition:0.3s;
 }
 
-/* Icons */
 .bottom-nav a i{
-    font-size:24px;           /* default bigger */
+    font-size:24px;
     display:block;
     margin-bottom:4px;
     transition:0.3s transform, 0.3s font-size;
 }
 
 .bottom-nav a.active i{
-    font-size:32px;           /* bigger on active */
-    transform:translateY(-12px); /* move icon higher */
+    font-size:32px;
+    transform:translateY(-12px);
 }
 
 /* Logout button */
@@ -96,7 +140,26 @@ if(localStorage.getItem("loggedIn") !== "true"){
 <!-- Sections -->
 <div id="home" class="section active-section">
     <h2>🏠 Home</h2>
-    <p>Welcome to your dashboard.</p>
+    
+    <!-- Earnings Dashboard -->
+    <div class="dashboard-grid">
+        <div class="card orange">
+            <div class="card-value">0</div>
+            <div class="card-label">Available balance</div>
+        </div>
+        <div class="card green">
+            <div class="card-value">0</div>
+            <div class="card-label">Today's earnings</div>
+        </div>
+        <div class="card purple">
+            <div class="card-value">0</div>
+            <div class="card-label">Deposit amount</div>
+        </div>
+        <div class="card blue">
+            <div class="card-value">0</div>
+            <div class="card-label">Withdrawal amount</div>
+        </div>
+    </div>
 </div>
 
 <div id="product" class="section">
@@ -121,17 +184,14 @@ if(localStorage.getItem("loggedIn") !== "true"){
         <i class="fas fa-house"></i>
         Home
     </a>
-
     <a href="#" class="nav-item" data-target="product">
         <i class="fas fa-credit-card"></i>
         Products
     </a>
-
     <a href="#" class="nav-item" data-target="wallet">
         <i class="fas fa-wallet"></i>
         Wallet
     </a>
-
     <a href="#" class="nav-item" data-target="profile">
         <i class="fas fa-user"></i>
         Profile
@@ -146,20 +206,16 @@ navItems.forEach(item=>{
     item.addEventListener("click", function(e){
         e.preventDefault();
 
-        // Remove active nav
         navItems.forEach(nav=>nav.classList.remove("active"));
         this.classList.add("active");
 
-        // Hide sections
         sections.forEach(sec=>sec.classList.remove("active-section"));
 
-        // Show selected section
         const target = this.getAttribute("data-target");
         document.getElementById(target).classList.add("active-section");
     });
 });
 
-// Logout function
 function logout(){
     localStorage.removeItem("loggedIn");
     window.location.href = "auth.html";
