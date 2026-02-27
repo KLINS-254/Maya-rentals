@@ -22,126 +22,103 @@ body{
 .section{
     display:none;
     padding:20px;
-    padding-bottom:160px; /* space for bottom nav */
+    padding-bottom:120px;
 }
-
 .section.active-section{
     display:block;
 }
+h2{ margin-top:0; }
 
-h2{
-    margin-top:0;
-}
-
-/* Earnings Dashboard Grid */
+/* Home Dashboard */
 .dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding-top: 20px;
-    width: 100%;
-}
-
-.card {
-    padding:25px 30px;
-    border-radius:40px;
-    color:white;
-    box-shadow:0 4px 10px rgba(0,0,0,0.05);
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
-
-.card-value {
-    font-size:2.5rem;
-    font-weight:500;
-    margin-bottom:5px;
-}
-
-.card-label {
-    font-size:1.1rem;
-    opacity:0.9;
-    font-weight:400;
-}
-
-.orange { background-color:#ff9f43; }
-.green  { background-color:#20e060; }
-.purple { background-color:#be90e4; }
-.blue   { background-color:#64a1bd; }
-
-@media (max-width: 600px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-    .card {
-        border-radius:30px;
-    }
-}
-
-/* --- Product Dashboard --- */
-.status-card {
-    background-color:#ff0050;
-    padding:12px 18px;
-    border-radius:20px;
-    color:white;
-    display:flex;
-    align-items:center;
-    gap:15px;
-    min-height:55px;
-    box-sizing:border-box;
-    margin-bottom:20px;
-    text-align:left;
-}
-
-.status-icon-circle { width:35px; height:35px; background:rgba(255,255,255,0.3); border-radius:50%; }
-.status-label { font-size:0.9rem; font-weight:bold; }
-.status-value { font-size:1.3rem; font-weight:bold; }
-
-/* Product Grid */
-.product-grid {
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:15px;
 }
-
-.product-card {
-    background:white;
-    border-radius:25px;
+.card{
     padding:20px;
-    text-align:center;
-    box-shadow:0 4px 10px rgba(0,0,0,0.03);
+    border-radius:25px;
+    color:white;
+}
+.card-value{ font-size:2rem; font-weight:600; }
+.card-label{ font-size:0.9rem; }
+
+.orange{background:#ff9f43;}
+.green{background:#20e060;}
+.purple{background:#be90e4;}
+.blue{background:#64a1bd;}
+
+@media(max-width:600px){
+    .dashboard-grid{grid-template-columns:1fr;}
 }
 
-.product-img {
+/* Account Balance */
+.status-card{
+    background:#ff0050;
+    padding:12px 18px;
+    border-radius:18px;
+    color:white;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.status-icon-circle{
+    width:30px;
+    height:30px;
+    background:rgba(255,255,255,0.3);
+    border-radius:50%;
+}
+.status-label{
+    font-size:0.85rem;
+    font-weight:600;
+}
+.status-value{
+    font-size:1.2rem;
+    font-weight:700;
+}
+
+/* Product Grid */
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+.product-card{
+    background:white;
+    border-radius:20px;
+    padding:18px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.05);
+}
+.product-name{
+    font-weight:700;
+    margin-bottom:8px;
+    font-size:0.85rem;
+}
+.product-price{
+    color:#00c9a7;
+    font-weight:600;
+    margin-bottom:8px;
+}
+.product-details{
+    font-size:0.75rem;
+    line-height:1.5;
+    color:#666;
+    margin-bottom:10px;
+}
+.buy-btn{
     width:100%;
-    max-width:140px;
-    height:auto;
-    margin-bottom:15px;
-}
-
-.product-name { font-size:0.9rem; font-weight:bold; margin-bottom:5px; color:#555; }
-.product-price { color:#00d1c1; font-size:1.2rem; font-weight:bold; margin-bottom:10px; }
-
-.product-details {
-    font-size:0.7rem;
-    color:#888;
-    line-height:1.6;
-    margin-bottom:15px;
-}
-
-.buy-btn {
-    background-color:#00d1c1;
+    background:#00c9a7;
     color:white;
     border:none;
-    padding:8px 25px;
-    border-radius:20px;
-    font-size:0.8rem;
+    padding:8px;
+    border-radius:15px;
+    font-weight:600;
     cursor:pointer;
-    font-weight:bold;
 }
 
-@media (max-width:480px){
-    .product-grid { grid-template-columns:1fr; }
+@media(max-width:480px){
+    .product-grid{grid-template-columns:1fr;}
 }
 
 /* Bottom Navigation */
@@ -150,86 +127,63 @@ h2{
     bottom:0;
     left:0;
     right:0;
-    height:70px;
+    height:65px;
     background:linear-gradient(90deg,var(--gradient-start),var(--gradient-end));
     display:flex;
     justify-content:space-around;
     align-items:center;
-    box-shadow:0 -3px 12px rgba(0,0,0,0.2);
     border-top-left-radius:15px;
     border-top-right-radius:15px;
-    z-index:1000;
 }
-
 .bottom-nav a{
     color:white;
     text-decoration:none;
     text-align:center;
     font-size:12px;
     flex:1;
+}
+.bottom-nav i{
+    display:block;
+    font-size:22px;
     transition:0.3s;
 }
-
-.bottom-nav a i{
-    font-size:24px;
-    display:block;
-    margin-bottom:4px;
-    transition:0.3s transform,0.3s font-size;
-}
-
 .bottom-nav a.active i{
-    font-size:32px;
-    transform:translateY(-12px);
+    font-size:28px;
+    transform:translateY(-8px);
 }
-
-/* Logout button */
 .logout-btn{
-    padding:10px 20px;
+    padding:8px 15px;
     border:none;
-    border-radius:10px;
     background:linear-gradient(90deg,#6a00f4,#2a8cff);
     color:white;
+    border-radius:8px;
     cursor:pointer;
-    margin-top:20px;
 }
 </style>
 </head>
 <body>
 
 <script>
-// Redirect to login if not logged in
-if(localStorage.getItem("loggedIn") !== "true"){
-    window.location.href = "auth.html";
+if(localStorage.getItem("loggedIn")!=="true"){
+    window.location.href="auth.html";
 }
 </script>
 
-<!-- Sections -->
+<!-- HOME -->
 <div id="home" class="section active-section">
     <h2>🏠 Home</h2>
     <div class="dashboard-grid">
-        <div class="card orange">
-            <div class="card-value">0</div>
-            <div class="card-label">Available balance</div>
-        </div>
-        <div class="card green">
-            <div class="card-value">0</div>
-            <div class="card-label">Today's earnings</div>
-        </div>
-        <div class="card purple">
-            <div class="card-value">0</div>
-            <div class="card-label">Deposit amount</div>
-        </div>
-        <div class="card blue">
-            <div class="card-value">0</div>
-            <div class="card-label">Withdrawal amount</div>
-        </div>
+        <div class="card orange"><div class="card-value">0</div><div class="card-label">Available balance</div></div>
+        <div class="card green"><div class="card-value">0</div><div class="card-label">Today's earnings</div></div>
+        <div class="card purple"><div class="card-value">0</div><div class="card-label">Deposit amount</div></div>
+        <div class="card blue"><div class="card-value">0</div><div class="card-label">Withdrawal amount</div></div>
     </div>
 </div>
 
+<!-- PRODUCTS -->
 <div id="product" class="section">
     <h2>💳 Products</h2>
 
-    <!-- Account Balance card above product grid -->
     <div class="status-card">
         <div class="status-icon-circle"></div>
         <div>
@@ -239,75 +193,85 @@ if(localStorage.getItem("loggedIn") !== "true"){
     </div>
 
     <div class="product-grid">
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 2</div><div class="product-price">KSH 1300.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 4</div><div class="product-price">KSH 2800.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 6V</div><div class="product-price">KSH 3900.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 8W</div><div class="product-price">KSH 9750.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX PRO</div><div class="product-price">KSH 15000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 2 PRO</div><div class="product-price">KSH 22000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 4 PRO</div><div class="product-price">KSH 35000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 6V PRO</div><div class="product-price">KSH 50000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 8W PRO</div><div class="product-price">KSH 75000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 2-4</div><div class="product-price">KSH 120000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 4-6V</div><div class="product-price">KSH 9000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 6V-8W</div><div class="product-price">KSH 32000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX PRO 2</div><div class="product-price">KSH 25000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX PRO 4</div><div class="product-price">KSH 15000.00</div><button class="buy-btn">Buy</button></div>
-        <div class="product-card"><div class="product-name">HOENGAGER RTX 8W-2</div><div class="product-price">KSH 8000.00</div><button class="buy-btn">Buy</button></div>
+
+        <!-- 15 Products -->
+        <!-- Product Template Repeated -->
+
+        <script>
+        const products=[
+        ["RTX 2",800,105,1575],
+        ["RTX 4",1800,235,3525],
+        ["RTX 6V",2800,360,5400],
+        ["RTX 8W",3800,485,7275],
+        ["RTX PRO",4800,610,9150],
+        ["RTX 2 PRO",5800,735,11025],
+        ["RTX 4 PRO",6800,860,12900],
+        ["RTX 6V PRO",7800,985,14775],
+        ["RTX 8W PRO",8800,1110,16650],
+        ["RTX 2-4",9900,1240,18600],
+        ["RTX 4-6V",11000,1375,20625],
+        ["RTX 6V-8W",12000,1500,22500],
+        ["RTX PRO 2",13000,1620,24300],
+        ["RTX PRO 4",14000,1745,26175],
+        ["RTX 8W-2",15000,1867,28005]
+        ];
+
+        document.write(products.map(p=>`
+        <div class="product-card">
+            <div class="product-name">HOENGAGER ${p[0]}</div>
+            <div class="product-price">Price：KSH ${p[1].toLocaleString()}.00</div>
+            <div class="product-details">
+                Duration：KSH ${p[2].toLocaleString()}.00<br>
+                Period：15 days<br>
+                Total earnings：KSH ${p[3].toLocaleString()}
+            </div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        `).join(""));
+        </script>
+
     </div>
 </div>
 
+<!-- WALLET -->
 <div id="wallet" class="section">
     <h2>💰 Deposit / Withdraw</h2>
     <p>Manage your transactions.</p>
 </div>
 
+<!-- PROFILE -->
 <div id="profile" class="section">
     <h2>👤 Profile</h2>
-    <p>Manage your account details.</p>
     <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
-<!-- Bottom Navigation -->
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
-    <a href="#" class="nav-item active" data-target="home">
-        <i class="fas fa-house"></i>
-        Home
-    </a>
-    <a href="#" class="nav-item" data-target="product">
-        <i class="fas fa-credit-card"></i>
-        Products
-    </a>
-    <a href="#" class="nav-item" data-target="wallet">
-        <i class="fas fa-wallet"></i>
-        Wallet
-    </a>
-    <a href="#" class="nav-item" data-target="profile">
-        <i class="fas fa-user"></i>
-        Profile
-    </a>
+    <a href="#" class="nav-item active" data-target="home"><i class="fas fa-house"></i>Home</a>
+    <a href="#" class="nav-item" data-target="product"><i class="fas fa-credit-card"></i>Products</a>
+    <a href="#" class="nav-item" data-target="wallet"><i class="fas fa-wallet"></i>Wallet</a>
+    <a href="#" class="nav-item" data-target="profile"><i class="fas fa-user"></i>Profile</a>
 </div>
 
 <script>
-const navItems = document.querySelectorAll(".nav-item");
-const sections = document.querySelectorAll(".section");
+const navItems=document.querySelectorAll(".nav-item");
+const sections=document.querySelectorAll(".section");
 
 navItems.forEach(item=>{
-    item.addEventListener("click", function(e){
+    item.addEventListener("click",function(e){
         e.preventDefault();
-        navItems.forEach(nav=>nav.classList.remove("active"));
+        navItems.forEach(n=>n.classList.remove("active"));
         this.classList.add("active");
-        sections.forEach(sec=>sec.classList.remove("active-section"));
-        const target = this.getAttribute("data-target");
-        document.getElementById(target).classList.add("active-section");
+        sections.forEach(s=>s.classList.remove("active-section"));
+        document.getElementById(this.dataset.target).classList.add("active-section");
     });
 });
 
 function logout(){
     localStorage.removeItem("loggedIn");
-    window.location.href = "auth.html";
+    window.location.href="auth.html";
 }
 </script>
 
 </body>
-                                      </html>
+</html>
