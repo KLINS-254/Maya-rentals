@@ -81,6 +81,8 @@ h2{
 /* Product Dashboard */
 .header-section {
     margin-bottom: 25px;
+    display:flex;
+    justify-content:flex-end; /* Move card to right */
 }
 .status-card {
     background-color: #ff0050; /* vibrant pink */
@@ -106,7 +108,7 @@ h2{
 /* Product Grid */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* Always 2 columns */
     gap: 20px;
 }
 
@@ -151,6 +153,11 @@ h2{
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0, 209, 193, 0.3);
+}
+
+/* Center last card if odd */
+.product-grid > .product-card:last-child:nth-child(odd) {
+    justify-self: center;
 }
 
 /* Bottom Navigation */
@@ -265,6 +272,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
             </div>
             <button class="buy-btn">Buy</button>
         </div>
+
         <div class="product-card">
             <img src="product2.jpg" class="product-img" alt="iPad Mini">
             <div class="product-name">iPad Mini</div>
@@ -277,6 +285,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
             </div>
             <button class="buy-btn">Buy</button>
         </div>
+
         <div class="product-card">
             <img src="product3.jpg" class="product-img" alt="iPhone X">
             <div class="product-name">iPhone X</div>
@@ -288,6 +297,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
             </div>
             <button class="buy-btn">Buy</button>
         </div>
+
         <div class="product-card">
             <img src="product4.jpg" class="product-img" alt="iPhone 11">
             <div class="product-name">iPhone 11</div>
@@ -299,6 +309,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
             </div>
             <button class="buy-btn">Buy</button>
         </div>
+
         <div class="product-card">
             <img src="product5.jpg" class="product-img" alt="iPhone 12">
             <div class="product-name">iPhone 12</div>
@@ -308,6 +319,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
             </div>
             <button class="buy-btn">Buy</button>
         </div>
+
         <div class="product-card">
             <img src="product6.jpg" class="product-img" alt="iPhone 13">
             <div class="product-name">iPhone 13</div>
@@ -317,6 +329,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
             </div>
             <button class="buy-btn">Buy</button>
         </div>
+
         <div class="product-card">
             <img src="product7.jpg" class="product-img" alt="iPhone 14">
             <div class="product-name">iPhone 14</div>
@@ -326,6 +339,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
             </div>
             <button class="buy-btn">Buy</button>
         </div>
+
         <div class="product-card">
             <img src="product8.jpg" class="product-img" alt="iPhone 15 Pro">
             <div class="product-name">iPhone 15 Pro</div>
@@ -335,6 +349,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
             </div>
             <button class="buy-btn">Buy</button>
         </div>
+
         <div class="product-card">
             <img src="product9.jpg" class="product-img" alt="MacBook Air">
             <div class="product-name">MacBook Air</div>
@@ -344,6 +359,7 @@ if(localStorage.getItem("loggedIn") !== "true"){
             </div>
             <button class="buy-btn">Buy</button>
         </div>
+
         <div class="product-card">
             <img src="product10.jpg" class="product-img" alt="MacBook Pro">
             <div class="product-name">MacBook Pro</div>
@@ -394,12 +410,9 @@ const sections = document.querySelectorAll(".section");
 navItems.forEach(item=>{
     item.addEventListener("click", function(e){
         e.preventDefault();
-
         navItems.forEach(nav=>nav.classList.remove("active"));
         this.classList.add("active");
-
         sections.forEach(sec=>sec.classList.remove("active-section"));
-
         const target = this.getAttribute("data-target");
         document.getElementById(target).classList.add("active-section");
     });
