@@ -69,8 +69,9 @@ h2{
 /* Product Section */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(3,1fr); /* Left column for account balance + 2 product columns */
     gap:20px;
+    align-items: start;
 }
 
 .status-card {
@@ -81,7 +82,7 @@ h2{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    min-height:80px;
+    min-height:120px;
     box-shadow:0 4px 15px rgba(255,0,80,0.2);
 }
 
@@ -169,9 +170,8 @@ h2{
 }
 
 @media (max-width:600px){
-    .dashboard-grid, .product-grid{
-        grid-template-columns:1fr;
-    }
+    .dashboard-grid{ grid-template-columns:1fr; }
+    .product-grid{ grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -203,8 +203,7 @@ h2{
 <div id="product" class="section">
     <h2>💳 Products</h2>
     <div class="product-grid">
-        <!-- Placeholder + Account Balance on right -->
-        <div></div>
+        <!-- Account Balance on LEFT -->
         <div class="status-card">
             <div class="status-icon-circle"></div>
             <div class="status-info">
@@ -213,7 +212,7 @@ h2{
             </div>
         </div>
 
-        <!-- 10 Product Cards -->
+        <!-- First pair of products -->
         <div class="product-card">
             <img src="product1.jpg" class="product-img" alt="iPhone 8">
             <div class="product-name">iPhone 8</div>
@@ -229,6 +228,7 @@ h2{
             <button class="buy-btn">Buy</button>
         </div>
 
+        <!-- Second pair -->
         <div class="product-card">
             <img src="product3.jpg" class="product-img" alt="iPhone X">
             <div class="product-name">iPhone X</div>
@@ -244,6 +244,7 @@ h2{
             <button class="buy-btn">Buy</button>
         </div>
 
+        <!-- Third pair -->
         <div class="product-card">
             <img src="product5.jpg" class="product-img" alt="iPhone 12">
             <div class="product-name">iPhone 12</div>
@@ -259,6 +260,7 @@ h2{
             <button class="buy-btn">Buy</button>
         </div>
 
+        <!-- Fourth pair -->
         <div class="product-card">
             <img src="product7.jpg" class="product-img" alt="iPhone 14">
             <div class="product-name">iPhone 14</div>
@@ -274,6 +276,7 @@ h2{
             <button class="buy-btn">Buy</button>
         </div>
 
+        <!-- Fifth pair -->
         <div class="product-card">
             <img src="product9.jpg" class="product-img" alt="MacBook Air">
             <div class="product-name">MacBook Air</div>
