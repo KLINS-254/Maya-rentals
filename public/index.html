@@ -10,7 +10,6 @@
 :root{
     --gradient-start:#6a00f4;
     --gradient-end:#2a8cff;
-    --active-color:#ffd700;
 }
 
 body{
@@ -57,7 +56,6 @@ h2{
     text-align:center;
     font-size:12px;
     flex:1;
-    position:relative;
     transition:0.3s;
 }
 
@@ -65,26 +63,12 @@ h2{
     font-size:22px;
     display:block;
     margin-bottom:4px;
-    transition:0.3s;
-}
-
-/* Active indicator underline */
-.bottom-nav .active::after{
-    content:"";
-    position:absolute;
-    bottom:5px;
-    left:50%;
-    transform:translateX(-50%);
-    width:40%;
-    height:4px;
-    background:var(--active-color);
-    border-radius:2px;
-    transition:0.3s;
+    transition:0.3s transform, 0.3s font-size;
 }
 
 .bottom-nav a.active i{
     font-size:26px;
-    transform:translateY(-3px);
+    transform:translateY(-5px);
 }
 
 /* Logout button */
