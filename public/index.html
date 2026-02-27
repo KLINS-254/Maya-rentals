@@ -90,6 +90,7 @@ h2{ margin-top:0; }
     padding:18px;
     box-shadow:0 3px 8px rgba(0,0,0,0.05);
 }
+
 .product-image{
     width:100%;
     height:130px;
@@ -97,6 +98,7 @@ h2{ margin-top:0; }
     border-radius:15px;
     margin-bottom:10px;
 }
+
 .product-name{
     font-weight:700;
     margin-bottom:8px;
@@ -246,7 +248,7 @@ const container=document.getElementById("productContainer");
 products.forEach((p,index)=>{
 container.innerHTML+=`
 <div class="product-card">
-    <img src="Product${index+1}.png" class="product-image" alt="Product Image">
+    <img src="product${index+1}.png" class="product-image" alt="Product Image">
     <div class="product-name">HOENGAGER ${p[0]}</div>
     <div class="product-price">Price：KSH ${p[1].toLocaleString()}.00</div>
     <div class="product-details">
@@ -263,18 +265,18 @@ const navItems=document.querySelectorAll(".nav-item");
 const sections=document.querySelectorAll(".section");
 
 navItems.forEach(item=>{
-    item.addEventListener("click",function(e){
-        e.preventDefault();
-        navItems.forEach(n=>n.classList.remove("active"));
-        this.classList.add("active");
-        sections.forEach(s=>s.classList.remove("active-section"));
-        document.getElementById(this.dataset.target).classList.add("active-section");
-    });
+item.addEventListener("click",function(e){
+e.preventDefault();
+navItems.forEach(n=>n.classList.remove("active"));
+this.classList.add("active");
+sections.forEach(s=>s.classList.remove("active-section"));
+document.getElementById(this.dataset.target).classList.add("active-section");
+});
 });
 
 function logout(){
-    localStorage.removeItem("loggedIn");
-    window.location.href="auth.html";
+localStorage.removeItem("loggedIn");
+window.location.href="auth.html";
 }
 </script>
 
