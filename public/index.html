@@ -78,11 +78,6 @@ h2{
 }
 
 /* Product Dashboard */
-.product-container {
-    display:flex;
-    gap:20px;
-}
-
 .status-card {
     background-color:#ff0050;
     padding:15px 20px;
@@ -92,8 +87,9 @@ h2{
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    width:120px; /* thin left card */
+    width:100%;
     text-align:center;
+    margin-bottom:20px;
 }
 
 .status-icon-circle {
@@ -104,14 +100,13 @@ h2{
     margin-bottom:5px;
 }
 
-.status-label { font-size:0.7rem; font-weight:bold; }
-.status-value { font-size:1.2rem; font-weight:bold; }
+.status-label { font-size:0.8rem; font-weight:bold; }
+.status-value { font-size:1.3rem; font-weight:bold; }
 
 .product-grid {
     display:grid;
     grid-template-columns: repeat(2, 1fr);
     gap:15px;
-    flex:1;
 }
 
 .product-card {
@@ -229,120 +224,121 @@ if(localStorage.getItem("loggedIn") !== "true"){
 
 <div id="product" class="section">
     <h2>💳 Products</h2>
-    <div class="product-container">
-        <div class="status-card">
-            <div class="status-icon-circle"></div>
-            <div class="status-label">Account Balance</div>
-            <div class="status-value">0</div>
-        </div>
 
-        <div class="product-grid">
-            <!-- 15 Products, 2 per row -->
-            <div class="product-card">
-                <img src="iphone8.jpg" alt="iPhone 8" class="product-img">
-                <div class="product-name">iPhone 8</div>
-                <div class="product-price">KSH 1300.00</div>
-                <div class="product-details">Daily: 146, Duration:16d, Profit:1036</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="ipadmini.jpg" alt="iPad Mini" class="product-img">
-                <div class="product-name">iPad Mini</div>
-                <div class="product-price">KSH 2800.00</div>
-                <div class="product-details">Daily: 373, Duration:15d, Profit:2795</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="iphoneX.jpg" alt="iPhone X" class="product-img">
-                <div class="product-name">iPhone X</div>
-                <div class="product-price">KSH 3900.00</div>
-                <div class="product-details">Daily:212, Duration:35d, Profit:3520</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="iphone11.jpg" alt="iPhone 11" class="product-img">
-                <div class="product-name">iPhone 11</div>
-                <div class="product-price">KSH 9750.00</div>
-                <div class="product-details">Daily:278, Duration:70d, Profit:9710</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="iphone12.jpg" alt="iPhone 12" class="product-img">
-                <div class="product-name">iPhone 12</div>
-                <div class="product-price">KSH 15000.00</div>
-                <div class="product-details">Daily:450, Duration:60d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="iphone13.jpg" alt="iPhone 13" class="product-img">
-                <div class="product-name">iPhone 13</div>
-                <div class="product-price">KSH 22000.00</div>
-                <div class="product-details">Daily:600, Duration:60d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="iphone14.jpg" alt="iPhone 14" class="product-img">
-                <div class="product-name">iPhone 14</div>
-                <div class="product-price">KSH 35000.00</div>
-                <div class="product-details">Daily:900, Duration:90d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="iphone15.jpg" alt="iPhone 15 Pro" class="product-img">
-                <div class="product-name">iPhone 15 Pro</div>
-                <div class="product-price">KSH 50000.00</div>
-                <div class="product-details">Daily:1500, Duration:90d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="macbookair.jpg" alt="MacBook Air" class="product-img">
-                <div class="product-name">MacBook Air</div>
-                <div class="product-price">KSH 75000.00</div>
-                <div class="product-details">Daily:2000, Duration:120d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="macbookpro.jpg" alt="MacBook Pro" class="product-img">
-                <div class="product-name">MacBook Pro</div>
-                <div class="product-price">KSH 120000.00</div>
-                <div class="product-details">Daily:3500, Duration:180d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="ipadpro.jpg" alt="iPad Pro" class="product-img">
-                <div class="product-name">iPad Pro</div>
-                <div class="product-price">KSH 80000.00</div>
-                <div class="product-details">Daily:2200, Duration:120d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="airpods.jpg" alt="AirPods Pro" class="product-img">
-                <div class="product-name">AirPods Pro</div>
-                <div class="product-price">KSH 18000.00</div>
-                <div class="product-details">Daily:500, Duration:30d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="watch.jpg" alt="Apple Watch" class="product-img">
-                <div class="product-name">Apple Watch</div>
-                <div class="product-price">KSH 25000.00</div>
-                <div class="product-details">Daily:700, Duration:45d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="keyboard.jpg" alt="Magic Keyboard" class="product-img">
-                <div class="product-name">Magic Keyboard</div>
-                <div class="product-price">KSH 15000.00</div>
-                <div class="product-details">Daily:300, Duration:50d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
-            <div class="product-card">
-                <img src="mouse.jpg" alt="Magic Mouse" class="product-img">
-                <div class="product-name">Magic Mouse</div>
-                <div class="product-price">KSH 12000.00</div>
-                <div class="product-details">Daily:250, Duration:50d</div>
-                <button class="buy-btn">Buy</button>
-            </div>
+    <!-- Account Balance on top -->
+    <div class="status-card">
+        <div class="status-icon-circle"></div>
+        <div class="status-label">Account Balance</div>
+        <div class="status-value">0</div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="product-grid">
+        <!-- Repeat 15 products -->
+        <div class="product-card">
+            <img src="iphone8.jpg" alt="iPhone 8" class="product-img">
+            <div class="product-name">iPhone 8</div>
+            <div class="product-price">KSH 1300.00</div>
+            <div class="product-details">Daily:146, Duration:16d, Profit:1036</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="ipadmini.jpg" alt="iPad Mini" class="product-img">
+            <div class="product-name">iPad Mini</div>
+            <div class="product-price">KSH 2800.00</div>
+            <div class="product-details">Daily:373, Duration:15d, Profit:2795</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="iphoneX.jpg" alt="iPhone X" class="product-img">
+            <div class="product-name">iPhone X</div>
+            <div class="product-price">KSH 3900.00</div>
+            <div class="product-details">Daily:212, Duration:35d, Profit:3520</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="iphone11.jpg" alt="iPhone 11" class="product-img">
+            <div class="product-name">iPhone 11</div>
+            <div class="product-price">KSH 9750.00</div>
+            <div class="product-details">Daily:278, Duration:70d, Profit:9710</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="iphone12.jpg" alt="iPhone 12" class="product-img">
+            <div class="product-name">iPhone 12</div>
+            <div class="product-price">KSH 15000.00</div>
+            <div class="product-details">Daily:450, Duration:60d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="iphone13.jpg" alt="iPhone 13" class="product-img">
+            <div class="product-name">iPhone 13</div>
+            <div class="product-price">KSH 22000.00</div>
+            <div class="product-details">Daily:600, Duration:60d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="iphone14.jpg" alt="iPhone 14" class="product-img">
+            <div class="product-name">iPhone 14</div>
+            <div class="product-price">KSH 35000.00</div>
+            <div class="product-details">Daily:900, Duration:90d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="iphone15.jpg" alt="iPhone 15 Pro" class="product-img">
+            <div class="product-name">iPhone 15 Pro</div>
+            <div class="product-price">KSH 50000.00</div>
+            <div class="product-details">Daily:1500, Duration:90d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="macbookair.jpg" alt="MacBook Air" class="product-img">
+            <div class="product-name">MacBook Air</div>
+            <div class="product-price">KSH 75000.00</div>
+            <div class="product-details">Daily:2000, Duration:120d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="macbookpro.jpg" alt="MacBook Pro" class="product-img">
+            <div class="product-name">MacBook Pro</div>
+            <div class="product-price">KSH 120000.00</div>
+            <div class="product-details">Daily:3500, Duration:180d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="ipadpro.jpg" alt="iPad Pro" class="product-img">
+            <div class="product-name">iPad Pro</div>
+            <div class="product-price">KSH 80000.00</div>
+            <div class="product-details">Daily:2200, Duration:120d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="airpods.jpg" alt="AirPods Pro" class="product-img">
+            <div class="product-name">AirPods Pro</div>
+            <div class="product-price">KSH 18000.00</div>
+            <div class="product-details">Daily:500, Duration:30d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="watch.jpg" alt="Apple Watch" class="product-img">
+            <div class="product-name">Apple Watch</div>
+            <div class="product-price">KSH 25000.00</div>
+            <div class="product-details">Daily:700, Duration:45d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="keyboard.jpg" alt="Magic Keyboard" class="product-img">
+            <div class="product-name">Magic Keyboard</div>
+            <div class="product-price">KSH 15000.00</div>
+            <div class="product-details">Daily:300, Duration:50d</div>
+            <button class="buy-btn">Buy</button>
+        </div>
+        <div class="product-card">
+            <img src="mouse.jpg" alt="Magic Mouse" class="product-img">
+            <div class="product-name">Magic Mouse</div>
+            <div class="product-price">KSH 12000.00</div>
+            <div class="product-details">Daily:250, Duration:50d</div>
+            <button class="buy-btn">Buy</button>
         </div>
     </div>
 </div>
@@ -400,4 +396,4 @@ function logout(){
 </script>
 
 </body>
-                    </html>
+</html>
