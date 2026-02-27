@@ -183,7 +183,18 @@ function handleAuth(){
     if(mode === "signup"){
         const user = { email, password };
         localStorage.setItem("user", JSON.stringify(user));
-        showMessage("Account created! You can login now.", "success");
+        showMessage("Account created! Please log in now.", "success");
+
+        // Clear fields
+        document.getElementById("email").value = "";
+        document.getElementById("password").value = "";
+
+        // Switch back to login mode
+        mode = "login";
+        loginTab.classList.add("active");
+        signupTab.classList.remove("active");
+        title.innerText = "Login";
+        mainBtn.innerText = "Login";
     }
 
     if(mode === "login"){
