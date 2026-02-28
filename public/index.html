@@ -14,48 +14,273 @@
     --text-gray: #aaaaaa;
     --bg-light: #f4f7f6;
 }
-body{margin:0;font-family:Arial,sans-serif;background:#f4f6f9;}
-.section{display:none;padding:20px;padding-bottom:120px;}
-.section.active-section{display:block;}
-h2{margin-top:0;}
-.dashboard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;}
-.card{padding:20px;border-radius:25px;color:white;}
-.card-value{font-size:2rem;font-weight:600;}
-.card-label{font-size:0.9rem;}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4f6f9;
+}
+
+/* Sections */
+.section{
+    display:none;
+    padding:20px;
+    padding-bottom:120px;
+}
+.section.active-section{
+    display:block;
+}
+h2{ margin-top:0; }
+
+/* Home Dashboard */
+.dashboard-grid {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+.card{
+    padding:20px;
+    border-radius:25px;
+    color:white;
+}
+.card-value{ font-size:2rem; font-weight:600; }
+.card-label{ font-size:0.9rem; }
+
 .orange{background:#ff9f43;}
 .green{background:#20e060;}
 .purple{background:#be90e4;}
 .blue{background:#64a1bd;}
-.status-card{background:#ff0050;padding:12px 18px;border-radius:18px;color:white;margin-bottom:20px;display:flex;align-items:center;gap:12px;}
-.status-icon-circle{width:30px;height:30px;background:rgba(255,255,255,0.3);border-radius:50%;}
-.status-label{font-size:0.85rem;font-weight:600;}
-.status-value{font-size:1.2rem;font-weight:700;}
-.product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;}
-.product-card{background:white;border-radius:20px;padding:18px;box-shadow:0 3px 8px rgba(0,0,0,0.05);}
-.product-image{width:100%;height:130px;object-fit:cover;border-radius:15px;margin-bottom:10px;}
-.product-name{font-weight:700;margin-bottom:8px;font-size:0.85rem;}
-.product-price{color:#00c9a7;font-weight:600;margin-bottom:8px;}
-.product-details{font-size:0.75rem;line-height:1.5;color:#666;margin-bottom:10px;}
-.buy-btn{width:100%;background:#00c9a7;color:white;border:none;padding:8px;border-radius:15px;font-weight:600;cursor:pointer;}
-.wallet-grid{display:flex;flex-direction:column;gap:20px;max-width:450px;margin:auto;}
-.withdrawal-card{width:100%;background:white;border-radius:30px;padding:30px 25px;box-shadow:0 4px 15px rgba(0,0,0,0.05);}
-.input-box{width:100%;padding:12px 15px;border:1px solid #f0f0f0;border-radius:15px;background:#fafafa;font-size:1rem;margin-bottom:15px;}
-.withdraw-btn{background:var(--primary-teal);color:white;border:none;width:100%;padding:12px;border-radius:25px;font-weight:bold;cursor:pointer;}
-.withdraw-btn:hover{background:#00b3a5;}
-#depositModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:9999;}
-.deposit-card{background:white;border-radius:20px;padding:25px 20px;width:90%;max-width:350px;text-align:center;position:relative;}
-.deposit-card img{width:80px;height:80px;object-fit:cover;border-radius:15px;margin-bottom:15px;border:1px solid #eee;}
-.close-btn{position:absolute;top:10px;right:10px;font-size:18px;font-weight:bold;cursor:pointer;}
-.alert{color:red;font-size:0.8rem;margin-top:5px;display:none;}
-.timer{font-size:1.6rem;font-weight:bold;color:#2a8cff;margin:10px 0;}
-.copy-btn{background:#2a8cff;color:white;border:none;padding:6px 12px;border-radius:15px;margin:5px;cursor:pointer;font-size:0.8rem;}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:65px;background:linear-gradient(90deg,var(--gradient-start),var(--gradient-end));display:flex;justify-content:space-around;align-items:center;border-top-left-radius:15px;border-top-right-radius:15px;}
-.bottom-nav a{color:white;text-decoration:none;text-align:center;font-size:12px;flex:1;}
-.bottom-nav i{display:block;font-size:22px;}
-.logout-btn{padding:8px 15px;border:none;background:linear-gradient(90deg,#6a00f4,#2a8cff);color:white;border-radius:8px;cursor:pointer;}
+
+@media(max-width:600px){
+    .dashboard-grid{grid-template-columns:1fr;}
+}
+
+/* Account Balance */
+.status-card{
+    background:#ff0050;
+    padding:12px 18px;
+    border-radius:18px;
+    color:white;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.status-icon-circle{
+    width:30px;
+    height:30px;
+    background:rgba(255,255,255,0.3);
+    border-radius:50%;
+}
+.status-label{
+    font-size:0.85rem;
+    font-weight:600;
+}
+.status-value{
+    font-size:1.2rem;
+    font-weight:700;
+}
+
+/* Product Grid */
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+.product-card{
+    background:white;
+    border-radius:20px;
+    padding:18px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.05);
+}
+
+.product-image{
+    width:100%;
+    height:130px;
+    object-fit:cover;
+    border-radius:15px;
+    margin-bottom:10px;
+}
+
+.product-name{
+    font-weight:700;
+    margin-bottom:8px;
+    font-size:0.85rem;
+}
+.product-price{
+    color:#00c9a7;
+    font-weight:600;
+    margin-bottom:8px;
+}
+.product-details{
+    font-size:0.75rem;
+    line-height:1.5;
+    color:#666;
+    margin-bottom:10px;
+}
+.buy-btn{
+    width:100%;
+    background:#00c9a7;
+    color:white;
+    border:none;
+    padding:8px;
+    border-radius:15px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+@media(max-width:480px){
+    .product-grid{grid-template-columns:1fr;}
+}
+
+/* WALLET SECTION */
+.wallet-grid{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    max-width:450px;
+    margin:auto;
+}
+
+.withdrawal-card{
+    width:100%;
+    background:white;
+    border-radius:30px;
+    padding:30px 25px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    box-sizing:border-box;
+}
+
+.withdrawal-card .title{
+    font-size:1.5rem;
+    font-weight:bold;
+    color:#333;
+    margin-bottom:20px;
+}
+
+.input-box{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #f0f0f0;
+    border-radius:15px;
+    background-color:#fafafa;
+    font-size:1rem;
+    color:#333;
+    box-sizing:border-box;
+    outline:none;
+    margin-bottom:15px;
+}
+
+select.input-box{
+    appearance:none;
+    background-image:url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23aaaaaa%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+    background-repeat:no-repeat;
+    background-position:right 15px center;
+    background-size:18px;
+    cursor:pointer;
+}
+
+.withdraw-btn{
+    background-color:var(--primary-teal);
+    color:white;
+    border:none;
+    width:100%;
+    padding:12px;
+    border-radius:25px;
+    font-weight:bold;
+    font-size:1rem;
+    cursor:pointer;
+    transition:background 0.3s;
+}
+.withdraw-btn:hover{
+    background-color:#00b3a5;
+}
+
+/* Deposit Modal */
+#depositModal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.5);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+.deposit-card{
+    background:white;
+    border-radius:20px;
+    padding:25px 20px;
+    width:90%;
+    max-width:350px;
+    text-align:center;
+    position:relative;
+}
+.deposit-card img{
+    width:80px;
+    height:80px;
+    object-fit:cover;     /* fills smoothly */
+    border-radius:15px;   /* smooth square corners */
+    margin-bottom:15px;
+    border:1px solid #eee; /* optional subtle border */
+}
+.close-btn{
+    position:absolute;
+    top:10px;
+    right:10px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+.alert{
+    color:red;
+    font-size:0.8rem;
+    margin-top:5px;
+    display:none;
+}
+
+/* Bottom Navigation */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:65px;
+    background:linear-gradient(90deg,var(--gradient-start),var(--gradient-end));
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+}
+.bottom-nav a{
+    color:white;
+    text-decoration:none;
+    text-align:center;
+    font-size:12px;
+    flex:1;
+}
+.bottom-nav i{
+    display:block;
+    font-size:22px;
+    transition:0.3s;
+}
+.bottom-nav a.active i{
+    font-size:28px;
+    transform:translateY(-8px);
+}
+.logout-btn{
+    padding:8px 15px;
+    border:none;
+    background:linear-gradient(90deg,#6a00f4,#2a8cff);
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
 </style>
 </head>
-
 <body>
 
 <script>
@@ -66,119 +291,207 @@ if(localStorage.getItem("loggedIn")!=="true"){
 
 <!-- HOME -->
 <div id="home" class="section active-section">
-<h2><img src="logo.png" style="width:35px;height:35px;border-radius:8px;"> Home</h2>
-<div class="dashboard-grid">
-<div class="card orange"><div class="card-value">0</div><div class="card-label">Available balance</div></div>
-<div class="card green"><div class="card-value">0</div><div class="card-label">Today's earnings</div></div>
-<div class="card purple"><div class="card-value">0</div><div class="card-label">Deposit amount</div></div>
-<div class="card blue"><div class="card-value">0</div><div class="card-label">Withdrawal amount</div></div>
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Home</h2>
+    <div class="dashboard-grid">
+        <div class="card orange"><div class="card-value">0</div><div class="card-label">Available balance</div></div>
+        <div class="card green"><div class="card-value">0</div><div class="card-label">Today's earnings</div></div>
+        <div class="card purple"><div class="card-value">0</div><div class="card-label">Deposit amount</div></div>
+        <div class="card blue"><div class="card-value">0</div><div class="card-label">Withdrawal amount</div></div>
+    </div>
 </div>
+
+<!-- PRODUCTS -->
+<div id="product" class="section">
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Products</h2>
+    <div class="status-card">
+        <div class="status-icon-circle"></div>
+        <div>
+            <div class="status-label">Account Balance</div>
+            <div class="status-value">0</div>
+        </div>
+    </div>
+    <div class="product-grid" id="productContainer"></div>
 </div>
 
 <!-- WALLET -->
 <div id="wallet" class="section">
-<h2><img src="logo.png" style="width:35px;height:35px;border-radius:8px;"> Wallet</h2>
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Wallet</h2>
+    <div class="wallet-grid">
+        <!-- Withdraw -->
+        <div class="withdrawal-card">
+            <div class="title">WITHDRAW</div>
+            <div class="form-group">
+                <label class="label">Account Balance</label>
+                <input type="text" class="input-box" value="0" readonly>
+            </div>
+            <div class="form-group">
+                <label class="label">Select Account</label>
+                <select class="input-box" id="withdrawAccount">
+                    <option value="" disabled selected>--Please Select--</option>
+                    <option value="mpesa">Mpesa</option>
+                    <option value="airtel">Airtel</option>
+                    <option value="paypal">Paypal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label">Withdrawal Amount</label>
+                <input type="number" class="input-box" id="withdrawAmount" placeholder="Amount">
+            </div>
+            <button class="withdraw-btn" id="withdrawBtn">Withdraw Now</button>
+        </div>
 
-<div class="withdrawal-card">
-<div class="title">DEPOSIT</div>
-<select class="input-box" id="depositAccount">
-<option value="">--Please Select--</option>
-<option value="mpesa">Mpesa</option>
-<option value="airtel">Airtel</option>
-<option value="paypal">Paypal</option>
-</select>
-
-<input type="number" class="input-box" id="depositAmount" placeholder="Amount">
-<div class="alert" id="depositAlert">Minimum deposit is KSH 1,300</div>
-<button class="withdraw-btn" id="depositBtn">Deposit Now</button>
+        <!-- Deposit -->
+        <div class="withdrawal-card">
+            <div class="title" style="color:var(--primary-teal)">DEPOSIT</div>
+            <div class="form-group">
+                <label class="label">Select Account</label>
+                <select class="input-box" id="depositAccount">
+                    <option value="" disabled selected>--Please Select--</option>
+                    <option value="mpesa">Mpesa</option>
+                    <option value="airtel">Airtel</option>
+                    <option value="paypal">Paypal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label">Deposit Amount</label>
+                <input type="number" class="input-box" id="depositAmount" placeholder="Amount">
+                <div class="alert" id="depositAlert">Minimum deposit is KSH 1,300</div>
+            </div>
+            <button class="withdraw-btn" id="depositBtn">Deposit Now</button>
+        </div>
+    </div>
 </div>
-</div>
 
-<!-- Modal -->
+<!-- Deposit Modal -->
 <div id="depositModal">
-<div class="deposit-card">
-<span class="close-btn" id="closeModal">×</span>
-<img src="mpesa.png" id="depositLogo">
-<div id="depositContent"></div>
+    <div class="deposit-card">
+        <span class="close-btn" id="closeModal">×</span>
+        <img src="mpesa.png" id="depositLogo" alt="Deposit Logo">
+        <div id="depositText">Deposit Details</div>
+        <button class="withdraw-btn" id="confirmDepositBtn">Confirm</button>
+    </div>
 </div>
+
+<!-- PROFILE -->
+<div id="profile" class="section">
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <a href="#" class="nav-item active" data-target="home"><i class="fas fa-house"></i>Home</a>
+    <a href="#" class="nav-item" data-target="product"><i class="fas fa-credit-card"></i>Products</a>
+    <a href="#" class="nav-item" data-target="wallet"><i class="fas fa-wallet"></i>Wallet</a>
+    <a href="#" class="nav-item" data-target="profile"><i class="fas fa-user"></i>Profile</a>
 </div>
 
 <script>
-const depositBtn=document.getElementById("depositBtn");
-const depositModal=document.getElementById("depositModal");
-const depositAccount=document.getElementById("depositAccount");
-const depositAmount=document.getElementById("depositAmount");
-const depositAlert=document.getElementById("depositAlert");
-const depositLogo=document.getElementById("depositLogo");
-const depositContent=document.getElementById("depositContent");
-const closeModal=document.getElementById("closeModal");
+// Navigation
+const navItems=document.querySelectorAll(".nav-item");
+const sections=document.querySelectorAll(".section");
 
-let timer;
+navItems.forEach(item=>{
+    item.addEventListener("click",function(e){
+        e.preventDefault();
+        navItems.forEach(n=>n.classList.remove("active"));
+        this.classList.add("active");
+        sections.forEach(s=>s.classList.remove("active-section"));
+        document.getElementById(this.dataset.target).classList.add("active-section");
+    });
+});
 
-depositBtn.onclick=function(){
-const account=depositAccount.value;
-const amount=parseFloat(depositAmount.value);
-
-if(amount<1300){
-depositAlert.style.display="block";
-setTimeout(()=>depositAlert.style.display="none",3000);
-return;
-}
-if(!account)return;
-
-if(account==="mpesa")depositLogo.src="mpesa.png";
-if(account==="airtel")depositLogo.src="airtel.png";
-if(account==="paypal")depositLogo.src="paypal.png";
-
-if(account==="paypal"){
-depositContent.innerHTML="<div style='color:red;font-weight:bold'>The service is under maintenance</div>";
-depositModal.style.display="flex";
-return;
+// Logout
+function logout(){
+    localStorage.removeItem("loggedIn");
+    window.location.href="auth.html";
 }
 
-depositContent.innerHTML=`
-<div><b>E-Wallet:</b> 0797××××022</div>
-<button class="copy-btn" onclick="copyText('0797xxxx022')">Copy</button>
+// Products
+const products=[
+["RTX 2",800,105,1575],
+["RTX 4",1800,235,3525],
+["RTX 6V",2800,360,5400],
+["RTX 8W",3800,485,7275],
+["RTX PRO",4800,610,9150],
+["RTX 2 PRO",5800,735,11025],
+["RTX 4 PRO",6800,860,12900],
+["RTX 6V PRO",7800,985,14775],
+["RTX 8W PRO",8800,1110,16650],
+["RTX 2-4",9900,1240,18600],
+["RTX 4-6V",11000,1375,20625],
+["RTX 6V-8W",12000,1500,22500],
+["RTX PRO 2",13000,1620,24300],
+["RTX PRO 4",14000,1745,26175],
+["RTX 8W-2",15000,1867,28005]
+];
+const container=document.getElementById("productContainer");
+products.forEach((p,index)=>{
+    container.innerHTML+=`
+    <div class="product-card">
+        <img src="product${index+1}.png" class="product-image" alt="Product Image">
+        <div class="product-name">HOENGAGER ${p[0]}</div>
+        <div class="product-price">Price：KSH ${p[1].toLocaleString()}.00</div>
+        <div class="product-details">
+            Duration：KSH ${p[2].toLocaleString()}.00<br>
+            Period：15 days<br>
+            Total earnings：KSH ${p[3].toLocaleString()}
+        </div>
+        <button class="buy-btn">Buy</button>
+    </div>
+    `;
+});
 
-<div class="timer" id="countdown">14:59</div>
+// Wallet Deposit Modal
+const depositBtn = document.getElementById('depositBtn');
+const depositModal = document.getElementById('depositModal');
+const closeModal = document.getElementById('closeModal');
+const depositLogo = document.getElementById('depositLogo');
+const depositText = document.getElementById('depositText');
+const depositAccountSelect = document.getElementById('depositAccount');
+const depositAmountInput = document.getElementById('depositAmount');
+const depositAlert = document.getElementById('depositAlert');
+const confirmDepositBtn = document.getElementById('confirmDepositBtn');
 
-<div><b>Recipient:</b> 0763×××××456</div>
-<button class="copy-btn" onclick="copyText('0763xxxxx456')">Copy</button>
-`;
+depositBtn.addEventListener('click', () => {
+    const account = depositAccountSelect.value;
+    const amount = parseFloat(depositAmountInput.value);
 
-depositModal.style.display="flex";
+    if(!account){
+        alert("Please select an account.");
+        return;
+    }
+    if(!amount || amount <= 0){
+        alert("Please enter a valid deposit amount.");
+        return;
+    }
+    if(amount < 1300){
+        depositAlert.style.display = 'block';
+        setTimeout(() => depositAlert.style.display = 'none', 3000);
+        return;
+    }
 
-let time=14*60+59;
-clearInterval(timer);
-timer=setInterval(()=>{
-let m=Math.floor(time/60);
-let s=time%60;
-if(s<10)s="0"+s;
-document.getElementById("countdown").innerText=m+":"+s;
-if(time<=0){
-clearInterval(timer);
-depositModal.style.display="none";
-}
-time--;
-},1000);
-};
+    if(account === "mpesa") depositLogo.src = "mpesa.png";
+    else if(account === "airtel") depositLogo.src = "airtel.png";
+    else if(account === "paypal") depositLogo.src = "paypal.png";
 
-function copyText(text){
-navigator.clipboard.writeText(text);
-}
+    depositText.innerText = `Deposit KSH ${amount.toLocaleString()} via ${account.toUpperCase()}`;
+    depositModal.style.display = 'flex';
+});
 
-closeModal.onclick=function(){
-depositModal.style.display="none";
-clearInterval(timer);
-};
-
-depositModal.onclick=function(e){
-if(e.target===depositModal){
-depositModal.style.display="none";
-clearInterval(timer);
-}
-};
+closeModal.addEventListener('click', () => {
+    depositModal.style.display = 'none';
+});
+depositModal.addEventListener('click', (e) => {
+    if(e.target === depositModal){
+        depositModal.style.display = 'none';
+    }
+});
+confirmDepositBtn.addEventListener('click', () => {
+    alert("Deposit confirmed!");
+    depositModal.style.display = 'none';
+});
 </script>
 
 </body>
-</html>
+                    </html>
