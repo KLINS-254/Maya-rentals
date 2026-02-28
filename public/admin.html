@@ -85,7 +85,6 @@ h2{margin-top:0;}
     color:white;
 }
 .update-btn{background:#20e060;}
-.delete-btn{background:#ff4d4d;}
 .logout-btn{
     padding:10px 20px;
     border:none;
@@ -106,6 +105,10 @@ h2{margin-top:0;}
     padding:12px 15px;
     border-radius:8px;
     margin-bottom:10px;
+    cursor:pointer;
+}
+.deposit-card:hover{
+    background:#fff4cc;
 }
 </style>
 </head>
@@ -177,17 +180,16 @@ function showDashboard(){
 
 // ===== Render Users =====
 function renderUsers(){
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    // Filter out invalid dummy users
-    const realUsers = users.filter(u => u.id && u.name && u.email);
-    if(realUsers.length === 0){
+    const users = JSON.parse(localStorage.getItem("users") || "[]").filter(u=>u.name && u.email);
+    if(users.length === 0){
         usersContainer.innerHTML = "<p>No users registered yet.</p>";
         return;
     }
     usersContainer.innerHTML = "";
-    realUsers.forEach((user,index)=>{
+    users.forEach((user,index)=>{
         const userDiv = document.createElement("div");
         userDiv.className = "user-card";
+        userDiv.id = "userCard"+user.id; // id for scrolling
         userDiv.innerHTML = `
             <p><b>User ID:</b> #${user.id}</p>
             <p><b>Name:</b> ${user.name}</p>
@@ -197,7 +199,6 @@ function renderUsers(){
                 <label>Balance: KSH </label>
                 <input type="number" value="${user.balance || 0}" id="balanceInput${index}">
                 <button class="update-btn" onclick="updateBalance(${index})">Update</button>
-                <button class="delete-btn" onclick="deleteUser(${index})">Delete</button>
             </p>
         `;
         usersContainer.appendChild(userDiv);
@@ -216,18 +217,6 @@ function updateBalance(index){
     users[index].balance = newBalance;
     localStorage.setItem("users",JSON.stringify(users));
     alert(`Balance updated for user #${users[index].id}`);
-    renderUsers();
-}
-
-// ===== Delete User =====
-function deleteUser(index){
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    if(confirm(`Are you sure you want to delete user #${users[index].id}?`)){
-        users.splice(index,1);
-        localStorage.setItem("users",JSON.stringify(users));
-        renderUsers();
-        alert("User deleted successfully");
-    }
 }
 
 // ===== Render Deposits =====
@@ -242,14 +231,27 @@ function renderDeposits(){
         const div = document.createElement("div");
         div.className = "deposit-card";
         div.innerHTML = `<b>${deposit.userName}</b> deposited KSH ${deposit.amount.toLocaleString()} via ${deposit.account.toUpperCase()}`;
+        div.onclick = () => scrollToUser(deposit.userId);
         depositNotifications.appendChild(div);
     });
+}
+
+// ===== Scroll to user card =====
+function scrollToUser(userId){
+    const userDiv = document.getElementById("userCard"+userId);
+    if(userDiv){
+        userDiv.scrollIntoView({ behavior: "smooth", block: "center" });
+        userDiv.style.transition = "background 0.3s";
+        userDiv.style.background = "#fff4cc";
+        setTimeout(()=>{ userDiv.style.background = "white"; },1500);
+    }
 }
 
 // ===== Listen to localStorage deposit updates =====
 window.addEventListener("storage",(e)=>{
     if(e.key === "deposits"){
         renderDeposits();
+        renderUsers();
     }
 });
 </script>
