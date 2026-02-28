@@ -10,6 +10,9 @@
 :root{
     --gradient-start:#6a00f4;
     --gradient-end:#2a8cff;
+    --primary-teal: #00d1c1;
+    --text-gray: #aaaaaa;
+    --bg-light: #f4f7f6;
 }
 
 body{
@@ -27,16 +30,7 @@ body{
 .section.active-section{
     display:block;
 }
-h2{ margin-top:0; display:flex; align-items:center; }
-
-/* Header Logo */
-.header-logo{
-    width:28px;
-    height:28px;
-    object-fit:cover;
-    border-radius:6px;
-    margin-right:8px;
-}
+h2{ margin-top:0; }
 
 /* Home Dashboard */
 .dashboard-grid {
@@ -139,6 +133,69 @@ h2{ margin-top:0; display:flex; align-items:center; }
     .product-grid{grid-template-columns:1fr;}
 }
 
+/* WALLET SECTION */
+.wallet-grid{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    max-width:450px;
+    margin:auto;
+}
+
+.withdrawal-card{
+    width:100%;
+    background:white;
+    border-radius:30px;
+    padding:30px 25px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    box-sizing:border-box;
+}
+
+.withdrawal-card .title{
+    font-size:1.5rem;
+    font-weight:bold;
+    color:#333;
+    margin-bottom:20px;
+}
+
+.input-box{
+    width:100%;
+    padding:12px 15px;
+    border:1px solid #f0f0f0;
+    border-radius:15px;
+    background-color:#fafafa;
+    font-size:1rem;
+    color:#333;
+    box-sizing:border-box;
+    outline:none;
+    margin-bottom:15px;
+}
+
+select.input-box{
+    appearance:none;
+    background-image:url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23aaaaaa%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+    background-repeat:no-repeat;
+    background-position:right 15px center;
+    background-size:18px;
+    cursor:pointer;
+}
+
+.withdraw-btn{
+    background-color:var(--primary-teal);
+    color:white;
+    border:none;
+    width:100%;
+    padding:12px;
+    border-radius:25px;
+    font-weight:bold;
+    font-size:1rem;
+    cursor:pointer;
+    transition:background 0.3s;
+}
+.withdraw-btn:hover{
+    background-color:#00b3a5;
+}
+
 /* Bottom Navigation */
 .bottom-nav{
     position:fixed;
@@ -189,7 +246,7 @@ if(localStorage.getItem("loggedIn")!=="true"){
 
 <!-- HOME -->
 <div id="home" class="section active-section">
-    <h2><img src="logo.png" class="header-logo"> Home</h2>
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Home</h2>
     <div class="dashboard-grid">
         <div class="card orange"><div class="card-value">0</div><div class="card-label">Available balance</div></div>
         <div class="card green"><div class="card-value">0</div><div class="card-label">Today's earnings</div></div>
@@ -200,8 +257,7 @@ if(localStorage.getItem("loggedIn")!=="true"){
 
 <!-- PRODUCTS -->
 <div id="product" class="section">
-    <h2><img src="logo.png" class="header-logo"> Products</h2>
-
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Products</h2>
     <div class="status-card">
         <div class="status-icon-circle"></div>
         <div>
@@ -215,13 +271,56 @@ if(localStorage.getItem("loggedIn")!=="true"){
 
 <!-- WALLET -->
 <div id="wallet" class="section">
-    <h2><img src="logo.png" class="header-logo"> Deposit / Withdraw</h2>
-    <p>Manage your transactions.</p>
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Wallet</h2>
+
+    <div class="wallet-grid">
+        <!-- WITHDRAW -->
+        <div class="withdrawal-card">
+            <div class="title">WITHDRAW</div>
+            <div class="form-group">
+                <label class="label">Account Balance</label>
+                <input type="text" class="input-box" value="0" readonly>
+            </div>
+            <div class="form-group">
+                <label class="label">Select Account</label>
+                <select class="input-box">
+                    <option value="" disabled selected>--Please Select--</option>
+                    <option value="mpesa">Mpesa</option>
+                    <option value="airtel">Airtel</option>
+                    <option value="paypal">Paypal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label">Withdrawal Amount</label>
+                <input type="number" class="input-box" placeholder="Amount">
+            </div>
+            <button class="withdraw-btn">Withdraw Now</button>
+        </div>
+
+        <!-- DEPOSIT -->
+        <div class="withdrawal-card">
+            <div class="title" style="color:var(--primary-teal);">DEPOSIT</div>
+            <div class="form-group">
+                <label class="label">Select Account</label>
+                <select class="input-box">
+                    <option value="" disabled selected>--Please Select--</option>
+                    <option value="mpesa">Mpesa</option>
+                    <option value="airtel">Airtel</option>
+                    <option value="paypal">Paypal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label">Deposit Amount</label>
+                <input type="number" class="input-box" placeholder="Amount">
+            </div>
+            <button class="withdraw-btn">Deposit Now</button>
+        </div>
+    </div>
 </div>
 
 <!-- PROFILE -->
 <div id="profile" class="section">
-    <h2><img src="logo.png" class="header-logo"> Profile</h2>
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
     <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
@@ -281,12 +380,12 @@ this.classList.add("active");
 sections.forEach(s=>s.classList.remove("active-section"));
 document.getElementById(this.dataset.target).classList.add("active-section");
 });
-});
 
 function logout(){
 localStorage.removeItem("loggedIn");
 window.location.href="auth.html";
 }
+});
 </script>
 
 </body>
