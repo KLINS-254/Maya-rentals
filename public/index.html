@@ -173,7 +173,7 @@ h2{ margin-top:0; }
 
 select.input-box{
     appearance:none;
-    background-image:url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220 0 24 24%22%20fill%3D%22none%22%20stroke%3D%22%23aaaaaa%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+    background-image:url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23aaaaaa%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
     background-repeat:no-repeat;
     background-position:right 15px center;
     background-size:18px;
@@ -194,13 +194,6 @@ select.input-box{
 }
 .withdraw-btn:hover{
     background-color:#00b3a5;
-}
-
-.alert{
-    color:red;
-    font-size:0.8rem;
-    margin-top:5px;
-    display:none;
 }
 
 /* Deposit Modal */
@@ -228,8 +221,10 @@ select.input-box{
 .deposit-card img{
     width:80px;
     height:80px;
-    object-fit:contain;
+    object-fit:cover;     /* fills smoothly */
+    border-radius:15px;   /* smooth square corners */
     margin-bottom:15px;
+    border:1px solid #eee; /* optional subtle border */
 }
 .close-btn{
     position:absolute;
@@ -238,6 +233,12 @@ select.input-box{
     font-size:18px;
     font-weight:bold;
     cursor:pointer;
+}
+.alert{
+    color:red;
+    font-size:0.8rem;
+    margin-top:5px;
+    display:none;
 }
 
 /* Bottom Navigation */
@@ -309,49 +310,56 @@ if(localStorage.getItem("loggedIn")!=="true"){
             <div class="status-value">0</div>
         </div>
     </div>
-
     <div class="product-grid" id="productContainer"></div>
 </div>
 
 <!-- WALLET -->
 <div id="wallet" class="section">
     <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Wallet</h2>
-
     <div class="wallet-grid">
-        <!-- WITHDRAW -->
+        <!-- Withdraw -->
         <div class="withdrawal-card">
             <div class="title">WITHDRAW</div>
-            <input type="text" class="input-box" value="0" readonly>
-            <select class="input-box" id="withdrawAccount">
-                <option value="" disabled selected>--Please Select--</option>
-                <option value="mpesa">Mpesa</option>
-                <option value="airtel">Airtel</option>
-                <option value="paypal">Paypal</option>
-            </select>
-            <input type="number" class="input-box" id="withdrawAmount" placeholder="Amount">
+            <div class="form-group">
+                <label class="label">Account Balance</label>
+                <input type="text" class="input-box" value="0" readonly>
+            </div>
+            <div class="form-group">
+                <label class="label">Select Account</label>
+                <select class="input-box" id="withdrawAccount">
+                    <option value="" disabled selected>--Please Select--</option>
+                    <option value="mpesa">Mpesa</option>
+                    <option value="airtel">Airtel</option>
+                    <option value="paypal">Paypal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label">Withdrawal Amount</label>
+                <input type="number" class="input-box" id="withdrawAmount" placeholder="Amount">
+            </div>
             <button class="withdraw-btn" id="withdrawBtn">Withdraw Now</button>
         </div>
 
-        <!-- DEPOSIT -->
+        <!-- Deposit -->
         <div class="withdrawal-card">
-            <div class="title" style="color:var(--primary-teal);">DEPOSIT</div>
-            <select class="input-box" id="depositAccount">
-                <option value="" disabled selected>--Please Select--</option>
-                <option value="mpesa">Mpesa</option>
-                <option value="airtel">Airtel</option>
-                <option value="paypal">Paypal</option>
-            </select>
-            <input type="number" class="input-box" id="depositAmount" placeholder="Amount">
-            <div class="alert" id="depositAlert">Minimum deposit is KSH 1,300</div>
+            <div class="title" style="color:var(--primary-teal)">DEPOSIT</div>
+            <div class="form-group">
+                <label class="label">Select Account</label>
+                <select class="input-box" id="depositAccount">
+                    <option value="" disabled selected>--Please Select--</option>
+                    <option value="mpesa">Mpesa</option>
+                    <option value="airtel">Airtel</option>
+                    <option value="paypal">Paypal</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label">Deposit Amount</label>
+                <input type="number" class="input-box" id="depositAmount" placeholder="Amount">
+                <div class="alert" id="depositAlert">Minimum deposit is KSH 1,300</div>
+            </div>
             <button class="withdraw-btn" id="depositBtn">Deposit Now</button>
         </div>
     </div>
-</div>
-
-<!-- PROFILE -->
-<div id="profile" class="section">
-    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
-    <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
 <!-- Deposit Modal -->
@@ -364,6 +372,12 @@ if(localStorage.getItem("loggedIn")!=="true"){
     </div>
 </div>
 
+<!-- PROFILE -->
+<div id="profile" class="section">
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
     <a href="#" class="nav-item active" data-target="home"><i class="fas fa-house"></i>Home</a>
@@ -373,6 +387,26 @@ if(localStorage.getItem("loggedIn")!=="true"){
 </div>
 
 <script>
+// Navigation
+const navItems=document.querySelectorAll(".nav-item");
+const sections=document.querySelectorAll(".section");
+
+navItems.forEach(item=>{
+    item.addEventListener("click",function(e){
+        e.preventDefault();
+        navItems.forEach(n=>n.classList.remove("active"));
+        this.classList.add("active");
+        sections.forEach(s=>s.classList.remove("active-section"));
+        document.getElementById(this.dataset.target).classList.add("active-section");
+    });
+});
+
+// Logout
+function logout(){
+    localStorage.removeItem("loggedIn");
+    window.location.href="auth.html";
+}
+
 // Products
 const products=[
 ["RTX 2",800,105,1575],
@@ -391,41 +425,22 @@ const products=[
 ["RTX PRO 4",14000,1745,26175],
 ["RTX 8W-2",15000,1867,28005]
 ];
-
 const container=document.getElementById("productContainer");
 products.forEach((p,index)=>{
-container.innerHTML+=`
-<div class="product-card">
-    <img src="product${index+1}.png" class="product-image" alt="Product Image">
-    <div class="product-name">HOENGAGER ${p[0]}</div>
-    <div class="product-price">Price：KSH ${p[1].toLocaleString()}.00</div>
-    <div class="product-details">
-        Duration：KSH ${p[2].toLocaleString()}.00<br>
-        Period：15 days<br>
-        Total earnings：KSH ${p[3].toLocaleString()}
+    container.innerHTML+=`
+    <div class="product-card">
+        <img src="product${index+1}.png" class="product-image" alt="Product Image">
+        <div class="product-name">HOENGAGER ${p[0]}</div>
+        <div class="product-price">Price：KSH ${p[1].toLocaleString()}.00</div>
+        <div class="product-details">
+            Duration：KSH ${p[2].toLocaleString()}.00<br>
+            Period：15 days<br>
+            Total earnings：KSH ${p[3].toLocaleString()}
+        </div>
+        <button class="buy-btn">Buy</button>
     </div>
-    <button class="buy-btn">Buy</button>
-</div>
-`;
+    `;
 });
-
-// Navigation
-const navItems=document.querySelectorAll(".nav-item");
-const sections=document.querySelectorAll(".section");
-navItems.forEach(item=>{
-item.addEventListener("click",function(e){
-e.preventDefault();
-navItems.forEach(n=>n.classList.remove("active"));
-this.classList.add("active");
-sections.forEach(s=>s.classList.remove("active-section"));
-document.getElementById(this.dataset.target).classList.add("active-section");
-});
-});
-
-function logout(){
-localStorage.removeItem("loggedIn");
-window.location.href="auth.html";
-}
 
 // Wallet Deposit Modal
 const depositBtn = document.getElementById('depositBtn');
@@ -441,6 +456,7 @@ const confirmDepositBtn = document.getElementById('confirmDepositBtn');
 depositBtn.addEventListener('click', () => {
     const account = depositAccountSelect.value;
     const amount = parseFloat(depositAmountInput.value);
+
     if(!account){
         alert("Please select an account.");
         return;
