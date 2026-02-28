@@ -3,64 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel</title>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
-body{ font-family:Arial,sans-serif; padding:30px; background:#f4f6f9;}
-h2{ color:#6a00f4; margin-bottom:20px;}
-input,button{ padding:10px; margin:5px 0; width:100%; border-radius:8px; border:1px solid #ccc; box-sizing:border-box;}
-button{ background:#6a00f4; color:white; border:none; cursor:pointer;}
-button:hover{ background:#2a8cff;}
-.alert{ color:red; margin-top:10px;}
+:root{
+    --gradient-start:#6a00f4;
+    --gradient-end:#2a8cff;
+    --primary-teal: #00d1c1;
+    --text-gray: #aaaaaa;
+    --bg-light: #f4f7f6;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4f6f9;
+}
+
+/* Login Section */
+#adminLoginSection{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+#adminLoginSection input{
+    padding:12px 15px;
+    margin:10px 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+    width:250px;
+}
+#adminLoginSection button{
+    padding:12px 20px;
+    border:none;
+    border-radius:15px;
+    background:linear-gradient(90deg,#6a00f4,#2a8cff);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* Admin Dashboard */
+#adminDashboard{
+    display:none;
+    padding:20px;
+}
+h2{margin-top:0;}
+
+.user-card{
+    background:white;
+    border-radius:15px;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+.user-card p{
+    margin:5px 0;
+}
+.user-card .actions{
+    margin-top:10px;
+}
+.user-card button{
+    padding:8px 15px;
+    margin-right:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    color:white;
+}
+.approve-btn{background:#20e060;}
+.deny-btn{background:#ff4c4c;}
+.logout-btn{
+    padding:10px 20px;
+    border:none;
+    background:linear-gradient(90deg,#6a00f4,#2a8cff);
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+    float:right;
+}
 </style>
 </head>
 <body>
 
-<h2>Admin: Add Funds</h2>
+<!-- LOGIN -->
+<div id="adminLoginSection">
+    <h2>Admin Login</h2>
+    <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+    <button id="adminLoginBtn">Login</button>
+</div>
 
-<form id="addFundsForm">
-  <label>User ID:</label>
-  <input type="number" id="adminUserId" required placeholder="Enter user ID">
-  
-  <label>Amount (KSH):</label>
-  <input type="number" id="adminAmount" required placeholder="Enter amount">
-  
-  <button type="submit">Add Funds</button>
-  <div class="alert" id="alertMsg"></div>
-</form>
+<!-- DASHBOARD -->
+<div id="adminDashboard">
+    <h2>Admin Dashboard <button class="logout-btn" id="logoutBtn">Logout</button></h2>
+    <div id="usersContainer"></div>
+</div>
 
 <script>
-// Simple password protection
-const ADMIN_PASSWORD = "Papa123"; // change to strong password
-let entered = prompt("Enter admin password:");
-if(entered !== ADMIN_PASSWORD){
-    alert("Access denied!");
-    window.location.href="index.html";
+// ===== Admin Password =====
+const ADMIN_PASS = "SuperSecure123"; // <-- set your admin password here
+
+// ===== Elements =====
+const loginSection = document.getElementById("adminLoginSection");
+const dashboard = document.getElementById("adminDashboard");
+const loginBtn = document.getElementById("adminLoginBtn");
+const passwordInput = document.getElementById("adminPassword");
+const usersContainer = document.getElementById("usersContainer");
+const logoutBtn = document.getElementById("logoutBtn");
+
+// ===== Check admin login =====
+if(localStorage.getItem("adminLoggedIn") === "true"){
+    showDashboard();
 }
 
-document.getElementById("addFundsForm").addEventListener("submit", function(e){
-    e.preventDefault();
+// ===== Login Function =====
+loginBtn.addEventListener("click",()=>{
+    const pass = passwordInput.value;
+    if(pass === ADMIN_PASS){
+        localStorage.setItem("adminLoggedIn","true");
+        showDashboard();
+    } else {
+        alert("Incorrect password!");
+    }
+});
 
-    const userId = parseInt(document.getElementById("adminUserId").value);
-    const amount = parseFloat(document.getElementById("adminAmount").value);
-    const alertMsg = document.getElementById("alertMsg");
+// ===== Logout Function =====
+logoutBtn.addEventListener("click",()=>{
+    localStorage.removeItem("adminLoggedIn");
+    location.reload();
+});
 
-    // Load user list from localStorage
-    let users = JSON.parse(localStorage.getItem("userList")) || [];
-    let user = users.find(u => u.id === userId);
+// ===== Show Dashboard =====
+function showDashboard(){
+    loginSection.style.display = "none";
+    dashboard.style.display = "block";
+    renderUsers();
+}
 
-    if(!user){
-        alertMsg.innerText = "User not found!";
+// ===== Render Users =====
+function renderUsers(){
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    if(users.length === 0){
+        usersContainer.innerHTML = "<p>No users registered yet.</p>";
         return;
     }
+    usersContainer.innerHTML = "";
+    users.forEach((user,index)=>{
+        const userDiv = document.createElement("div");
+        userDiv.className = "user-card";
+        userDiv.innerHTML = `
+            <p><b>User ID:</b> #${user.id}</p>
+            <p><b>Name:</b> ${user.name}</p>
+            <p><b>Email:</b> ${user.email}</p>
+            <p><b>Phone:</b> ${user.phone}</p>
+            <p><b>Balance:</b> KSH ${user.balance || 0}</p>
+            <div class="actions">
+                <button class="approve-btn" onclick="approveUser(${index})">Approve Deposit</button>
+                <button class="deny-btn" onclick="denyUser(${index})">Deny Deposit</button>
+            </div>
+        `;
+        usersContainer.appendChild(userDiv);
+    });
+}
 
-    user.balance = (user.balance || 0) + amount;
-    localStorage.setItem("userList", JSON.stringify(users));
-    alert(`✅ Added KSH ${amount.toLocaleString()} to ${user.name}. New balance: KSH ${user.balance.toLocaleString()}`);
+// ===== Approve / Deny =====
+function approveUser(index){
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    users[index].balance = users[index].balance ? users[index].balance + 1000 : 1000; // example increment
+    localStorage.setItem("users",JSON.stringify(users));
+    renderUsers();
+}
 
-    // Reset form
-    document.getElementById("addFundsForm").reset();
-    alertMsg.innerText = "";
-});
+function denyUser(index){
+    alert("Deposit denied for user #" + users[index].id);
+}
+
+// ===== Auto-create dummy users for testing =====
+if(!localStorage.getItem("users")){
+    const dummyUsers = [
+        {id:101,name:"John Doe",email:"johndoe@example.com",phone:"+254712345678",balance:0},
+        {id:102,name:"Jane Smith",email:"jane@example.com",phone:"+254711223344",balance:0}
+    ];
+    localStorage.setItem("users",JSON.stringify(dummyUsers));
+}
 </script>
 
 </body>
