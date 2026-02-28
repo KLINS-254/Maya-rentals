@@ -8,9 +8,7 @@
 :root {
     --primary-teal: #00d1c1;
     --bg-light: #e0f7f3;
-    --order-green: #4caf50;
 }
-
 body {
     font-family: 'Segoe UI', Tahoma, sans-serif;
     background-color: var(--bg-light);
@@ -21,20 +19,17 @@ body {
     gap: 20px;
     align-items: center;
 }
-
 .payment-container {
     width: 100%;
     max-width: 400px;
-    background-color: var(--order-green);
+    background-color: #4caf50;
     border-radius: 15px;
     padding: 15px;
     color: white;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
-
 .order-no { font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; }
-
 .white-box {
     background: white;
     border-radius: 10px;
@@ -42,12 +37,10 @@ body {
     margin: 10px 0;
     color: #333;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
-
 .label-top { font-size: 0.8rem; color: #555; text-align: left; width: 100%; }
-
 .timer-box {
     border: 1px dashed white;
     padding: 5px 20px;
@@ -55,15 +48,56 @@ body {
     font-size: 1.5rem;
     margin: 10px 0;
 }
-
 .input-style {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #f0f0f0;
     border-radius: 12px;
     font-size: 1rem;
     box-sizing: border-box;
     outline: none;
+}
+/* Modal */
+.modal {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    justify-content:center;
+    align-items:center;
+    z-index: 999;
+}
+.modal-content {
+    width: 90%;
+    max-width: 350px;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+}
+.modal-header { font-weight:bold; margin-bottom: 15px; font-size: 1.2rem; }
+.modal input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    border:1px solid #ccc;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+.modal button {
+    background: var(--primary-teal);
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius: 15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+.copy-btn {
+    color: var(--primary-teal);
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 </style>
 </head>
@@ -71,14 +105,13 @@ body {
 
 <div class="payment-container">
     <div class="order-no">ORDER NO: W115S17722667810162191</div>
-    
-    <!-- Constant E-Wallet -->
+
     <div class="label-top" style="color:white;">E-Wallet Number</div>
     <div class="white-box">
-        <span style="font-weight:bold; font-size:1.2rem;">0789016069</span>
+        <span id="eWalletNumber" style="font-weight:bold; font-size:1.2rem;">0789016069</span>
+        <span class="copy-btn" id="copyWalletBtn">❐ Copy</span>
     </div>
 
-    <!-- Amount from previous deposit -->
     <div class="label-top" style="color:white;">Amount to Pay</div>
     <div class="white-box">
         <div style="display:flex; align-items:center; gap:10px;">
@@ -87,39 +120,74 @@ body {
         </div>
     </div>
 
-    <!-- Countdown Timer -->
     <div class="timer-box" id="paymentTimer">14:59</div>
 
-    <!-- Editable Recipient Number -->
     <div class="label-top" style="color:white;">Recipient Number</div>
     <div class="white-box">
-        <input type="text" id="recipientNumber" class="input-style" value="">
+        <input type="text" id="recipientNumber" class="input-style" placeholder="Enter recipient number" readonly>
     </div>
 
     <p style="font-size:0.85rem;">The payment will be automatically credited to your account after successful payment</p>
 </div>
 
+<!-- Modal for recipient -->
+<div class="modal" id="recipientModal">
+    <div class="modal-content">
+        <div class="modal-header">Enter Recipient Number</div>
+        <input type="text" id="modalRecipientInput" placeholder="Enter number">
+        <button id="doneRecipientBtn">Done</button>
+    </div>
+</div>
+
 <script>
-// Set amount from previous deposit (localStorage)
-const savedAmount = localStorage.getItem('depositAmount') || '0.00';
+// Load previous deposit amount
+const savedAmount = localStorage.getItem('depositAmount') || '1300.00';
 document.getElementById('amountToPay').innerText = savedAmount;
 
-// Countdown timer with redirect
+// Timer countdown
 let timeLeft = 14 * 60 + 59;
 const timerDisplay = document.getElementById('paymentTimer');
-
 const countdown = setInterval(() => {
     let m = Math.floor(timeLeft / 60);
     let s = timeLeft % 60;
     if (s < 10) s = "0" + s;
     timerDisplay.innerText = m + ":" + s;
-    if (timeLeft <= 0) {
+    if(timeLeft <= 0){
         clearInterval(countdown);
-        // Redirect to deposit page when timer ends
-        window.location.href = "deposit.html";
+        window.location.href = "deposit.html"; // redirect when timer ends
     }
     timeLeft--;
 }, 1000);
+
+// Copy E-Wallet number
+document.getElementById('copyWalletBtn').addEventListener('click', () => {
+    const walletNumber = document.getElementById('eWalletNumber').innerText;
+    navigator.clipboard.writeText(walletNumber).then(() => {
+        alert("E-Wallet number copied!");
+    });
+});
+
+// Recipient modal logic
+const recipientInput = document.getElementById('recipientNumber');
+const modal = document.getElementById('recipientModal');
+const modalInput = document.getElementById('modalRecipientInput');
+const doneBtn = document.getElementById('doneRecipientBtn');
+
+// Open modal automatically on page load
+window.addEventListener('load', () => {
+    modal.style.display = 'flex';
+});
+
+doneBtn.addEventListener('click', () => {
+    recipientInput.value = modalInput.value;
+    recipientInput.readOnly = false; // now editable directly
+    modal.style.display = 'none';
+});
+
+// Close modal if clicked outside
+window.addEventListener('click', (e) => {
+    if(e.target === modal) modal.style.display = 'none';
+});
 </script>
 
 </body>
