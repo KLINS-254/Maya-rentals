@@ -85,6 +85,7 @@ h2{margin-top:0;}
     color:white;
 }
 .update-btn{background:#20e060;}
+.delete-btn{background:#ff4d4d;}
 .logout-btn{
     padding:10px 20px;
     border:none;
@@ -133,7 +134,7 @@ h2{margin-top:0;}
 
 <script>
 // ===== Admin Password =====
-const ADMIN_PASS = "SuperSecure123"; // <-- set your admin password here
+const ADMIN_PASS = "SuperSecure123";
 
 // ===== Elements =====
 const loginSection = document.getElementById("adminLoginSection");
@@ -177,12 +178,14 @@ function showDashboard(){
 // ===== Render Users =====
 function renderUsers(){
     const users = JSON.parse(localStorage.getItem("users") || "[]");
-    if(users.length === 0){
+    // Filter out invalid dummy users
+    const realUsers = users.filter(u => u.id && u.name && u.email);
+    if(realUsers.length === 0){
         usersContainer.innerHTML = "<p>No users registered yet.</p>";
         return;
     }
     usersContainer.innerHTML = "";
-    users.forEach((user,index)=>{
+    realUsers.forEach((user,index)=>{
         const userDiv = document.createElement("div");
         userDiv.className = "user-card";
         userDiv.innerHTML = `
@@ -194,6 +197,7 @@ function renderUsers(){
                 <label>Balance: KSH </label>
                 <input type="number" value="${user.balance || 0}" id="balanceInput${index}">
                 <button class="update-btn" onclick="updateBalance(${index})">Update</button>
+                <button class="delete-btn" onclick="deleteUser(${index})">Delete</button>
             </p>
         `;
         usersContainer.appendChild(userDiv);
@@ -212,7 +216,18 @@ function updateBalance(index){
     users[index].balance = newBalance;
     localStorage.setItem("users",JSON.stringify(users));
     alert(`Balance updated for user #${users[index].id}`);
-    renderUsers(); // re-render to show updated balances
+    renderUsers();
+}
+
+// ===== Delete User =====
+function deleteUser(index){
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
+    if(confirm(`Are you sure you want to delete user #${users[index].id}?`)){
+        users.splice(index,1);
+        localStorage.setItem("users",JSON.stringify(users));
+        renderUsers();
+        alert("User deleted successfully");
+    }
 }
 
 // ===== Render Deposits =====
@@ -226,7 +241,7 @@ function renderDeposits(){
     deposits.slice(-10).reverse().forEach(deposit=>{
         const div = document.createElement("div");
         div.className = "deposit-card";
-        div.innerHTML = `<b>${deposit.userName}</b> deposited KSH ${parseFloat(deposit.amount).toLocaleString()} via ${deposit.account.toUpperCase()}`;
+        div.innerHTML = `<b>${deposit.userName}</b> deposited KSH ${deposit.amount.toLocaleString()} via ${deposit.account.toUpperCase()}`;
         depositNotifications.appendChild(div);
     });
 }
@@ -235,7 +250,6 @@ function renderDeposits(){
 window.addEventListener("storage",(e)=>{
     if(e.key === "deposits"){
         renderDeposits();
-        renderUsers(); // update user balances in case deposit added
     }
 });
 </script>
