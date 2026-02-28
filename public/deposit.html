@@ -108,13 +108,16 @@ body{
 }
 
 .close{
-    position:absolute;
-    right:15px; top:10px;
+    margin-top:15px;
+    padding:10px 20px;
+    border:none;
+    border-radius:25px;
+    background:var(--primary-teal);
+    color:white;
+    font-weight:bold;
     cursor:pointer;
-    font-size:20px;
 }
 
-/* Done button */
 .btn-done{
     margin-top:15px;
     padding:10px 20px;
@@ -125,12 +128,18 @@ body{
     font-weight:bold;
     cursor:pointer;
 }
+
+.maintenance-message{
+    color:red;
+    font-weight:bold;
+    font-size:1rem;
+}
 </style>
 </head>
 <body>
 
 <div class="payment-container">
-    <div class="order-no">ORDER NO: W115S177226678101XXXXX</div>
+    <div class="order-no" id="orderNumber">ORDER NO: W115S177226678101XXXXX</div>
     
     <div class="label-top">E-Wallet (constant)</div>
     <div class="white-box">
@@ -146,20 +155,31 @@ body{
         </div>
     </div>
 
+    <div>
+        <label for="accountSelect" style="color:white;">Select Account</label>
+        <select id="accountSelect" style="padding:10px; border-radius:8px; border:none; width:100%; max-width:200px; margin-top:5px;">
+            <option value="" disabled selected>--Choose--</option>
+            <option value="mpesa">Mpesa</option>
+            <option value="airtel">Airtel</option>
+            <option value="paypal">Paypal</option>
+        </select>
+    </div>
+
     <div class="timer-box" id="timer">14:59</div>
 
     <div class="recipient-box">
-        <input type="text" id="recipient-number" class="recipient-input" placeholder="Enter your number (07xxxxxxx)" readonly>
+        <input type="text" id="recipient-number" class="recipient-input" placeholder="Recipient Number (07XXXXXXXX)" readonly>
         <button id="edit-btn" class="btn-done">Edit</button>
     </div>
 </div>
 
-<!-- Modal for initial recipient input -->
+<!-- Modal for recipient input or maintenance -->
 <div class="modal" id="recipientModal">
     <div class="modal-content">
-        <div class="modal-header">Enter your number</div>
+        <div class="modal-header" id="modalHeader">Enter your number</div>
         <input type="text" id="modal-recipient" class="recipient-input" placeholder="07XXXXXXXX">
         <button class="btn-done" id="modal-done">Done</button>
+        <button class="close" id="modal-close">Close</button>
     </div>
 </div>
 
@@ -171,24 +191,43 @@ function generateOrderNumber(){
     for(let i=0;i<5;i++){ lastFive += Math.floor(Math.random()*10); }
     return orderPrefix + lastFive;
 }
-document.querySelector('.order-no').innerText = "ORDER NO: " + generateOrderNumber();
+document.getElementById('orderNumber').innerText = "ORDER NO: " + generateOrderNumber();
 
 // --- Copy e-wallet number ---
 document.getElementById("copy-ewallet").addEventListener("click", ()=>{
-    const num = document.getElementById("ewallet-number").innerText;
-    navigator.clipboard.writeText(num);
+    navigator.clipboard.writeText(document.getElementById("ewallet-number").innerText);
     alert("E-Wallet number copied!");
 });
 
-// --- Recipient number popup ---
+// --- Modal elements ---
 const recipientModal = document.getElementById("recipientModal");
 const modalDone = document.getElementById("modal-done");
+const modalClose = document.getElementById("modal-close");
 const recipientInput = document.getElementById("recipient-number");
 const modalInput = document.getElementById("modal-recipient");
+const modalHeader = document.getElementById("modalHeader");
 
-// Open modal initially
-recipientModal.style.display = "flex";
+let countdown;
 
+// --- Open modal when account selected ---
+document.getElementById("accountSelect").addEventListener("change", (e)=>{
+    if(e.target.value === "paypal"){
+        recipientModal.style.display="flex";
+        modalHeader.innerHTML = "Service under maintenance";
+        modalInput.style.display="none";
+        modalDone.style.display="none";
+        modalClose.style.display="block";
+    } else {
+        recipientModal.style.display="flex";
+        modalHeader.innerHTML = "Enter your number";
+        modalInput.style.display="block";
+        modalDone.style.display="block";
+        modalClose.style.display="none";
+        modalInput.value = "";
+    }
+});
+
+// --- Done button ---
 modalDone.addEventListener("click", ()=>{
     const val = modalInput.value.trim();
     if(!/^07\d{8}$/.test(val)){
@@ -197,19 +236,30 @@ modalDone.addEventListener("click", ()=>{
     }
     modalInput.classList.remove("invalid");
     recipientInput.value = val;
-    recipientInput.setAttribute("readonly","true"); // lock editing
-    recipientModal.style.display = "none";
+    recipientInput.setAttribute("readonly","true");
+    recipientModal.style.display="none";
     startTimer();
 });
 
-// Allow editing **only when timer is not running**
+// --- Edit button before timer ---
 document.getElementById("edit-btn").addEventListener("click", ()=>{
-    if(!countdown){ // timer not started
+    if(!countdown){ // timer not running
         recipientInput.removeAttribute("readonly");
+        recipientModal.style.display="flex";
+        modalHeader.innerHTML = "Edit your number";
+        modalInput.style.display="block";
+        modalDone.style.display="block";
+        modalClose.style.display="none";
+        modalInput.value = recipientInput.value;
     }
 });
 
-// --- Validation on recipient input ---
+// --- Close button for maintenance ---
+modalClose.addEventListener("click", ()=>{
+    recipientModal.style.display="none";
+});
+
+// --- Recipient input validation ---
 recipientInput.addEventListener("input", ()=>{
     const val = recipientInput.value;
     if(!/^07\d{0,8}$/.test(val)){
@@ -223,7 +273,6 @@ recipientInput.addEventListener("input", ()=>{
 });
 
 // --- Timer ---
-let countdown;
 function startTimer(){
     let time = 14*60 + 59;
     const timerBox = document.getElementById("timer");
@@ -235,7 +284,7 @@ function startTimer(){
         timerBox.innerText = m + ":" + s;
         if(time<=0){
             clearInterval(countdown);
-            countdown = null; // allow editing again if returned
+            countdown = null;
             alert("Time expired. Returning to deposit page.");
             window.location.href="deposit.html";
         }
