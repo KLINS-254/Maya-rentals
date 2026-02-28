@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Maya Rental Services</title>
+<title>Login</title>
 
 <style>
 :root{
@@ -15,95 +15,78 @@ body{
     margin:0;
     font-family:Arial, sans-serif;
     background:#f4f6f9;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
 }
 
-/* Login Container */
 .login-container{
-    background:white;
-    padding:35px 30px;
-    border-radius:20px;
     width:320px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    margin:80px auto;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
     text-align:center;
 }
 
-/* Header */
-.login-header{
-    margin-bottom:25px;
-}
-
-.login-logo{
+/* Logo */
+.login-container img{
     width:90px;
     height:auto;
-    display:block;
-    margin:0 auto 12px auto;
 }
 
-.login-header h1{
-    font-size:20px;
+/* Company Name Added */
+.company-name{
     font-weight:800;
+    font-size:22px;
+    margin-top:10px;
+    margin-bottom:20px;
     letter-spacing:1px;
-    margin:0;
     background:linear-gradient(90deg,var(--gradient-start),var(--gradient-end));
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
 }
 
 /* Inputs */
-.input-group{
-    margin-bottom:15px;
-}
-
 input{
     width:100%;
     padding:10px;
-    border-radius:10px;
-    border:1px solid #ddd;
+    margin-bottom:12px;
+    border-radius:8px;
+    border:1px solid #ccc;
     outline:none;
-    font-size:14px;
 }
 
 /* Button */
-.login-btn{
+button{
     width:100%;
     padding:10px;
     border:none;
-    border-radius:10px;
+    border-radius:8px;
     background:linear-gradient(90deg,var(--gradient-start),var(--gradient-end));
     color:white;
     font-weight:600;
     cursor:pointer;
-    margin-top:10px;
 }
 
-.login-btn:hover{
+button:hover{
     opacity:0.95;
 }
 </style>
 </head>
-
 <body>
 
 <div class="login-container">
 
-    <div class="login-header">
-        <img src="logo.png" alt="Logo" class="login-logo">
-        <h1>MAYA RENTAL SERVICES</h1>
-    </div>
+    <!-- Existing Logo -->
+    <img src="logo.png" alt="Logo">
 
-    <div class="input-group">
-        <input type="text" id="username" placeholder="Username">
-    </div>
+    <!-- Added Company Name -->
+    <h1 class="company-name">MAYA RENTAL SERVICES</h1>
 
-    <div class="input-group">
-        <input type="password" id="password" placeholder="Password">
-    </div>
+    <!-- Login Form -->
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
 
-    <button class="login-btn" onclick="login()">Login</button>
+    <button onclick="login()">Login</button>
 
 </div>
 
