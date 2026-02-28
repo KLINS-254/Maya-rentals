@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MAYA RENTAL SERVICES Dashboard</title>
+<title>Dashboard</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 :root{
     --gradient-start:#6a00f4;
     --gradient-end:#2a8cff;
-    --primary-teal:#00d1c1;
-    --text-gray:#aaaaaa;
-    --bg-light:#f4f7f6;
+    --primary-teal: #00d1c1;
+    --text-gray: #aaaaaa;
+    --bg-light: #f4f7f6;
 }
 
-/* Body */
 body{
     margin:0;
-    font-family:Arial,sans-serif;
+    font-family:Arial, sans-serif;
     background:#f4f6f9;
 }
 
@@ -30,8 +30,7 @@ body{
 .section.active-section{
     display:block;
 }
-h2{ margin-top:0; display:flex; align-items:center; gap:10px; }
-h2 img{ width:28px; height:28px; border-radius:8px; }
+h2{ margin-top:0; }
 
 /* Home Dashboard */
 .dashboard-grid {
@@ -54,6 +53,32 @@ h2 img{ width:28px; height:28px; border-radius:8px; }
 
 @media(max-width:600px){
     .dashboard-grid{grid-template-columns:1fr;}
+}
+
+/* Account Balance */
+.status-card{
+    background:#ff0050;
+    padding:12px 18px;
+    border-radius:18px;
+    color:white;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.status-icon-circle{
+    width:30px;
+    height:30px;
+    background:rgba(255,255,255,0.3);
+    border-radius:50%;
+}
+.status-label{
+    font-size:0.85rem;
+    font-weight:600;
+}
+.status-value{
+    font-size:1.2rem;
+    font-weight:700;
 }
 
 /* Product Grid */
@@ -104,33 +129,36 @@ h2 img{ width:28px; height:28px; border-radius:8px; }
     cursor:pointer;
 }
 
-/* Wallet Cards */
-.wallet-card{
-    width:100%;
+@media(max-width:480px){
+    .product-grid{grid-template-columns:1fr;}
+}
+
+/* WALLET SECTION */
+.wallet-grid{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
     max-width:450px;
+    margin:auto;
+}
+
+.withdrawal-card{
+    width:100%;
     background:white;
     border-radius:30px;
-    padding:25px 20px;
+    padding:30px 25px;
     box-shadow:0 4px 15px rgba(0,0,0,0.05);
     box-sizing:border-box;
-    margin-bottom:25px;
 }
-.wallet-card .title{
+
+.withdrawal-card .title{
     font-size:1.5rem;
     font-weight:bold;
-    color:var(--primary-teal);
+    color:#333;
     margin-bottom:20px;
 }
-.wallet-card .form-group{
-    margin-bottom:20px;
-}
-.wallet-card .label{
-    display:block;
-    color:var(--text-gray);
-    font-size:0.9rem;
-    margin-bottom:8px;
-}
-.wallet-card .input-box{
+
+.input-box{
     width:100%;
     padding:12px 15px;
     border:1px solid #f0f0f0;
@@ -140,31 +168,35 @@ h2 img{ width:28px; height:28px; border-radius:8px; }
     color:#333;
     box-sizing:border-box;
     outline:none;
+    margin-bottom:15px;
 }
-.wallet-card select.input-box{
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D24%20height%3D24%22%20viewBox%3D%220 0 24 24%22%20fill%3D%22none%22%20stroke%3D%22%23aaaaaa%22%20stroke-width%3D2%20stroke-linecap%3Dround%20stroke-linejoin%3Dround%3E%3Cpolyline%20points%3D%226 9 12 15 18 9%22%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 18px;
+
+select.input-box{
+    appearance:none;
+    background-image:url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220 0 24 24%22%20fill%3D%22none%22%20stroke%3D%22%23aaaaaa%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E");
+    background-repeat:no-repeat;
+    background-position:right 15px center;
+    background-size:18px;
     cursor:pointer;
 }
-.wallet-card .withdraw-btn{
+
+.withdraw-btn{
     background-color:var(--primary-teal);
     color:white;
     border:none;
-    width:160px;
+    width:100%;
     padding:12px;
     border-radius:25px;
     font-weight:bold;
     font-size:1rem;
     cursor:pointer;
-    margin-top:10px;
-    transition: background 0.3s;
+    transition:background 0.3s;
 }
-.wallet-card .withdraw-btn:hover{
+.withdraw-btn:hover{
     background-color:#00b3a5;
 }
-.wallet-card .alert{
+
+.alert{
     color:red;
     font-size:0.8rem;
     margin-top:5px;
@@ -229,15 +261,14 @@ h2 img{ width:28px; height:28px; border-radius:8px; }
     font-size:12px;
     flex:1;
 }
-.bottom-nav img{
+.bottom-nav i{
     display:block;
-    width:22px;
-    height:22px;
-    margin:0 auto 2px;
-    border-radius:6px;
+    font-size:22px;
+    transition:0.3s;
 }
-.bottom-nav a.active img{
-    transform:translateY(-5px);
+.bottom-nav a.active i{
+    font-size:28px;
+    transform:translateY(-8px);
 }
 .logout-btn{
     padding:8px 15px;
@@ -259,7 +290,7 @@ if(localStorage.getItem("loggedIn")!=="true"){
 
 <!-- HOME -->
 <div id="home" class="section active-section">
-    <h2><img src="logo.png" alt="Logo"> Home</h2>
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Home</h2>
     <div class="dashboard-grid">
         <div class="card orange"><div class="card-value">0</div><div class="card-label">Available balance</div></div>
         <div class="card green"><div class="card-value">0</div><div class="card-label">Today's earnings</div></div>
@@ -270,62 +301,56 @@ if(localStorage.getItem("loggedIn")!=="true"){
 
 <!-- PRODUCTS -->
 <div id="product" class="section">
-    <h2><img src="logo.png" alt="Logo"> Products</h2>
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Products</h2>
+    <div class="status-card">
+        <div class="status-icon-circle"></div>
+        <div>
+            <div class="status-label">Account Balance</div>
+            <div class="status-value">0</div>
+        </div>
+    </div>
+
     <div class="product-grid" id="productContainer"></div>
 </div>
 
 <!-- WALLET -->
 <div id="wallet" class="section">
-    <h2><img src="logo.png" alt="Logo"> Wallet</h2>
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Wallet</h2>
 
-    <!-- Withdraw -->
-    <div class="wallet-card">
-        <div class="title">WITHDRAW</div>
-        <div class="form-group">
-            <label class="label">Account Balance</label>
+    <div class="wallet-grid">
+        <!-- WITHDRAW -->
+        <div class="withdrawal-card">
+            <div class="title">WITHDRAW</div>
             <input type="text" class="input-box" value="0" readonly>
-        </div>
-        <div class="form-group">
-            <label class="label">Select Account</label>
             <select class="input-box" id="withdrawAccount">
                 <option value="" disabled selected>--Please Select--</option>
                 <option value="mpesa">Mpesa</option>
                 <option value="airtel">Airtel</option>
                 <option value="paypal">Paypal</option>
             </select>
+            <input type="number" class="input-box" id="withdrawAmount" placeholder="Amount">
+            <button class="withdraw-btn" id="withdrawBtn">Withdraw Now</button>
         </div>
-        <div class="form-group">
-            <label class="label">Withdrawal Amount</label>
-            <input type="number" class="input-box" placeholder="Amount" id="withdrawAmount">
-        </div>
-        <button class="withdraw-btn" id="withdrawBtn">Withdraw Now</button>
-    </div>
 
-    <!-- Deposit -->
-    <div class="wallet-card">
-        <div class="title">DEPOSIT</div>
-        <div class="form-group">
-            <label class="label">Select Account</label>
+        <!-- DEPOSIT -->
+        <div class="withdrawal-card">
+            <div class="title" style="color:var(--primary-teal);">DEPOSIT</div>
             <select class="input-box" id="depositAccount">
                 <option value="" disabled selected>--Please Select--</option>
                 <option value="mpesa">Mpesa</option>
                 <option value="airtel">Airtel</option>
                 <option value="paypal">Paypal</option>
             </select>
-        </div>
-        <div class="form-group">
-            <label class="label">Deposit Amount</label>
-            <input type="number" class="input-box" placeholder="Amount" id="depositAmount">
+            <input type="number" class="input-box" id="depositAmount" placeholder="Amount">
             <div class="alert" id="depositAlert">Minimum deposit is KSH 1,300</div>
+            <button class="withdraw-btn" id="depositBtn">Deposit Now</button>
         </div>
-        <button class="withdraw-btn" id="depositBtn">Deposit Now</button>
     </div>
-
 </div>
 
 <!-- PROFILE -->
 <div id="profile" class="section">
-    <h2><img src="logo.png" alt="Logo"> Profile</h2>
+    <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
     <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
@@ -339,8 +364,16 @@ if(localStorage.getItem("loggedIn")!=="true"){
     </div>
 </div>
 
-<!-- Scripts -->
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <a href="#" class="nav-item active" data-target="home"><i class="fas fa-house"></i>Home</a>
+    <a href="#" class="nav-item" data-target="product"><i class="fas fa-credit-card"></i>Products</a>
+    <a href="#" class="nav-item" data-target="wallet"><i class="fas fa-wallet"></i>Wallet</a>
+    <a href="#" class="nav-item" data-target="profile"><i class="fas fa-user"></i>Profile</a>
+</div>
+
 <script>
+// Products
 const products=[
 ["RTX 2",800,105,1575],
 ["RTX 4",1800,235,3525],
@@ -358,6 +391,7 @@ const products=[
 ["RTX PRO 4",14000,1745,26175],
 ["RTX 8W-2",15000,1867,28005]
 ];
+
 const container=document.getElementById("productContainer");
 products.forEach((p,index)=>{
 container.innerHTML+=`
@@ -376,7 +410,7 @@ container.innerHTML+=`
 });
 
 // Navigation
-const navItems=document.querySelectorAll(".bottom-nav a");
+const navItems=document.querySelectorAll(".nav-item");
 const sections=document.querySelectorAll(".section");
 navItems.forEach(item=>{
 item.addEventListener("click",function(e){
@@ -442,14 +476,6 @@ confirmDepositBtn.addEventListener('click', () => {
     depositModal.style.display = 'none';
 });
 </script>
-
-<!-- Bottom Navigation -->
-<div class="bottom-nav">
-    <a href="#" class="nav-item active" data-target="home"><img src="logo.png" alt="Home">Home</a>
-    <a href="#" class="nav-item" data-target="product"><img src="logo.png" alt="Products">Products</a>
-    <a href="#" class="nav-item" data-target="wallet"><img src="logo.png" alt="Wallet">Wallet</a>
-    <a href="#" class="nav-item" data-target="profile"><img src="logo.png" alt="Profile">Profile</a>
-</div>
 
 </body>
 </html>
