@@ -130,7 +130,7 @@ body{
 <body>
 
 <div class="payment-container">
-    <div class="order-no">ORDER NO: W115S177226678101XXXXX</div>
+    <div class="order-no" id="orderNumber">ORDER NO: W115S177226678101XXXXX</div>
     
     <div class="label-top">E-Wallet (constant)</div>
     <div class="white-box">
@@ -142,7 +142,7 @@ body{
     <div class="white-box">
         <div style="display:flex; align-items:center; gap:10px;">
             <div style="background:red; color:white; border-radius:50%; width:40px; height:40px; display:flex; justify-content:center; align-items:center; font-weight:bold; font-size:0.7rem;">KES</div>
-            <span id="amount-to-pay">1300.00</span>
+            <span id="amount-to-pay">0.00</span>
         </div>
     </div>
 
@@ -154,7 +154,7 @@ body{
     </div>
 </div>
 
-<!-- Modal for initial recipient input -->
+<!-- Modal for recipient input -->
 <div class="modal" id="recipientModal">
     <div class="modal-content">
         <div class="modal-header">Enter your number</div>
@@ -171,22 +171,29 @@ function generateOrderNumber(){
     for(let i=0;i<5;i++){ lastFive += Math.floor(Math.random()*10); }
     return orderPrefix + lastFive;
 }
-document.querySelector('.order-no').innerText = "ORDER NO: " + generateOrderNumber();
+document.getElementById('orderNumber').innerText = "ORDER NO: " + generateOrderNumber();
 
 // --- Copy e-wallet number ---
 document.getElementById("copy-ewallet").addEventListener("click", ()=>{
-    const num = document.getElementById("ewallet-number").innerText;
-    navigator.clipboard.writeText(num);
+    navigator.clipboard.writeText(document.getElementById("ewallet-number").innerText);
     alert("E-Wallet number copied!");
 });
 
-// --- Recipient number popup ---
+// --- Get amount from URL parameter ---
+function getAmount(){
+    const params = new URLSearchParams(window.location.search);
+    const amt = params.get("amount");
+    if(amt && !isNaN(amt)) document.getElementById("amount-to-pay").innerText = parseFloat(amt).toFixed(2);
+}
+getAmount();
+
+// --- Recipient number modal ---
 const recipientModal = document.getElementById("recipientModal");
 const modalDone = document.getElementById("modal-done");
 const recipientInput = document.getElementById("recipient-number");
 const modalInput = document.getElementById("modal-recipient");
 
-// Open modal initially
+// Show modal on load
 recipientModal.style.display = "flex";
 
 modalDone.addEventListener("click", ()=>{
@@ -197,19 +204,21 @@ modalDone.addEventListener("click", ()=>{
     }
     modalInput.classList.remove("invalid");
     recipientInput.value = val;
-    recipientInput.setAttribute("readonly","true"); // lock editing
-    recipientModal.style.display = "none";
+    recipientInput.setAttribute("readonly","true");
+    recipientModal.style.display="none";
     startTimer();
 });
 
-// Allow editing **only when timer is not running**
+// Edit recipient only before timer
 document.getElementById("edit-btn").addEventListener("click", ()=>{
-    if(!countdown){ // timer not started
+    if(!countdown){
         recipientInput.removeAttribute("readonly");
+        recipientModal.style.display="flex";
+        modalInput.value = recipientInput.value;
     }
 });
 
-// --- Validation on recipient input ---
+// Recipient input validation
 recipientInput.addEventListener("input", ()=>{
     const val = recipientInput.value;
     if(!/^07\d{0,8}$/.test(val)){
@@ -235,7 +244,7 @@ function startTimer(){
         timerBox.innerText = m + ":" + s;
         if(time<=0){
             clearInterval(countdown);
-            countdown = null; // allow editing again if returned
+            countdown = null;
             alert("Time expired. Returning to deposit page.");
             window.location.href="deposit.html";
         }
@@ -243,6 +252,5 @@ function startTimer(){
     },1000);
 }
 </script>
-
 </body>
 </html>
