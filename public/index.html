@@ -197,7 +197,7 @@ select.input-box{
 }
 
 /* Deposit Modal */
-#depositModal{
+#depositModal, #maintenanceModal{
     display:none;
     position:fixed;
     top:0;
@@ -372,6 +372,14 @@ if(localStorage.getItem("loggedIn")!=="true"){
     </div>
 </div>
 
+<!-- Maintenance Modal -->
+<div id="maintenanceModal">
+    <div class="deposit-card">
+        <div style="font-weight:bold; font-size:1.2rem; color:red;">SERVICE UNDER MAINTENANCE</div>
+        <button class="withdraw-btn" id="closeMaintenanceBtn" style="margin-top:15px;">Close</button>
+    </div>
+</div>
+
 <!-- PROFILE -->
 <div id="profile" class="section">
     <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
@@ -442,16 +450,18 @@ products.forEach((p,index)=>{
     `;
 });
 
-// Wallet Deposit Modal
+// Wallet Deposit Modal & Maintenance
 const depositBtn = document.getElementById('depositBtn');
 const depositModal = document.getElementById('depositModal');
-const closeModal = document.getElementById('closeModal');
+const maintenanceModal = document.getElementById('maintenanceModal');
+const closeMaintenanceBtn = document.getElementById('closeMaintenanceBtn');
 const depositLogo = document.getElementById('depositLogo');
 const depositText = document.getElementById('depositText');
 const depositAccountSelect = document.getElementById('depositAccount');
 const depositAmountInput = document.getElementById('depositAmount');
 const depositAlert = document.getElementById('depositAlert');
 const confirmDepositBtn = document.getElementById('confirmDepositBtn');
+const closeModal = document.getElementById('closeModal');
 
 depositBtn.addEventListener('click', () => {
     const account = depositAccountSelect.value;
@@ -471,24 +481,26 @@ depositBtn.addEventListener('click', () => {
         return;
     }
 
+    if(account === "paypal"){
+        maintenanceModal.style.display = "flex"; // show maintenance modal
+        return;
+    }
+
     if(account === "mpesa") depositLogo.src = "mpesa.png";
     else if(account === "airtel") depositLogo.src = "airtel.png";
-    else if(account === "paypal") depositLogo.src = "paypal.png";
 
     depositText.innerText = `Deposit KSH ${amount.toLocaleString()} via ${account.toUpperCase()}`;
     depositModal.style.display = 'flex';
 });
 
-closeModal.addEventListener('click', () => {
-    depositModal.style.display = 'none';
-});
-depositModal.addEventListener('click', (e) => {
-    if(e.target === depositModal){
-        depositModal.style.display = 'none';
-    }
-});
+// Close modals
+closeModal.addEventListener('click', () => depositModal.style.display='none');
+depositModal.addEventListener('click', (e) => { if(e.target === depositModal) depositModal.style.display='none'; });
 
-// Redirect to deposit.html when confirm is clicked
+closeMaintenanceBtn.addEventListener('click', () => maintenanceModal.style.display='none');
+maintenanceModal.addEventListener('click', (e) => { if(e.target === maintenanceModal) maintenanceModal.style.display='none'; });
+
+// Confirm Deposit redirects
 confirmDepositBtn.addEventListener('click', () => {
     depositModal.style.display = 'none';
     window.location.href = 'deposit.html';
