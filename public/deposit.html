@@ -112,4 +112,117 @@ select.input-style { cursor: pointer; color: #555; }
     padding: 20px;
     box-sizing: border-box;
 }
-.modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10
+.modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom:15px;}
+.method-box {
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px auto;
+    width: 120px;
+    text-align: center;
+    cursor:pointer;
+}
+.method-box img { width: 100%; height: auto; }
+.method-label { font-size: 0.8rem; color: #999; margin-top: 5px; }
+.close-modal { cursor:pointer; color:#aaa; font-size:1.5rem; }
+</style>
+</head>
+<body>
+
+<div class="payment-container">
+    <div class="order-no">ORDER NO: W115S17722667810162191</div>
+    <div class="label-top" style="color:white;">Please pay to e-Wallet</div>
+    <div class="white-box">
+        <span id="walletNumber" style="font-weight:bold; font-size:1.2rem;">0789016069</span>
+        <span class="copy-link" onclick="copyText('walletNumber')">❐ Copy</span>
+    </div>
+    <div class="label-top" style="color:white;">The amount you should pay is:</div>
+    <div class="white-box">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div style="background:red; color:white; border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.7rem;">KES</div>
+            <span id="amountToPay" style="font-size:1.4rem; font-weight:bold;">1300.00</span>
+        </div>
+        <span class="copy-link" onclick="copyText('amountToPay')">❐ Copy</span>
+    </div>
+    <div class="timer-box" id="paymentTimer">14:33</div>
+    <p style="font-size:0.85rem;">The payment will be automatically credited to your account after successful payment</p>
+    <button class="btn-withdraw" onclick="redirectDeposit()">Confirm Payment</button>
+</div>
+
+<div class="withdrawal-card">
+    <div class="section-title">Account Withdrawal</div>
+    <div class="form-group">
+        <label class="form-label">Account Balance</label>
+        <input type="text" class="input-style" value="0" readonly>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Select Account</label>
+        <select class="input-style" id="accountSelect">
+            <option value="" disabled selected>--Please Select--</option>
+            <option value="mpesa">Mpesa</option>
+            <option value="airtel">Airtel</option>
+            <option value="paypal">Paypal</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label class="form-label">Withdrawal Amount</label>
+        <input type="text" class="input-style" placeholder="Amount">
+    </div>
+    <button class="btn-withdraw">Withdraw Now</button>
+</div>
+
+<div class="modal-container" id="depositModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>Select deposit method</span>
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+        </div>
+        <div class="method-box" onclick="selectMethod('Sasapay')">
+            <img src="https://via.placeholder.com/100x40?text=sasapay" alt="sasapay">
+            <div class="method-label">sasapay</div>
+        </div>
+        <div class="method-box" onclick="selectMethod('AirtelMoney')">
+            <img src="https://via.placeholder.com/100x60?text=Airtel/Mpesa" alt="AirtelMoney">
+            <div class="method-label">AirtelMoney</div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Copy to clipboard
+function copyText(id){
+    const text=document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text);
+    alert("Copied: "+text);
+}
+
+// Countdown timer
+let timeLeft=14*60+33;
+setInterval(()=>{
+    let m=Math.floor(timeLeft/60);
+    let s=timeLeft%60;
+    if(s<10) s="0"+s;
+    document.getElementById("paymentTimer").innerText=m+":"+s;
+    if(timeLeft>0) timeLeft--;
+},1000);
+
+// Redirect confirm payment
+function redirectDeposit(){
+    const account=document.getElementById("accountSelect").value||"mpesa";
+    const amount=document.getElementById("amountToPay").innerText;
+    localStorage.setItem("depositAccount", account);
+    localStorage.setItem("depositAmount", amount);
+    window.location.href="deposit.html";
+}
+
+// Modal functions (optional)
+function closeModal(){
+    document.getElementById("depositModal").style.display="none";
+}
+function selectMethod(method){
+    alert("Selected method: "+method);
+    document.getElementById("depositModal").style.display="none";
+}
+</script>
+</body>
+</html>
