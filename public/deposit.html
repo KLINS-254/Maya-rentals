@@ -129,6 +129,25 @@ body{
 </head>
 <body>
 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCdX336VfLzIMZItn8eafwrPBlrBSKpxf0",
+  authDomain: "flutter-ai-playground-51023.firebaseapp.com",
+  projectId: "flutter-ai-playground-51023",
+  storageBucket: "flutter-ai-playground-51023.appspot.com",
+  messagingSenderId: "589068038917",
+  appId: "1:589068038917:web:b842384a52ec87c8213d6c"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+
 <div class="payment-container">
     <div class="order-no" id="orderNumber">ORDER NO: W115S177226678101XXXXX</div>
     
@@ -187,7 +206,10 @@ function getAmount(){
 }
 getAmount();
 
-// --- Recipient number modal ---
+// --- Firebase user code ---
+const userCode = localStorage.getItem("userCode") || new URLSearchParams(window.location.search).get("code");
+
+// --- Recipient modal ---
 const recipientModal = document.getElementById("recipientModal");
 const modalDone = document.getElementById("modal-done");
 const recipientInput = document.getElementById("recipient-number");
@@ -207,18 +229,32 @@ modalDone.addEventListener("click", ()=>{
     recipientInput.setAttribute("readonly","true");
     recipientModal.style.display="none";
     startTimer();
+
+    // --- FIRESTORE DEPOSIT ---
+    const depositAmount = parseFloat(document.getElementById("amount-to-pay").innerText);
+    if(userCode && depositAmount>0){
+        db.collection("users").doc(userCode).update({
+            balance: firebase.firestore.FieldValue.increment(depositAmount),
+            lastDeposit: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(()=>{
+            alert("Deposit recorded successfully!");
+        }).catch(err=>{
+            console.error(err);
+            alert("Failed to update balance.");
+        });
+    } else {
+        alert("User code or deposit amount missing!");
+    }
 });
 
 // Edit recipient only before timer
 document.getElementById("edit-btn").addEventListener("click", ()=>{
-    if(!countdown){
-        recipientInput.removeAttribute("readonly");
-        recipientModal.style.display="flex";
-        modalInput.value = recipientInput.value;
-    }
+    recipientInput.removeAttribute("readonly");
+    recipientModal.style.display="flex";
+    modalInput.value = recipientInput.value;
 });
 
-// Recipient input validation
+// Validation
 recipientInput.addEventListener("input", ()=>{
     const val = recipientInput.value;
     if(!/^07\d{0,8}$/.test(val)){
@@ -231,7 +267,7 @@ recipientInput.addEventListener("input", ()=>{
     }
 });
 
-// --- Timer ---
+// Timer
 let countdown;
 function startTimer(){
     let time = 14*60 + 59;
@@ -252,5 +288,6 @@ function startTimer(){
     },1000);
 }
 </script>
+
 </body>
 </html>
