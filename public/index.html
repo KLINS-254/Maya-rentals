@@ -256,6 +256,7 @@ select.input-box{
     align-items:center;
     border-top-left-radius:15px;
     border-top-right-radius:15px;
+    z-index:1000;
 }
 .bottom-nav a{
     color:white;
@@ -282,7 +283,7 @@ select.input-box{
     cursor:pointer;
 }
 
-/* Profile Styles */
+/* Profile */
 .profile-container{
     display:flex;
     align-items:center;
@@ -414,27 +415,19 @@ if(localStorage.getItem("loggedIn")!=="true"){
 <!-- PROFILE -->
 <div id="profile" class="section">
     <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
-
-    <!-- User Info -->
     <div class="profile-container">
         <img src="https://cdn-icons-png.flaticon.com/512/815/815250.png" alt="User Avatar">
         <div class="info-wrapper">
-            <p class="id-label">ID: <span id="dynamicID">00000</span></p>
-            <p class="contact-label" id="userContact">+254712345678</p>
+            <p>ID: <span id="dynamicID">00000</span></p>
+            <p id="userContact">+254712345678</p>
         </div>
     </div>
 
-    <!-- Change Password -->
     <div class="password-container">
         <h3>Change Password</h3>
-        <label for="prevPassword">Previous Password</label>
-        <input type="password" id="prevPassword" placeholder="Enter previous password">
-
-        <label for="newPassword">New Password</label>
-        <input type="password" id="newPassword" placeholder="Enter new password">
-
+        <input type="password" id="prevPassword" placeholder="Previous Password">
+        <input type="password" id="newPassword" placeholder="New Password">
         <button class="withdraw-btn" id="changePasswordBtn">Change Password</button>
-
         <p class="alert-msg" id="errorMsg"></p>
         <p class="success-msg" id="successMsg"></p>
     </div>
@@ -531,4 +524,4 @@ depositBtn.addEventListener('click', () => {
     }
     if(amount < 1300){
         depositAlert.style.display = 'block';
-        setTimeout(() => depositAlert.style.display =
+        set
