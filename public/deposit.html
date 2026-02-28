@@ -57,13 +57,24 @@ body {
     box-sizing: border-box;
     outline: none;
 }
+.input-invalid { border-color: red; }
+.edit-btn {
+    background: var(--primary-teal);
+    color:white;
+    border:none;
+    padding:5px 10px;
+    border-radius:10px;
+    font-size:0.8rem;
+    cursor:pointer;
+    margin-left:10px;
+}
 /* Modal */
 .modal {
     position: fixed;
     top:0; left:0;
     width:100%; height:100%;
     background: rgba(0,0,0,0.5);
-    display: none;
+    display: flex;
     justify-content:center;
     align-items:center;
     z-index: 999;
@@ -125,16 +136,17 @@ body {
     <div class="label-top" style="color:white;">Recipient Number</div>
     <div class="white-box">
         <input type="text" id="recipientNumber" class="input-style" placeholder="Enter recipient number" readonly>
+        <button class="edit-btn" id="editRecipientBtn">Edit</button>
     </div>
 
     <p style="font-size:0.85rem;">The payment will be automatically credited to your account after successful payment</p>
 </div>
 
-<!-- Modal for recipient -->
+<!-- Modal for entering recipient number -->
 <div class="modal" id="recipientModal">
     <div class="modal-content">
         <div class="modal-header">Enter Recipient Number</div>
-        <input type="text" id="modalRecipientInput" placeholder="Enter number">
+        <input type="text" id="modalRecipientInput" placeholder="07XXXXXXXX">
         <button id="doneRecipientBtn">Done</button>
     </div>
 </div>
@@ -144,27 +156,10 @@ body {
 const savedAmount = localStorage.getItem('depositAmount') || '1300.00';
 document.getElementById('amountToPay').innerText = savedAmount;
 
-// Timer countdown
-let timeLeft = 14 * 60 + 59;
-const timerDisplay = document.getElementById('paymentTimer');
-const countdown = setInterval(() => {
-    let m = Math.floor(timeLeft / 60);
-    let s = timeLeft % 60;
-    if (s < 10) s = "0" + s;
-    timerDisplay.innerText = m + ":" + s;
-    if(timeLeft <= 0){
-        clearInterval(countdown);
-        window.location.href = "deposit.html"; // redirect when timer ends
-    }
-    timeLeft--;
-}, 1000);
-
 // Copy E-Wallet number
 document.getElementById('copyWalletBtn').addEventListener('click', () => {
-    const walletNumber = document.getElementById('eWalletNumber').innerText;
-    navigator.clipboard.writeText(walletNumber).then(() => {
-        alert("E-Wallet number copied!");
-    });
+    navigator.clipboard.writeText(document.getElementById('eWalletNumber').innerText)
+        .then(() => alert("E-Wallet number copied!"));
 });
 
 // Recipient modal logic
@@ -172,17 +167,53 @@ const recipientInput = document.getElementById('recipientNumber');
 const modal = document.getElementById('recipientModal');
 const modalInput = document.getElementById('modalRecipientInput');
 const doneBtn = document.getElementById('doneRecipientBtn');
+const editBtn = document.getElementById('editRecipientBtn');
 
-// Open modal automatically on page load
+let countdown;
+let timeLeft = 14 * 60 + 59;
+
+// Open modal automatically on load
 window.addEventListener('load', () => {
     modal.style.display = 'flex';
 });
 
+// Done button logic
 doneBtn.addEventListener('click', () => {
-    recipientInput.value = modalInput.value;
-    recipientInput.readOnly = false; // now editable directly
+    const val = modalInput.value.trim();
+    if(!/^07\d{8}$/.test(val)){
+        alert("Invalid number! Must start with 07 and be 10 digits.");
+        modalInput.classList.add('input-invalid');
+        return;
+    }
+    modalInput.classList.remove('input-invalid');
+    recipientInput.value = val;
+    recipientInput.readOnly = true;
     modal.style.display = 'none';
+    startTimer();
 });
+
+// Edit button logic
+editBtn.addEventListener('click', () => {
+    recipientInput.readOnly = false;
+    recipientInput.focus();
+});
+
+// Countdown timer
+const timerDisplay = document.getElementById('paymentTimer');
+function startTimer(){
+    clearInterval(countdown);
+    countdown = setInterval(() => {
+        let m = Math.floor(timeLeft / 60);
+        let s = timeLeft % 60;
+        if(s < 10) s = "0" + s;
+        timerDisplay.innerText = m + ":" + s;
+        if(timeLeft <= 0){
+            clearInterval(countdown);
+            window.location.href = "deposit.html"; // redirect after countdown
+        }
+        timeLeft--;
+    }, 1000);
+}
 
 // Close modal if clicked outside
 window.addEventListener('click', (e) => {
