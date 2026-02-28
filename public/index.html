@@ -157,8 +157,8 @@ h2{ margin-top:0; }
     font-weight:bold;
     margin-bottom:20px;
 }
-.withdrawal-card .title.withdraw { color: #00d1c1; } /* Green for Withdraw */
-.withdrawal-card .title.deposit { color: var(--primary-teal); } /* Teal for Deposit */
+.withdrawal-card .title.withdraw { color: #00d1c1; } 
+.withdrawal-card .title.deposit { color: var(--primary-teal); }
 
 .input-box{
     width:100%;
@@ -281,6 +281,35 @@ select.input-box{
     border-radius:8px;
     cursor:pointer;
 }
+
+/* PROFILE PASSWORD RESET */
+#profile .form-group{
+    margin-top:15px;
+}
+#profile .form-group label{
+    font-weight:600;
+    display:block;
+    margin-bottom:5px;
+}
+#profile .form-group input{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    margin-bottom:10px;
+}
+#profile .alert-success{
+    color:green;
+    font-size:0.85rem;
+    margin-top:5px;
+    display:none;
+}
+#profile .alert-error{
+    color:red;
+    font-size:0.85rem;
+    margin-top:5px;
+    display:none;
+}
 </style>
 </head>
 <body>
@@ -377,11 +406,20 @@ if(localStorage.getItem("loggedIn")!=="true"){
 <!-- PROFILE -->
 <div id="profile" class="section">
     <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
+    <p id="userId">User ID: #00001</p>
+    <p id="userName">Name: John Doe</p>
+    <p id="userEmail">Email: johndoe@example.com</p>
+    <p id="userPhone">Phone: +254712345678</p>
 
-    <!-- GOLDEN CARD -->
-    <div style="background: linear-gradient(135deg,#FFD700,#FFA500); border-radius:20px; padding:20px; color:#333; margin-bottom:20px; box-shadow:0 4px 15px rgba(0,0,0,0.2);">
-        <p style="margin:5px 0; font-weight:700;">User ID: <span id="userID">#00000</span></p>
-        <p style="margin:5px 0; font-weight:700;">Email/Phone: <span id="userContact">Loading...</span></p>
+    <!-- Reset Password -->
+    <div class="form-group">
+        <label>New Password</label>
+        <input type="password" id="newPassword" placeholder="Enter new password">
+        <label>Confirm Password</label>
+        <input type="password" id="confirmPassword" placeholder="Confirm new password">
+        <div class="alert-error" id="passwordAlert">Passwords do not match</div>
+        <div class="alert-success" id="passwordSuccess">Password updated successfully!</div>
+        <button class="withdraw-btn" id="resetPasswordBtn">Reset Password</button>
     </div>
 
     <button class="logout-btn" onclick="logout()">Logout</button>
@@ -484,32 +522,8 @@ depositBtn.addEventListener('click', () => {
         depositLogo.src = "paypal.png";
         depositText.innerHTML = "<b>SERVICE UNDER MAINTENANCE</b>";
         depositModal.style.display = 'flex';
-        confirmDepositBtn.style.display = "none"; // hide confirm
+        confirmDepositBtn.style.display = "none";
         return;
     }
 
-    if(account === "mpesa") depositLogo.src = "mpesa.png";
-    else if(account === "airtel") depositLogo.src = "airtel.png";
-
-    depositText.innerText = `Deposit KSH ${amount.toLocaleString()} via ${account.toUpperCase()}`;
-    confirmDepositBtn.style.display = "block";
-    confirmDepositBtn.dataset.amount = amount;
-    confirmDepositBtn.dataset.account = account;
-    depositModal.style.display = 'flex';
-});
-
-closeModal.addEventListener('click', () => {
-    depositModal.style.display = 'none';
-});
-
-// Click outside to close modal
-depositModal.addEventListener('click', (e) => {
-    if(e.target === depositModal){
-        depositModal.style.display = 'none';
-    }
-});
-
-// Redirect to deposit.html when confirm is clicked with amount
-confirmDepositBtn.addEventListener('click', () => {
-    const amount = confirmDepositBtn.dataset.amount || 0;
-    const account = confirm
+    if(account === "
