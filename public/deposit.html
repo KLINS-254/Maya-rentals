@@ -135,7 +135,7 @@ body {
 
     <div class="label-top" style="color:white;">Recipient Number</div>
     <div class="white-box">
-        <input type="text" id="recipientNumber" class="input-style" placeholder="Enter recipient number" readonly>
+        <input type="text" id="recipientNumber" class="input-style" placeholder="Enter recipient number" readonly maxlength="10">
         <button class="edit-btn" id="editRecipientBtn">Edit</button>
     </div>
 
@@ -146,7 +146,7 @@ body {
 <div class="modal" id="recipientModal">
     <div class="modal-content">
         <div class="modal-header">Enter Recipient Number</div>
-        <input type="text" id="modalRecipientInput" placeholder="07XXXXXXXX">
+        <input type="text" id="modalRecipientInput" placeholder="07XXXXXXXX" maxlength="10">
         <button id="doneRecipientBtn">Done</button>
     </div>
 </div>
@@ -177,16 +177,42 @@ window.addEventListener('load', () => {
     modal.style.display = 'flex';
 });
 
+// Validation function
+function validateNumber(input){
+    const val = input.value.trim();
+    if(!/^07\d{0,8}$/.test(val)){
+        input.classList.add('input-invalid');
+        return false;
+    } else if(val.length === 10 && /^07\d{8}$/.test(val)){
+        input.classList.remove('input-invalid');
+        return true;
+    } else {
+        input.classList.remove('input-invalid'); // still typing valid start
+        return false;
+    }
+}
+
+// Apply real-time validation
+modalInput.addEventListener('input', () => {
+    // Remove non-numeric chars
+    modalInput.value = modalInput.value.replace(/\D/g,'');
+    validateNumber(modalInput);
+});
+
+recipientInput.addEventListener('input', () => {
+    recipientInput.value = recipientInput.value.replace(/\D/g,'');
+    validateNumber(recipientInput);
+});
+
 // Done button logic
 doneBtn.addEventListener('click', () => {
-    const val = modalInput.value.trim();
-    if(!/^07\d{8}$/.test(val)){
+    if(modalInput.value.length !== 10 || !/^07\d{8}$/.test(modalInput.value)){
         alert("Invalid number! Must start with 07 and be 10 digits.");
         modalInput.classList.add('input-invalid');
         return;
     }
     modalInput.classList.remove('input-invalid');
-    recipientInput.value = val;
+    recipientInput.value = modalInput.value;
     recipientInput.readOnly = true;
     modal.style.display = 'none';
     startTimer();
