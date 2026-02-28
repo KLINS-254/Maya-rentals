@@ -3,248 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HOENGAGER RTX - Payment</title>
+<title>HOENGAGER RTX - Deposit</title>
 <style>
-:root {
-    --primary-teal: #00d1c1;
-    --bg-light: #e0f7f3;
+:root{
+    --primary-teal:#00d1c1;
+    --bg-light:#e0f7f3;
+    --card-white:#ffffff;
 }
-body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background-color: var(--bg-light);
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
+
+body{
+    font-family:'Segoe UI', Tahoma, sans-serif;
+    background:var(--bg-light);
+    margin:0;
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
 }
-.payment-container {
-    width: 100%;
-    max-width: 400px;
-    background-color: #4caf50;
-    border-radius: 15px;
-    padding: 15px;
-    color: white;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-.order-no { font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; }
-.white-box {
-    background: white;
-    border-radius: 10px;
-    padding: 12px;
-    margin: 10px 0;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.label-top { font-size: 0.8rem; color: #555; text-align: left; width: 100%; }
-.timer-box {
-    border: 1px dashed white;
-    padding: 5px 20px;
-    display: inline-block;
-    font-size: 1.5rem;
-    margin: 10px 0;
-}
-.input-style {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #f0f0f0;
-    border-radius: 12px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    outline: none;
-}
-.input-invalid { border-color: red; }
-.edit-btn {
-    background: var(--primary-teal);
+
+.payment-container{
+    width:100%;
+    max-width:400px;
+    background:#4caf50;
+    border-radius:15px;
+    padding:15px;
     color:white;
-    border:none;
-    padding:5px 10px;
-    border-radius:10px;
-    font-size:0.8rem;
-    cursor:pointer;
-    margin-left:10px;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
-/* Modal */
-.modal {
-    position: fixed;
+
+.order-no{ font-weight:bold; font-size:0.9rem; margin-bottom:10px; }
+
+.white-box{
+    background:white;
+    border-radius:10px;
+    padding:12px;
+    margin:10px 0;
+    color:#333;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.label-top{ font-size:0.85rem; color:#fff; text-align:left; width:100%; }
+
+.copy-link{ color:var(--primary-teal); font-size:0.8rem; cursor:pointer; }
+
+.timer-box{
+    border:1px dashed white;
+    padding:5px 20px;
+    display:inline-block;
+    font-size:1.5rem;
+    margin:10px 0;
+}
+
+/* Recipient box */
+.recipient-box{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+.recipient-input{
+    flex:1;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    outline:none;
+    font-size:1rem;
+}
+
+.recipient-input.invalid{
+    border-color:red;
+    color:red;
+}
+
+/* Pop-up modal */
+.modal{
+    position:fixed;
     top:0; left:0;
     width:100%; height:100%;
-    background: rgba(0,0,0,0.5);
-    display: flex;
+    background:rgba(0,0,0,0.5);
+    display:none;
     justify-content:center;
     align-items:center;
-    z-index: 999;
+    z-index:999;
 }
-.modal-content {
-    width: 90%;
-    max-width: 350px;
-    background: white;
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
+
+.modal-content{
+    width:90%;
+    max-width:350px;
+    background:white;
+    border-radius:25px;
+    padding:25px;
+    text-align:center;
+    position:relative;
 }
-.modal-header { font-weight:bold; margin-bottom: 15px; font-size: 1.2rem; }
-.modal input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 12px;
-    border:1px solid #ccc;
-    font-size: 1rem;
-    margin-bottom: 15px;
+
+.modal-header{
+    font-weight:bold;
+    margin-bottom:15px;
+    font-size:1.1rem;
 }
-.modal button {
-    background: var(--primary-teal);
-    color:white;
-    border:none;
+
+.close{
+    position:absolute;
+    right:15px; top:10px;
+    cursor:pointer;
+    font-size:20px;
+}
+
+/* Done button */
+.btn-done{
+    margin-top:15px;
     padding:10px 20px;
-    border-radius: 15px;
+    border:none;
+    border-radius:25px;
+    background:var(--primary-teal);
+    color:white;
     font-weight:bold;
     cursor:pointer;
-}
-.copy-btn {
-    color: var(--primary-teal);
-    cursor: pointer;
-    font-size: 0.9rem;
 }
 </style>
 </head>
 <body>
 
 <div class="payment-container">
-    <div class="order-no">ORDER NO: W115S17722667810162191</div>
-
-    <div class="label-top" style="color:white;">E-Wallet Number</div>
+    <div class="order-no">ORDER NO: W115S177226678101XXXXX</div>
+    
+    <div class="label-top">E-Wallet (constant)</div>
     <div class="white-box">
-        <span id="eWalletNumber" style="font-weight:bold; font-size:1.2rem;">0789016069</span>
-        <span class="copy-btn" id="copyWalletBtn">❐ Copy</span>
+        <span id="ewallet-number">0789016069</span>
+        <span class="copy-link" id="copy-ewallet">❐ Copy</span>
     </div>
 
-    <div class="label-top" style="color:white;">Amount to Pay</div>
+    <div class="label-top">Amount to pay</div>
     <div class="white-box">
         <div style="display:flex; align-items:center; gap:10px;">
-            <div style="background:red; color:white; border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:0.7rem;">KES</div>
-            <span id="amountToPay" style="font-size:1.4rem; font-weight:bold;">0.00</span>
+            <div style="background:red; color:white; border-radius:50%; width:40px; height:40px; display:flex; justify-content:center; align-items:center; font-weight:bold; font-size:0.7rem;">KES</div>
+            <span id="amount-to-pay">1300.00</span>
         </div>
     </div>
 
-    <div class="timer-box" id="paymentTimer">14:59</div>
+    <div class="timer-box" id="timer">14:59</div>
 
-    <div class="label-top" style="color:white;">Recipient Number</div>
-    <div class="white-box">
-        <input type="text" id="recipientNumber" class="input-style" placeholder="Enter recipient number" readonly maxlength="10">
-        <button class="edit-btn" id="editRecipientBtn">Edit</button>
+    <div class="recipient-box">
+        <input type="text" id="recipient-number" class="recipient-input" placeholder="Enter your number (07xxxxxxx)">
+        <button id="edit-btn" class="btn-done">Edit</button>
     </div>
-
-    <p style="font-size:0.85rem;">The payment will be automatically credited to your account after successful payment</p>
 </div>
 
-<!-- Modal for entering recipient number -->
+<!-- Modal for initial recipient input -->
 <div class="modal" id="recipientModal">
     <div class="modal-content">
-        <div class="modal-header">Enter Recipient Number</div>
-        <input type="text" id="modalRecipientInput" placeholder="07XXXXXXXX" maxlength="10">
-        <button id="doneRecipientBtn">Done</button>
+        <div class="modal-header">Enter your number</div>
+        <input type="text" id="modal-recipient" class="recipient-input" placeholder="07XXXXXXXX">
+        <button class="btn-done" id="modal-done">Done</button>
     </div>
 </div>
 
 <script>
-// Load previous deposit amount
-const savedAmount = localStorage.getItem('depositAmount') || '1300.00';
-document.getElementById('amountToPay').innerText = savedAmount;
-
-// Copy E-Wallet number
-document.getElementById('copyWalletBtn').addEventListener('click', () => {
-    navigator.clipboard.writeText(document.getElementById('eWalletNumber').innerText)
-        .then(() => alert("E-Wallet number copied!"));
-});
-
-// Recipient modal logic
-const recipientInput = document.getElementById('recipientNumber');
-const modal = document.getElementById('recipientModal');
-const modalInput = document.getElementById('modalRecipientInput');
-const doneBtn = document.getElementById('doneRecipientBtn');
-const editBtn = document.getElementById('editRecipientBtn');
-
-let countdown;
-let timeLeft = 14 * 60 + 59;
-
-// Open modal automatically on load
-window.addEventListener('load', () => {
-    modal.style.display = 'flex';
-});
-
-// Validation function
-function validateNumber(input){
-    const val = input.value.trim();
-    if(!/^07\d{0,8}$/.test(val)){
-        input.classList.add('input-invalid');
-        return false;
-    } else if(val.length === 10 && /^07\d{8}$/.test(val)){
-        input.classList.remove('input-invalid');
-        return true;
-    } else {
-        input.classList.remove('input-invalid'); // still typing valid start
-        return false;
-    }
+// --- Randomize last 5 digits of order ---
+const orderPrefix = "W115S177226678101";
+function generateOrderNumber(){
+    let lastFive = "";
+    for(let i=0;i<5;i++){ lastFive += Math.floor(Math.random()*10); }
+    return orderPrefix + lastFive;
 }
+document.querySelector('.order-no').innerText = "ORDER NO: " + generateOrderNumber();
 
-// Apply real-time validation
-modalInput.addEventListener('input', () => {
-    // Remove non-numeric chars
-    modalInput.value = modalInput.value.replace(/\D/g,'');
-    validateNumber(modalInput);
+// --- Copy e-wallet number ---
+document.getElementById("copy-ewallet").addEventListener("click", ()=>{
+    const num = document.getElementById("ewallet-number").innerText;
+    navigator.clipboard.writeText(num);
+    alert("E-Wallet number copied!");
 });
 
-recipientInput.addEventListener('input', () => {
-    recipientInput.value = recipientInput.value.replace(/\D/g,'');
-    validateNumber(recipientInput);
-});
+// --- Recipient number popup ---
+const recipientModal = document.getElementById("recipientModal");
+const modalDone = document.getElementById("modal-done");
+const recipientInput = document.getElementById("recipient-number");
+const modalInput = document.getElementById("modal-recipient");
 
-// Done button logic
-doneBtn.addEventListener('click', () => {
-    if(modalInput.value.length !== 10 || !/^07\d{8}$/.test(modalInput.value)){
-        alert("Invalid number! Must start with 07 and be 10 digits.");
-        modalInput.classList.add('input-invalid');
+// Open modal initially
+recipientModal.style.display = "flex";
+
+modalDone.addEventListener("click", ()=>{
+    const val = modalInput.value.trim();
+    if(!/^07\d{8}$/.test(val)){
+        modalInput.classList.add("invalid");
         return;
     }
-    modalInput.classList.remove('input-invalid');
-    recipientInput.value = modalInput.value;
-    recipientInput.readOnly = true;
-    modal.style.display = 'none';
+    modalInput.classList.remove("invalid");
+    recipientInput.value = val;
+    recipientModal.style.display = "none";
     startTimer();
 });
 
-// Edit button logic
-editBtn.addEventListener('click', () => {
-    recipientInput.readOnly = false;
-    recipientInput.focus();
+// Allow editing later
+document.getElementById("edit-btn").addEventListener("click", ()=>{
+    recipientInput.removeAttribute("readonly");
 });
 
-// Countdown timer
-const timerDisplay = document.getElementById('paymentTimer');
+// --- Validation on recipient input ---
+recipientInput.addEventListener("input", ()=>{
+    if(!/^07\d{0,8}$/.test(recipientInput.value)){
+        recipientInput.classList.add("invalid");
+    } else if(recipientInput.value.length>10){
+        recipientInput.value = recipientInput.value.slice(0,10);
+        recipientInput.classList.remove("invalid");
+    } else {
+        recipientInput.classList.remove("invalid");
+    }
+});
+
+// --- Timer ---
+let countdown;
 function startTimer(){
+    let time = 14*60 + 59;
+    const timerBox = document.getElementById("timer");
     clearInterval(countdown);
-    countdown = setInterval(() => {
-        let m = Math.floor(timeLeft / 60);
-        let s = timeLeft % 60;
-        if(s < 10) s = "0" + s;
-        timerDisplay.innerText = m + ":" + s;
-        if(timeLeft <= 0){
+    countdown = setInterval(()=>{
+        let m = Math.floor(time/60);
+        let s = time%60;
+        s = s<10?"0"+s:s;
+        timerBox.innerText = m + ":" + s;
+        if(time<=0){
             clearInterval(countdown);
-            window.location.href = "deposit.html"; // redirect after countdown
+            alert("Time expired. Returning to deposit page.");
+            window.location.href="deposit.html";
         }
-        timeLeft--;
-    }, 1000);
+        time--;
+    },1000);
 }
-
-// Close modal if clicked outside
-window.addEventListener('click', (e) => {
-    if(e.target === modal) modal.style.display = 'none';
-});
 </script>
 
 </body>
