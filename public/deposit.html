@@ -5,9 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HOENGAGER RTX - Deposit</title>
 <style>
-body {
-    font-family:'Segoe UI',sans-serif;
-    background:#e0f7f3;
+:root{
+    --primary-teal:#00d1c1;
+    --bg-light:#e0f7f3;
+    --card-white:#ffffff;
+}
+
+body{
+    font-family:'Segoe UI', Tahoma, sans-serif;
+    background:var(--bg-light);
     margin:0;
     padding:20px;
     display:flex;
@@ -16,168 +22,275 @@ body {
     gap:20px;
 }
 
-/* E-wallet box */
-.wallet-box, .amount-box, .recipient-box, .timer-box {
+.payment-container{
     width:100%;
     max-width:400px;
-    background:white;
+    background:#4caf50;
     border-radius:15px;
     padding:15px;
-    box-sizing:border-box;
+    color:white;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.order-no{ font-weight:bold; font-size:0.9rem; margin-bottom:10px; }
+
+.white-box{
+    background:white;
+    border-radius:10px;
+    padding:12px;
+    margin:10px 0;
+    color:#333;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    font-size:16px;
 }
 
-/* Labels */
-.label { font-size:0.85rem; color:#555; margin-bottom:5px; }
+.label-top{ font-size:0.85rem; color:#fff; text-align:left; width:100%; }
 
-/* Copy button */
-.copy-btn {
-    cursor:pointer;
-    background:#00d1c1;
-    color:white;
-    border:none;
-    padding:5px 10px;
-    border-radius:8px;
+.copy-link{ color:var(--primary-teal); font-size:0.8rem; cursor:pointer; }
+
+.timer-box{
+    border:1px dashed white;
+    padding:5px 20px;
+    display:inline-block;
+    font-size:1.5rem;
+    margin:10px 0;
 }
 
-/* Recipient input */
-.recipient-input {
-    width:100%;
-    padding:12px;
-    font-size:16px;
-    border-radius:12px;
-    border:1px solid #ccc;
-    box-sizing:border-box;
-}
-
-/* Done button */
-.done-btn {
+/* Recipient box */
+.recipient-box{
+    display:flex;
+    gap:10px;
     margin-top:10px;
-    padding:10px 20px;
-    border:none;
-    background:#00d1c1;
-    color:white;
-    border-radius:12px;
-    cursor:pointer;
 }
 
-/* Invalid input */
-.invalid {
+.recipient-input{
+    flex:1;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    outline:none;
+    font-size:1rem;
+}
+
+.recipient-input.invalid{
     border-color:red;
+    color:red;
 }
 
-/* Timer */
-.timer-display {
-    font-weight:bold;
-    font-size:1.8rem;
-    color:#00d1c1;
-    text-align:center;
-}
-
-/* Modal */
-.modal {
-    display:none;
+/* Pop-up modal */
+.modal{
     position:fixed;
-    top:0; left:0; right:0; bottom:0;
+    top:0; left:0;
+    width:100%; height:100%;
     background:rgba(0,0,0,0.5);
+    display:none;
     justify-content:center;
     align-items:center;
-    z-index:9999;
+    z-index:999;
 }
 
-.modal-content {
+.modal-content{
+    width:90%;
+    max-width:350px;
     background:white;
-    padding:20px;
-    border-radius:20px;
+    border-radius:25px;
+    padding:25px;
     text-align:center;
+    position:relative;
 }
 
-.close-btn {
+.modal-header{
+    font-weight:bold;
+    margin-bottom:15px;
+    font-size:1.1rem;
+}
+
+.close{
     margin-top:15px;
-    padding:8px 20px;
-    cursor:pointer;
-    background:#00d1c1;
-    color:white;
+    padding:10px 20px;
     border:none;
-    border-radius:12px;
+    border-radius:25px;
+    background:var(--primary-teal);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-done{
+    margin-top:15px;
+    padding:10px 20px;
+    border:none;
+    border-radius:25px;
+    background:var(--primary-teal);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.maintenance-message{
+    color:red;
+    font-weight:bold;
+    font-size:1rem;
 }
 </style>
 </head>
 <body>
 
-<h2>Deposit</h2>
-
-<!-- E-wallet -->
-<div class="wallet-box">
-    <div>E-wallet</div>
-    <div id="ewalletNumber">0789016069</div>
-    <button class="copy-btn" onclick="copyEwallet()">Copy</button>
-</div>
-
-<!-- Amount -->
-<div class="amount-box">
-    <div>Amount:</div>
-    <div id="depositAmount">1300.00</div>
-</div>
-
-<!-- Recipient Number -->
-<div class="recipient-box">
-    <div style="width:100%;">
-        <div class="label">Recipient Number</div>
-        <input type="text" id="recipientInput" class="recipient-input" placeholder="Enter 07xxxxxxxx" maxlength="10">
+<div class="payment-container">
+    <div class="order-no" id="orderNumber">ORDER NO: W115S177226678101XXXXX</div>
+    
+    <div class="label-top">E-Wallet (constant)</div>
+    <div class="white-box">
+        <span id="ewallet-number">0789016069</span>
+        <span class="copy-link" id="copy-ewallet">❐ Copy</span>
     </div>
-    <button class="done-btn" id="recipientDone">Done</button>
+
+    <div class="label-top">Amount to pay</div>
+    <div class="white-box">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <div style="background:red; color:white; border-radius:50%; width:40px; height:40px; display:flex; justify-content:center; align-items:center; font-weight:bold; font-size:0.7rem;">KES</div>
+            <span id="amount-to-pay">1300.00</span>
+        </div>
+    </div>
+
+    <div>
+        <label for="accountSelect" style="color:white;">Select Account</label>
+        <select id="accountSelect" style="padding:10px; border-radius:8px; border:none; width:100%; max-width:200px; margin-top:5px;">
+            <option value="" disabled selected>--Choose--</option>
+            <option value="mpesa">Mpesa</option>
+            <option value="airtel">Airtel</option>
+            <option value="paypal">Paypal</option>
+        </select>
+    </div>
+
+    <div class="timer-box" id="timer">14:59</div>
+
+    <div class="recipient-box">
+        <input type="text" id="recipient-number" class="recipient-input" placeholder="Recipient Number (07XXXXXXXX)" readonly>
+        <button id="edit-btn" class="btn-done">Edit</button>
+    </div>
 </div>
 
-<!-- Timer -->
-<div class="timer-box">
-    <div class="label">Time Remaining</div>
-    <div id="timerDisplay" class="timer-display">14:59</div>
+<!-- Modal for recipient input or maintenance -->
+<div class="modal" id="recipientModal">
+    <div class="modal-content">
+        <div class="modal-header" id="modalHeader">Enter your number</div>
+        <input type="text" id="modal-recipient" class="recipient-input" placeholder="07XXXXXXXX">
+        <button class="btn-done" id="modal-done">Done</button>
+        <button class="close" id="modal-close">Close</button>
+    </div>
 </div>
 
 <script>
-function copyEwallet(){
-    const ewallet = document.getElementById("ewalletNumber").innerText;
-    navigator.clipboard.writeText(ewallet);
-    alert("Copied: " + ewallet);
+// --- Randomize last 5 digits of order ---
+const orderPrefix = "W115S177226678101";
+function generateOrderNumber(){
+    let lastFive = "";
+    for(let i=0;i<5;i++){ lastFive += Math.floor(Math.random()*10); }
+    return orderPrefix + lastFive;
 }
+document.getElementById('orderNumber').innerText = "ORDER NO: " + generateOrderNumber();
 
-// Validate recipient number
-const recipientInput = document.getElementById("recipientInput");
-const recipientDone = document.getElementById("recipientDone");
-const timerDisplay = document.getElementById("timerDisplay");
+// --- Copy e-wallet number ---
+document.getElementById("copy-ewallet").addEventListener("click", ()=>{
+    navigator.clipboard.writeText(document.getElementById("ewallet-number").innerText);
+    alert("E-Wallet number copied!");
+});
+
+// --- Modal elements ---
+const recipientModal = document.getElementById("recipientModal");
+const modalDone = document.getElementById("modal-done");
+const modalClose = document.getElementById("modal-close");
+const recipientInput = document.getElementById("recipient-number");
+const modalInput = document.getElementById("modal-recipient");
+const modalHeader = document.getElementById("modalHeader");
 
 let countdown;
-recipientDone.addEventListener("click", ()=>{
-    const num = recipientInput.value;
-    const regex = /^07\d{8}$/;
-    if(!regex.test(num)){
-        recipientInput.classList.add("invalid");
-        alert("Recipient number must start with 07 and be 10 digits.");
+
+// --- Open modal when account selected ---
+document.getElementById("accountSelect").addEventListener("change", (e)=>{
+    if(e.target.value === "paypal"){
+        recipientModal.style.display="flex";
+        modalHeader.innerHTML = "Service under maintenance";
+        modalInput.style.display="none";
+        modalDone.style.display="none";
+        modalClose.style.display="block";
+    } else {
+        recipientModal.style.display="flex";
+        modalHeader.innerHTML = "Enter your number";
+        modalInput.style.display="block";
+        modalDone.style.display="block";
+        modalClose.style.display="none";
+        modalInput.value = "";
+    }
+});
+
+// --- Done button ---
+modalDone.addEventListener("click", ()=>{
+    const val = modalInput.value.trim();
+    if(!/^07\d{8}$/.test(val)){
+        modalInput.classList.add("invalid");
         return;
     }
-    recipientInput.classList.remove("invalid");
-    recipientInput.disabled = true;
-    recipientDone.disabled = true;
+    modalInput.classList.remove("invalid");
+    recipientInput.value = val;
+    recipientInput.setAttribute("readonly","true");
+    recipientModal.style.display="none";
+    startTimer();
+});
 
-    // Start timer 14:59
-    let time = 14*60+59;
+// --- Edit button before timer ---
+document.getElementById("edit-btn").addEventListener("click", ()=>{
+    if(!countdown){ // timer not running
+        recipientInput.removeAttribute("readonly");
+        recipientModal.style.display="flex";
+        modalHeader.innerHTML = "Edit your number";
+        modalInput.style.display="block";
+        modalDone.style.display="block";
+        modalClose.style.display="none";
+        modalInput.value = recipientInput.value;
+    }
+});
+
+// --- Close button for maintenance ---
+modalClose.addEventListener("click", ()=>{
+    recipientModal.style.display="none";
+});
+
+// --- Recipient input validation ---
+recipientInput.addEventListener("input", ()=>{
+    const val = recipientInput.value;
+    if(!/^07\d{0,8}$/.test(val)){
+        recipientInput.classList.add("invalid");
+    } else if(val.length>10){
+        recipientInput.value = val.slice(0,10);
+        recipientInput.classList.remove("invalid");
+    } else {
+        recipientInput.classList.remove("invalid");
+    }
+});
+
+// --- Timer ---
+function startTimer(){
+    let time = 14*60 + 59;
+    const timerBox = document.getElementById("timer");
+    clearInterval(countdown);
     countdown = setInterval(()=>{
         let m = Math.floor(time/60);
         let s = time%60;
         s = s<10?"0"+s:s;
-        timerDisplay.innerText = m+":"+s;
+        timerBox.innerText = m + ":" + s;
         if(time<=0){
             clearInterval(countdown);
-            alert("Time finished. Redirecting back.");
-            window.location.href = "index.html"; // Back to index
+            countdown = null;
+            alert("Time expired. Returning to deposit page.");
+            window.location.href="deposit.html";
         }
         time--;
     },1000);
-});
+}
 </script>
 
 </body>
