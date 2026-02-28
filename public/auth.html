@@ -29,12 +29,12 @@ body{
     text-align:center;
 }
 
-/* === Logo (Updated to square curved) === */
+/* Logo */
 .logo{
     width:90px;
     height:90px;
     object-fit:cover;
-    border-radius:20px; /* square with curved edges */
+    border-radius:20px;
     margin-bottom:10px;
 }
 
@@ -145,6 +145,12 @@ h2{
 
     <h2 id="title">Login</h2>
 
+    <!-- Name (Sign Up only) -->
+    <div class="input-box" id="nameBox" style="display:none;">
+        <i class="fa-solid fa-user left"></i>
+        <input type="text" id="name" placeholder="Your Name">
+    </div>
+
     <!-- Email -->
     <div class="input-box">
         <i class="fa-solid fa-envelope left"></i>
@@ -173,6 +179,7 @@ const signupTab = document.getElementById("signupTab");
 const title = document.getElementById("title");
 const mainBtn = document.getElementById("mainBtn");
 const message = document.getElementById("message");
+const nameBox = document.getElementById("nameBox");
 
 loginTab.onclick = () => {
     mode = "login";
@@ -180,6 +187,7 @@ loginTab.onclick = () => {
     signupTab.classList.remove("active");
     title.innerText = "Login";
     mainBtn.innerText = "Login";
+    nameBox.style.display = "none";
     message.innerText = "";
 };
 
@@ -189,6 +197,7 @@ signupTab.onclick = () => {
     loginTab.classList.remove("active");
     title.innerText = "Sign Up";
     mainBtn.innerText = "Create Account";
+    nameBox.style.display = "block";
     message.innerText = "";
 };
 
@@ -198,27 +207,30 @@ function togglePass(){
 }
 
 function handleAuth(){
+    const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    if(email === "" || password === ""){
+    if(email === "" || password === "" || (mode==="signup" && name==="")){
         showMessage("Please fill all fields", "error");
         return;
     }
 
     if(mode === "signup"){
-        const user = { email, password };
+        const user = { name, email, password };
         localStorage.setItem("user", JSON.stringify(user));
         showMessage("Account created! Please log in now.", "success");
 
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
+        document.getElementById("name").value = "";
 
         mode = "login";
         loginTab.classList.add("active");
         signupTab.classList.remove("active");
         title.innerText = "Login";
         mainBtn.innerText = "Login";
+        nameBox.style.display = "none";
     }
 
     if(mode === "login"){
@@ -231,7 +243,9 @@ function handleAuth(){
 
         if(email === storedUser.email && password === storedUser.password){
             localStorage.setItem("loggedIn", "true");
-            window.location.href = "index.html";
+            localStorage.setItem("userName", storedUser.name);
+            localStorage.setItem("userEmail", storedUser.email);
+            window.location.href = "index.html"; // your dashboard
         } else {
             showMessage("Invalid email or password.", "error");
         }
