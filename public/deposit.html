@@ -149,7 +149,7 @@ body{
     <div class="timer-box" id="timer">14:59</div>
 
     <div class="recipient-box">
-        <input type="text" id="recipient-number" class="recipient-input" placeholder="Enter your number (07xxxxxxx)">
+        <input type="text" id="recipient-number" class="recipient-input" placeholder="Enter your number (07xxxxxxx)" readonly>
         <button id="edit-btn" class="btn-done">Edit</button>
     </div>
 </div>
@@ -197,21 +197,25 @@ modalDone.addEventListener("click", ()=>{
     }
     modalInput.classList.remove("invalid");
     recipientInput.value = val;
+    recipientInput.setAttribute("readonly","true"); // lock editing
     recipientModal.style.display = "none";
     startTimer();
 });
 
-// Allow editing later
+// Allow editing **only when timer is not running**
 document.getElementById("edit-btn").addEventListener("click", ()=>{
-    recipientInput.removeAttribute("readonly");
+    if(!countdown){ // timer not started
+        recipientInput.removeAttribute("readonly");
+    }
 });
 
 // --- Validation on recipient input ---
 recipientInput.addEventListener("input", ()=>{
-    if(!/^07\d{0,8}$/.test(recipientInput.value)){
+    const val = recipientInput.value;
+    if(!/^07\d{0,8}$/.test(val)){
         recipientInput.classList.add("invalid");
-    } else if(recipientInput.value.length>10){
-        recipientInput.value = recipientInput.value.slice(0,10);
+    } else if(val.length>10){
+        recipientInput.value = val.slice(0,10);
         recipientInput.classList.remove("invalid");
     } else {
         recipientInput.classList.remove("invalid");
@@ -231,6 +235,7 @@ function startTimer(){
         timerBox.innerText = m + ":" + s;
         if(time<=0){
             clearInterval(countdown);
+            countdown = null; // allow editing again if returned
             alert("Time expired. Returning to deposit page.");
             window.location.href="deposit.html";
         }
