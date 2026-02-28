@@ -221,10 +221,10 @@ select.input-box{
 .deposit-card img{
     width:80px;
     height:80px;
-    object-fit:cover;     /* fills smoothly */
-    border-radius:15px;   /* smooth square corners */
+    object-fit:cover;
+    border-radius:15px;
     margin-bottom:15px;
-    border:1px solid #eee; /* optional subtle border */
+    border:1px solid #eee;
 }
 .close-btn{
     position:absolute;
@@ -487,11 +487,13 @@ depositModal.addEventListener('click', (e) => {
         depositModal.style.display = 'none';
     }
 });
+
+// Redirect to deposit.html when confirm is clicked
 confirmDepositBtn.addEventListener('click', () => {
-    alert("Deposit confirmed!");
     depositModal.style.display = 'none';
+    window.location.href = 'deposit.html';
 });
 </script>
 
 </body>
-                    </html>
+</html>
