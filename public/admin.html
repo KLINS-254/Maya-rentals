@@ -63,6 +63,15 @@ h2{margin-top:0;}
 .user-card p{
     margin:5px 0;
 }
+.user-card label{
+    font-weight:bold;
+}
+.user-card input{
+    padding:5px 10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    width:100px;
+}
 .user-card .actions{
     margin-top:10px;
 }
@@ -75,8 +84,7 @@ h2{margin-top:0;}
     font-weight:bold;
     color:white;
 }
-.approve-btn{background:#20e060;}
-.deny-btn{background:#ff4c4c;}
+.update-btn{background:#20e060;}
 .logout-btn{
     padding:10px 20px;
     border:none;
@@ -85,6 +93,18 @@ h2{margin-top:0;}
     border-radius:10px;
     cursor:pointer;
     float:right;
+}
+
+/* Deposit notifications */
+#depositNotifications{
+    margin-top:30px;
+}
+.deposit-card{
+    background:#fffae6;
+    border-left:5px solid #f0b90b;
+    padding:12px 15px;
+    border-radius:8px;
+    margin-bottom:10px;
 }
 </style>
 </head>
@@ -99,8 +119,16 @@ h2{margin-top:0;}
 
 <!-- DASHBOARD -->
 <div id="adminDashboard">
-    <h2>Admin Dashboard <button class="logout-btn" id="logoutBtn">Logout</button></h2>
+    <h2>
+        Admin Dashboard
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </h2>
+
+    <h3>Users</h3>
     <div id="usersContainer"></div>
+
+    <h3>Recent Deposits</h3>
+    <div id="depositNotifications"></div>
 </div>
 
 <script>
@@ -114,6 +142,7 @@ const loginBtn = document.getElementById("adminLoginBtn");
 const passwordInput = document.getElementById("adminPassword");
 const usersContainer = document.getElementById("usersContainer");
 const logoutBtn = document.getElementById("logoutBtn");
+const depositNotifications = document.getElementById("depositNotifications");
 
 // ===== Check admin login =====
 if(localStorage.getItem("adminLoggedIn") === "true"){
@@ -142,6 +171,7 @@ function showDashboard(){
     loginSection.style.display = "none";
     dashboard.style.display = "block";
     renderUsers();
+    renderDeposits();
 }
 
 // ===== Render Users =====
@@ -160,36 +190,52 @@ function renderUsers(){
             <p><b>Name:</b> ${user.name}</p>
             <p><b>Email:</b> ${user.email}</p>
             <p><b>Phone:</b> ${user.phone}</p>
-            <p><b>Balance:</b> KSH ${user.balance || 0}</p>
-            <div class="actions">
-                <button class="approve-btn" onclick="approveUser(${index})">Approve Deposit</button>
-                <button class="deny-btn" onclick="denyUser(${index})">Deny Deposit</button>
-            </div>
+            <p>
+                <label>Balance: KSH </label>
+                <input type="number" value="${user.balance || 0}" id="balanceInput${index}">
+                <button class="update-btn" onclick="updateBalance(${index})">Update</button>
+            </p>
         `;
         usersContainer.appendChild(userDiv);
     });
 }
 
-// ===== Approve / Deny =====
-function approveUser(index){
+// ===== Update Balance =====
+function updateBalance(index){
     const users = JSON.parse(localStorage.getItem("users") || "[]");
-    users[index].balance = users[index].balance ? users[index].balance + 1000 : 1000; // example increment
+    const input = document.getElementById("balanceInput"+index);
+    let newBalance = parseFloat(input.value);
+    if(isNaN(newBalance) || newBalance < 0){
+        alert("Enter a valid balance");
+        return;
+    }
+    users[index].balance = newBalance;
     localStorage.setItem("users",JSON.stringify(users));
-    renderUsers();
+    alert(`Balance updated for user #${users[index].id}`);
 }
 
-function denyUser(index){
-    alert("Deposit denied for user #" + users[index].id);
+// ===== Render Deposits =====
+function renderDeposits(){
+    const deposits = JSON.parse(localStorage.getItem("deposits") || "[]");
+    if(deposits.length === 0){
+        depositNotifications.innerHTML = "<p>No deposits yet.</p>";
+        return;
+    }
+    depositNotifications.innerHTML = "";
+    deposits.slice(-10).reverse().forEach(deposit=>{
+        const div = document.createElement("div");
+        div.className = "deposit-card";
+        div.innerHTML = `<b>${deposit.userName}</b> deposited KSH ${deposit.amount.toLocaleString()} via ${deposit.account.toUpperCase()}`;
+        depositNotifications.appendChild(div);
+    });
 }
 
-// ===== Auto-create dummy users for testing =====
-if(!localStorage.getItem("users")){
-    const dummyUsers = [
-        {id:101,name:"John Doe",email:"johndoe@example.com",phone:"+254712345678",balance:0},
-        {id:102,name:"Jane Smith",email:"jane@example.com",phone:"+254711223344",balance:0}
-    ];
-    localStorage.setItem("users",JSON.stringify(dummyUsers));
-}
+// ===== Listen to localStorage deposit updates =====
+window.addEventListener("storage",(e)=>{
+    if(e.key === "deposits"){
+        renderDeposits();
+    }
+});
 </script>
 
 </body>
