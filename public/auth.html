@@ -6,125 +6,21 @@
 <title>Login / Sign Up</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-/* Body */
-body{
-    margin:0; 
-    font-family:Arial,sans-serif; 
-    background:#eaeaf0; 
-    display:flex; 
-    justify-content:center; 
-    align-items:center; 
-    height:100vh;
-}
-
-/* Card container */
-.card{
-    padding:30px 20px;
-    border-radius:20px;
-    background:#eaeaf0;
-    box-shadow:10px 10px 20px #c9c9ce, -10px -10px 20px #ffffff;
-    width:90%;
-    max-width:350px;
-    box-sizing:border-box;
-    text-align:center;
-}
-
-/* Logo */
-.logo{
-    width:90px;
-    height:90px;
-    object-fit:cover;
-    border-radius:20px;
-    margin-bottom:10px;
-}
-
-/* Company Name */
-.company-name{
-    font-weight:800;
-    font-size:20px;
-    letter-spacing:1px;
-    margin-bottom:20px;
-    background:linear-gradient(90deg,#6a00f4,#2a8cff);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-/* Toggle buttons */
-.toggle{
-    display:flex; 
-    background:#e3e3ea; 
-    border-radius:50px; 
-    padding:5px; 
-    margin-bottom:25px;
-}
-.toggle button{
-    flex:1; 
-    border:none; 
-    padding:10px 0; 
-    border-radius:50px; 
-    background:transparent; 
-    font-weight:600; 
-    cursor:pointer; 
-    transition:0.4s;
-}
-.toggle .active{
-    background:linear-gradient(90deg,#6a00f4,#2a8cff); 
-    color:white; 
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* Title */
-h2{
-    text-align:center;
-    margin-bottom:20px;
-}
-
-/* Input boxes */
-.input-box{
-    position:relative;
-    margin-bottom:18px;
-}
-.input-box input{
-    width:100%;
-    padding:15px 45px;
-    border:none;
-    border-radius:30px;
-    background:#eaeaf0;
-    box-shadow:inset 5px 5px 10px #c9c9ce,inset -5px -5px 10px #ffffff;
-    outline:none;
-    font-size:14px;
-    box-sizing:border-box;
-}
-
-/* Icons inside inputs */
-.input-box i{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    color:#777;
-}
-.input-box i.left{ left:15px; }
-.input-box i.right{ right:15px; cursor:pointer; }
-
-/* Button */
-.btn{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:30px;
-    background:linear-gradient(90deg,#6a00f4,#2a8cff);
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-    margin-top:5px;
-}
-
-/* Messages */
-.message{
-    margin-top:10px;
-    text-align:center;
-    font-size:14px;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#eaeaf0;display:flex;justify-content:center;align-items:center;height:100vh;}
+.card{padding:30px 20px;border-radius:20px;background:#eaeaf0;box-shadow:10px 10px 20px #c9c9ce,-10px -10px 20px #ffffff;width:90%;max-width:350px;box-sizing:border-box;text-align:center;}
+.logo{width:90px;height:90px;object-fit:cover;border-radius:20px;margin-bottom:10px;}
+.company-name{font-weight:800;font-size:20px;letter-spacing:1px;margin-bottom:20px;background:linear-gradient(90deg,#6a00f4,#2a8cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.toggle{display:flex;background:#e3e3ea;border-radius:50px;padding:5px;margin-bottom:25px;}
+.toggle button{flex:1;border:none;padding:10px 0;border-radius:50px;background:transparent;font-weight:600;cursor:pointer;transition:0.4s;}
+.toggle .active{background:linear-gradient(90deg,#6a00f4,#2a8cff);color:white;box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+h2{text-align:center;margin-bottom:20px;}
+.input-box{position:relative;margin-bottom:18px;}
+.input-box input{width:100%;padding:15px 45px;border:none;border-radius:30px;background:#eaeaf0;box-shadow:inset 5px 5px 10px #c9c9ce,inset -5px -5px 10px #ffffff;outline:none;font-size:14px;box-sizing:border-box;}
+.input-box i{position:absolute;top:50%;transform:translateY(-50%);color:#777;}
+.input-box i.left{left:15px;} 
+.input-box i.right{right:15px;cursor:pointer;}
+.btn{width:100%;padding:15px;border:none;border-radius:30px;background:linear-gradient(90deg,#6a00f4,#2a8cff);color:white;font-weight:600;cursor:pointer;margin-top:5px;}
+.message{margin-top:10px;text-align:center;font-size:14px;}
 .success{color:green;}
 .error{color:red;}
 </style>
@@ -132,12 +28,9 @@ h2{
 <body>
 
 <div class="card">
-
-    <!-- Logo and Name -->
     <img src="logo.png" alt="Logo" class="logo">
     <div class="company-name">MAYA RENTAL SERVICES</div>
 
-    <!-- Toggle -->
     <div class="toggle">
         <button class="active" id="loginTab">Login</button>
         <button id="signupTab">Sign Up</button>
@@ -145,10 +38,16 @@ h2{
 
     <h2 id="title">Login</h2>
 
-    <!-- Name (Sign Up only) -->
+    <!-- Name -->
     <div class="input-box" id="nameBox" style="display:none;">
         <i class="fa-solid fa-user left"></i>
         <input type="text" id="name" placeholder="Your Name">
+    </div>
+
+    <!-- Phone -->
+    <div class="input-box" id="phoneBox" style="display:none;">
+        <i class="fa-solid fa-phone left"></i>
+        <input type="text" id="phone" placeholder="Phone Number">
     </div>
 
     <!-- Email -->
@@ -164,22 +63,20 @@ h2{
         <i class="fa-solid fa-eye right" onclick="togglePass()"></i>
     </div>
 
-    <!-- Main button -->
     <button class="btn" onclick="handleAuth()" id="mainBtn">Login</button>
 
-    <!-- Message -->
     <div class="message" id="message"></div>
 </div>
 
 <script>
 let mode = "login";
-
 const loginTab = document.getElementById("loginTab");
 const signupTab = document.getElementById("signupTab");
 const title = document.getElementById("title");
 const mainBtn = document.getElementById("mainBtn");
 const message = document.getElementById("message");
 const nameBox = document.getElementById("nameBox");
+const phoneBox = document.getElementById("phoneBox");
 
 loginTab.onclick = () => {
     mode = "login";
@@ -188,6 +85,7 @@ loginTab.onclick = () => {
     title.innerText = "Login";
     mainBtn.innerText = "Login";
     nameBox.style.display = "none";
+    phoneBox.style.display = "none";
     message.innerText = "";
 };
 
@@ -198,6 +96,7 @@ signupTab.onclick = () => {
     title.innerText = "Sign Up";
     mainBtn.innerText = "Create Account";
     nameBox.style.display = "block";
+    phoneBox.style.display = "block";
     message.innerText = "";
 };
 
@@ -208,22 +107,24 @@ function togglePass(){
 
 function handleAuth(){
     const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    if(email === "" || password === "" || (mode==="signup" && name==="")){
+    if(email === "" || password === "" || (mode==="signup" && (name==="" || phone===""))){
         showMessage("Please fill all fields", "error");
         return;
     }
 
     if(mode === "signup"){
-        const user = { name, email, password };
+        const user = { name, phone, email, password };
         localStorage.setItem("user", JSON.stringify(user));
         showMessage("Account created! Please log in now.", "success");
 
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
         document.getElementById("email").value = "";
         document.getElementById("password").value = "";
-        document.getElementById("name").value = "";
 
         mode = "login";
         loginTab.classList.add("active");
@@ -231,6 +132,7 @@ function handleAuth(){
         title.innerText = "Login";
         mainBtn.innerText = "Login";
         nameBox.style.display = "none";
+        phoneBox.style.display = "none";
     }
 
     if(mode === "login"){
@@ -245,7 +147,8 @@ function handleAuth(){
             localStorage.setItem("loggedIn", "true");
             localStorage.setItem("userName", storedUser.name);
             localStorage.setItem("userEmail", storedUser.email);
-            window.location.href = "index.html"; // your dashboard
+            localStorage.setItem("userPhone", storedUser.phone);
+            window.location.href = "index.html";
         } else {
             showMessage("Invalid email or password.", "error");
         }
