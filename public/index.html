@@ -513,6 +513,30 @@ confirmDepositBtn.addEventListener('click', () => {
     depositModal.style.display = 'none';
     window.location.href = `deposit.html?account=${account}&amount=${amount}`;
 });
+    // ================= PROFILE AUTO UPDATE =================
+function generateUserId(){
+    return Math.floor(Math.random() * (234323 - 45074 + 1)) + 45074;
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    if(!user) return;
+
+    // Assign ID once
+    if(!user.id){
+        user.id = generateUserId();
+        localStorage.setItem("user", JSON.stringify(user));
+    }
+
+    const profileSection = document.getElementById("profile");
+    const paragraphs = profileSection.querySelectorAll("p");
+
+    paragraphs[0].innerText = "User ID: #" + user.id;
+    paragraphs[1].innerText = "Name: " + (user.name || "");
+    paragraphs[2].innerText = "Email: " + (user.email || "");
+    paragraphs[3].innerText = "Phone: " + (user.phone || "");
+});
 </script>
 
 </body>
