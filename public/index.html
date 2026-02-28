@@ -7,7 +7,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-/* ====== YOUR ORIGINAL CSS (UNCHANGED) ====== */
 :root{
     --gradient-start:#6a00f4;
     --gradient-end:#2a8cff;
@@ -15,14 +14,14 @@
     --text-gray: #aaaaaa;
     --bg-light: #f4f7f6;
 }
-body{margin:0;font-family:Arial, sans-serif;background:#f4f6f9;}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6f9;}
 .section{display:none;padding:20px;padding-bottom:120px;}
 .section.active-section{display:block;}
-h2{ margin-top:0; }
+h2{margin-top:0;}
 .dashboard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;}
 .card{padding:20px;border-radius:25px;color:white;}
-.card-value{ font-size:2rem; font-weight:600; }
-.card-label{ font-size:0.9rem; }
+.card-value{font-size:2rem;font-weight:600;}
+.card-label{font-size:0.9rem;}
 .orange{background:#ff9f43;}
 .green{background:#20e060;}
 .purple{background:#be90e4;}
@@ -40,18 +39,19 @@ h2{ margin-top:0; }
 .buy-btn{width:100%;background:#00c9a7;color:white;border:none;padding:8px;border-radius:15px;font-weight:600;cursor:pointer;}
 .wallet-grid{display:flex;flex-direction:column;gap:20px;max-width:450px;margin:auto;}
 .withdrawal-card{width:100%;background:white;border-radius:30px;padding:30px 25px;box-shadow:0 4px 15px rgba(0,0,0,0.05);}
-.input-box{width:100%;padding:12px 15px;border:1px solid #f0f0f0;border-radius:15px;background-color:#fafafa;font-size:1rem;margin-bottom:15px;}
-.withdraw-btn{background-color:var(--primary-teal);color:white;border:none;width:100%;padding:12px;border-radius:25px;font-weight:bold;cursor:pointer;}
-.withdraw-btn:hover{background-color:#00b3a5;}
+.input-box{width:100%;padding:12px 15px;border:1px solid #f0f0f0;border-radius:15px;background:#fafafa;font-size:1rem;margin-bottom:15px;}
+.withdraw-btn{background:var(--primary-teal);color:white;border:none;width:100%;padding:12px;border-radius:25px;font-weight:bold;cursor:pointer;}
+.withdraw-btn:hover{background:#00b3a5;}
 #depositModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;z-index:9999;}
 .deposit-card{background:white;border-radius:20px;padding:25px 20px;width:90%;max-width:350px;text-align:center;position:relative;}
 .deposit-card img{width:80px;height:80px;object-fit:cover;border-radius:15px;margin-bottom:15px;border:1px solid #eee;}
 .close-btn{position:absolute;top:10px;right:10px;font-size:18px;font-weight:bold;cursor:pointer;}
 .alert{color:red;font-size:0.8rem;margin-top:5px;display:none;}
+.timer{font-size:1.6rem;font-weight:bold;color:#2a8cff;margin:10px 0;}
+.copy-btn{background:#2a8cff;color:white;border:none;padding:6px 12px;border-radius:15px;margin:5px;cursor:pointer;font-size:0.8rem;}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:65px;background:linear-gradient(90deg,var(--gradient-start),var(--gradient-end));display:flex;justify-content:space-around;align-items:center;border-top-left-radius:15px;border-top-right-radius:15px;}
 .bottom-nav a{color:white;text-decoration:none;text-align:center;font-size:12px;flex:1;}
-.bottom-nav i{display:block;font-size:22px;transition:0.3s;}
-.bottom-nav a.active i{font-size:28px;transform:translateY(-8px);}
+.bottom-nav i{display:block;font-size:22px;}
 .logout-btn{padding:8px 15px;border:none;background:linear-gradient(90deg,#6a00f4,#2a8cff);color:white;border-radius:8px;cursor:pointer;}
 </style>
 </head>
@@ -64,125 +64,120 @@ if(localStorage.getItem("loggedIn")!=="true"){
 }
 </script>
 
-<!-- SECTIONS REMAIN UNCHANGED (HOME / PRODUCTS / WALLET / PROFILE) -->
-<!-- [Your full section HTML remains exactly the same as you provided] -->
+<!-- HOME -->
+<div id="home" class="section active-section">
+<h2><img src="logo.png" style="width:35px;height:35px;border-radius:8px;"> Home</h2>
+<div class="dashboard-grid">
+<div class="card orange"><div class="card-value">0</div><div class="card-label">Available balance</div></div>
+<div class="card green"><div class="card-value">0</div><div class="card-label">Today's earnings</div></div>
+<div class="card purple"><div class="card-value">0</div><div class="card-label">Deposit amount</div></div>
+<div class="card blue"><div class="card-value">0</div><div class="card-label">Withdrawal amount</div></div>
+</div>
+</div>
 
-<!-- Deposit Modal -->
+<!-- WALLET -->
+<div id="wallet" class="section">
+<h2><img src="logo.png" style="width:35px;height:35px;border-radius:8px;"> Wallet</h2>
+
+<div class="withdrawal-card">
+<div class="title">DEPOSIT</div>
+<select class="input-box" id="depositAccount">
+<option value="">--Please Select--</option>
+<option value="mpesa">Mpesa</option>
+<option value="airtel">Airtel</option>
+<option value="paypal">Paypal</option>
+</select>
+
+<input type="number" class="input-box" id="depositAmount" placeholder="Amount">
+<div class="alert" id="depositAlert">Minimum deposit is KSH 1,300</div>
+<button class="withdraw-btn" id="depositBtn">Deposit Now</button>
+</div>
+</div>
+
+<!-- Modal -->
 <div id="depositModal">
-    <div class="deposit-card">
-        <span class="close-btn" id="closeModal">×</span>
-        <img src="mpesa.png" id="depositLogo" alt="Deposit Logo">
-        <div id="depositText">Deposit Details</div>
-        <button class="withdraw-btn" id="confirmDepositBtn">Confirm</button>
-    </div>
+<div class="deposit-card">
+<span class="close-btn" id="closeModal">×</span>
+<img src="mpesa.png" id="depositLogo">
+<div id="depositContent"></div>
+</div>
 </div>
 
 <script>
-/* ===== NAVIGATION (UNCHANGED) ===== */
-const navItems=document.querySelectorAll(".nav-item");
-const sections=document.querySelectorAll(".section");
-navItems.forEach(item=>{
-    item.addEventListener("click",function(e){
-        e.preventDefault();
-        navItems.forEach(n=>n.classList.remove("active"));
-        this.classList.add("active");
-        sections.forEach(s=>s.classList.remove("active-section"));
-        document.getElementById(this.dataset.target).classList.add("active-section");
-    });
-});
-function logout(){
-    localStorage.removeItem("loggedIn");
-    window.location.href="auth.html";
+const depositBtn=document.getElementById("depositBtn");
+const depositModal=document.getElementById("depositModal");
+const depositAccount=document.getElementById("depositAccount");
+const depositAmount=document.getElementById("depositAmount");
+const depositAlert=document.getElementById("depositAlert");
+const depositLogo=document.getElementById("depositLogo");
+const depositContent=document.getElementById("depositContent");
+const closeModal=document.getElementById("closeModal");
+
+let timer;
+
+depositBtn.onclick=function(){
+const account=depositAccount.value;
+const amount=parseFloat(depositAmount.value);
+
+if(amount<1300){
+depositAlert.style.display="block";
+setTimeout(()=>depositAlert.style.display="none",3000);
+return;
+}
+if(!account)return;
+
+if(account==="mpesa")depositLogo.src="mpesa.png";
+if(account==="airtel")depositLogo.src="airtel.png";
+if(account==="paypal")depositLogo.src="paypal.png";
+
+if(account==="paypal"){
+depositContent.innerHTML="<div style='color:red;font-weight:bold'>The service is under maintenance</div>";
+depositModal.style.display="flex";
+return;
 }
 
-/* ===== DEPOSIT SYSTEM (UPDATED ONLY THIS SECTION) ===== */
+depositContent.innerHTML=`
+<div><b>E-Wallet:</b> 0797××××022</div>
+<button class="copy-btn" onclick="copyText('0797xxxx022')">Copy</button>
 
-const depositBtn = document.getElementById('depositBtn');
-const depositModal = document.getElementById('depositModal');
-const closeModal = document.getElementById('closeModal');
-const depositLogo = document.getElementById('depositLogo');
-const depositText = document.getElementById('depositText');
-const depositAccountSelect = document.getElementById('depositAccount');
-const depositAmountInput = document.getElementById('depositAmount');
-const depositAlert = document.getElementById('depositAlert');
-const confirmDepositBtn = document.getElementById('confirmDepositBtn');
+<div class="timer" id="countdown">14:59</div>
 
-let countdownInterval;
+<div><b>Recipient:</b> 0763×××××456</div>
+<button class="copy-btn" onclick="copyText('0763xxxxx456')">Copy</button>
+`;
 
-depositBtn.addEventListener('click', () => {
+depositModal.style.display="flex";
 
-    const account = depositAccountSelect.value;
-    const amount = parseFloat(depositAmountInput.value);
-
-    if(!account){
-        alert("Please select an account.");
-        return;
-    }
-    if(!amount || amount < 1300){
-        depositAlert.style.display = 'block';
-        setTimeout(()=>depositAlert.style.display='none',3000);
-        return;
-    }
-
-    if(account === "mpesa") depositLogo.src = "mpesa.png";
-    if(account === "airtel") depositLogo.src = "airtel.png";
-    if(account === "paypal") depositLogo.src = "paypal.png";
-
-    depositText.innerHTML = `Deposit KSH ${amount.toLocaleString()} via ${account.toUpperCase()}`;
-    confirmDepositBtn.disabled = false;
-    depositModal.style.display = 'flex';
-});
-
-confirmDepositBtn.addEventListener('click', () => {
-
-    const account = depositAccountSelect.value;
-    confirmDepositBtn.disabled = true;
-
-    if(account === "paypal"){
-        depositText.innerHTML = `<div style="color:red;font-weight:bold;">The service is under maintenance</div>`;
-        return;
-    }
-
-    const txnID = "TXN" + Math.floor(Math.random()*10000000);
-
-    depositText.innerHTML = `
-        <div style="font-weight:bold;">Transaction ID: ${txnID}</div>
-        <div style="margin-top:10px;font-weight:bold;">E-Wallet: 0797××××022</div>
-        <button onclick="copyText('0797xxxx022')" style="margin:5px 0;">Copy</button>
-        <div id="countdownTimer" style="font-size:1.7rem;color:#2a8cff;font-weight:bold;">14:59</div>
-        <div style="margin-top:10px;font-weight:bold;">Recipient: 0763×××××456</div>
-        <button onclick="copyText('0763xxxxx456')" style="margin-top:5px;">Copy</button>
-    `;
-
-    let time = 14*60 + 59;
-    clearInterval(countdownInterval);
-
-    countdownInterval = setInterval(()=>{
-        let m=Math.floor(time/60);
-        let s=time%60;
-        s=s<10?"0"+s:s;
-        document.getElementById("countdownTimer").innerText = m+":"+s;
-        if(time<=0){
-            clearInterval(countdownInterval);
-            depositModal.style.display='none';
-        }
-        time--;
-    },1000);
-});
+let time=14*60+59;
+clearInterval(timer);
+timer=setInterval(()=>{
+let m=Math.floor(time/60);
+let s=time%60;
+if(s<10)s="0"+s;
+document.getElementById("countdown").innerText=m+":"+s;
+if(time<=0){
+clearInterval(timer);
+depositModal.style.display="none";
+}
+time--;
+},1000);
+};
 
 function copyText(text){
-    navigator.clipboard.writeText(text);
-    alert("Copied successfully");
+navigator.clipboard.writeText(text);
 }
 
-closeModal.addEventListener('click', ()=>{
-    depositModal.style.display='none';
-});
-depositModal.addEventListener('click',(e)=>{
-    if(e.target===depositModal){
-        depositModal.style.display='none';
-    }
-});
+closeModal.onclick=function(){
+depositModal.style.display="none";
+clearInterval(timer);
+};
+
+depositModal.onclick=function(e){
+if(e.target===depositModal){
+depositModal.style.display="none";
+clearInterval(timer);
+}
+};
 </script>
 
 </body>
