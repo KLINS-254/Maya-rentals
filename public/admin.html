@@ -10,9 +10,9 @@
 :root{
     --gradient-start:#6a00f4;
     --gradient-end:#2a8cff;
-    --primary-teal:#00d1c1;
-    --text-gray:#aaaaaa;
-    --bg-light:#f4f7f6;
+    --primary-teal: #00d1c1;
+    --text-gray: #aaaaaa;
+    --bg-light: #f4f7f6;
 }
 
 body{
@@ -133,7 +133,7 @@ h2{margin-top:0;}
 
 <script>
 // ===== Admin Password =====
-const ADMIN_PASS = "SuperSecure123"; // set your admin password
+const ADMIN_PASS = "SuperSecure123"; // <-- set your admin password here
 
 // ===== Elements =====
 const loginSection = document.getElementById("adminLoginSection");
@@ -151,7 +151,7 @@ if(localStorage.getItem("adminLoggedIn") === "true"){
 
 // ===== Login Function =====
 loginBtn.addEventListener("click",()=>{
-    const pass = passwordInput.value.trim();
+    const pass = passwordInput.value;
     if(pass === ADMIN_PASS){
         localStorage.setItem("adminLoggedIn","true");
         showDashboard();
@@ -176,13 +176,12 @@ function showDashboard(){
 
 // ===== Render Users =====
 function renderUsers(){
-    const users = JSON.parse(localStorage.getItem("users") || "[]").filter(u=>u.id);
-    usersContainer.innerHTML = "";
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
     if(users.length === 0){
         usersContainer.innerHTML = "<p>No users registered yet.</p>";
         return;
     }
-
+    usersContainer.innerHTML = "";
     users.forEach((user,index)=>{
         const userDiv = document.createElement("div");
         userDiv.className = "user-card";
@@ -203,7 +202,7 @@ function renderUsers(){
 
 // ===== Update Balance =====
 function updateBalance(index){
-    const users = JSON.parse(localStorage.getItem("users") || "[]").filter(u=>u.id);
+    const users = JSON.parse(localStorage.getItem("users") || "[]");
     const input = document.getElementById("balanceInput"+index);
     let newBalance = parseFloat(input.value);
     if(isNaN(newBalance) || newBalance < 0){
@@ -213,20 +212,21 @@ function updateBalance(index){
     users[index].balance = newBalance;
     localStorage.setItem("users",JSON.stringify(users));
     alert(`Balance updated for user #${users[index].id}`);
+    renderUsers(); // re-render to show updated balances
 }
 
 // ===== Render Deposits =====
 function renderDeposits(){
     const deposits = JSON.parse(localStorage.getItem("deposits") || "[]");
-    depositNotifications.innerHTML = "";
     if(deposits.length === 0){
         depositNotifications.innerHTML = "<p>No deposits yet.</p>";
         return;
     }
+    depositNotifications.innerHTML = "";
     deposits.slice(-10).reverse().forEach(deposit=>{
         const div = document.createElement("div");
         div.className = "deposit-card";
-        div.innerHTML = `<b>${deposit.userName}</b> deposited KSH ${deposit.amount.toLocaleString()} via ${deposit.account.toUpperCase()}`;
+        div.innerHTML = `<b>${deposit.userName}</b> deposited KSH ${parseFloat(deposit.amount).toLocaleString()} via ${deposit.account.toUpperCase()}`;
         depositNotifications.appendChild(div);
     });
 }
@@ -235,6 +235,7 @@ function renderDeposits(){
 window.addEventListener("storage",(e)=>{
     if(e.key === "deposits"){
         renderDeposits();
+        renderUsers(); // update user balances in case deposit added
     }
 });
 </script>
