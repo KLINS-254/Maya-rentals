@@ -377,10 +377,14 @@ if(localStorage.getItem("loggedIn")!=="true"){
 <!-- PROFILE -->
 <div id="profile" class="section">
     <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
-    <p>User ID: 00001</p>
-    <p>Name: John Doe</p>
-    <p>Email: johndoe@example.com</p>
-    <p>Phone: +254712345678</p>
+
+    <!-- Golden Card -->
+    <div style="background:linear-gradient(135deg,#FFD700,#FFA500);border-radius:20px;padding:20px;color:#333;margin-bottom:20px;box-shadow:0 4px 15px rgba(0,0,0,0.2);">
+        <p style="margin:5px 0;font-weight:700;">User ID: <span id="dynamicID">#00000</span></p>
+        <p style="margin:5px 0;font-weight:700;">Email/Phone: <span id="dynamicContact">Loading...</span></p>
+    </div>
+
+    <!-- Logout -->
     <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
@@ -509,11 +513,4 @@ depositModal.addEventListener('click', (e) => {
 // Redirect to deposit.html when confirm is clicked with amount
 confirmDepositBtn.addEventListener('click', () => {
     const amount = confirmDepositBtn.dataset.amount || 0;
-    const account = confirmDepositBtn.dataset.account || "";
-    depositModal.style.display = 'none';
-    window.location.href = `deposit.html?account=${account}&amount=${amount}`;
-});
-</script>
-
-</body>
-</html>
+    const account = confirm
