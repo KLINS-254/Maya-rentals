@@ -175,7 +175,7 @@ h2{ margin-top:0; }
 
 select.input-box{
     appearance:none;
-    background-image:url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23aaaaaa%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C/polyline%3E%3C/svg%3E");
+    background-image:url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000/svg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23aaaaaa%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat:no-repeat;
     background-position:right 15px center;
     background-size:18px;
@@ -377,9 +377,10 @@ if(localStorage.getItem("loggedIn")!=="true"){
 <!-- PROFILE -->
 <div id="profile" class="section">
     <h2><img src="logo.png" alt="Logo" style="width:35px;height:35px;vertical-align:middle;border-radius:8px;"> Profile</h2>
-    <p><b>Name:</b> <span id="profileName"></span></p>
-    <p><b>Email:</b> <span id="profileEmail"></span></p>
-    <p><b>Phone:</b> <span id="profilePhone"></span></p>
+    <p>User ID: 00001</p>
+    <p>Name: John Doe</p>
+    <p>Email: johndoe@example.com</p>
+    <p>Phone: +254712345678</p>
     <button class="logout-btn" onclick="logout()">Logout</button>
 </div>
 
@@ -411,16 +412,6 @@ function logout(){
     localStorage.removeItem("loggedIn");
     window.location.href="auth.html";
 }
-
-// Populate Profile dynamically
-document.addEventListener('DOMContentLoaded', () => {
-    const name = localStorage.getItem("userName") || "";
-    const email = localStorage.getItem("userEmail") || "";
-    const phone = localStorage.getItem("userPhone") || "";
-    document.getElementById("profileName").innerText = name;
-    document.getElementById("profileEmail").innerText = email;
-    document.getElementById("profilePhone").innerText = phone;
-});
 
 // Products
 const products=[
@@ -515,4 +506,38 @@ depositModal.addEventListener('click', (e) => {
     }
 });
 
-// Redirect to deposit.html when confirm is clicked with
+// Redirect to deposit.html when confirm is clicked with amount
+confirmDepositBtn.addEventListener('click', () => {
+    const amount = confirmDepositBtn.dataset.amount || 0;
+    const account = confirmDepositBtn.dataset.account || "";
+    depositModal.style.display = 'none';
+    window.location.href = `deposit.html?account=${account}&amount=${amount}`;
+});
+    // ================= PROFILE AUTO UPDATE =================
+function generateUserId(){
+    return Math.floor(Math.random() * (234323 - 45074 + 1)) + 45074;
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    if(!user) return;
+
+    // Assign ID once
+    if(!user.id){
+        user.id = generateUserId();
+        localStorage.setItem("user", JSON.stringify(user));
+    }
+
+    const profileSection = document.getElementById("profile");
+    const paragraphs = profileSection.querySelectorAll("p");
+
+    paragraphs[0].innerText = "User ID: #" + user.id;
+    paragraphs[1].innerText = "Name: " + (user.name || "");
+    paragraphs[2].innerText = "Email: " + (user.email || "");
+    paragraphs[3].innerText = "Phone: " + (user.phone || "");
+});
+</script>
+
+</body>
+</html>
